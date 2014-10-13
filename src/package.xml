@@ -13,6 +13,7 @@
     </types>
     <types>
         <members>Case.DB_Case_Duration_Hours__c</members>
+        <members>Case.DateTime_Closed__c</members>
         <members>Product2.ImageURL__c</members>
         <name>CustomField</name>
     </types>

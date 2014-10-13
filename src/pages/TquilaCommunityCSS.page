@@ -1,0 +1,270 @@
+<apex:page cache="false" showHeader="false" contentType="text/css">
+
+    /*Page positioning and size CSS*/
+        html .brandQuaternaryBgr{
+        }
+        .ideaPageLayoutWithProfileSidebar > tbody > tr > td{
+            display: block;
+            width: 750px;
+            overflow: hidden;
+        }
+        
+        #communitywrapper{
+            width:{!$Setup.Tquila_Community_CSS__c.Width__c};
+            /*width:100%;*/
+            display:table;       
+            margin:auto;
+            
+        }
+        #communitybody{
+            width:100%;
+            position:relative;
+            display:table;
+            min-height:900px;
+        }
+        
+       #communityheader{
+            width:100%;
+            height:150px;
+            margin:20px 0px;
+        }
+        #communityheadertop{
+            width:100%;
+            height:100px;
+        }
+        #communitylogo{
+            width:200px;
+            height:100px;
+            float:left;
+            background: url('{!LEFT($Site.CurrentSiteUrl, LEN($Site.CurrentSiteUrl)-1)}{!$Setup.Tquila_Community_CSS__c.Logo__c}') no-repeat;
+            background-size: 100% auto;
+            margin-top: 30px;
+        }
+        #communityheaderbot{
+            width:100%;
+            height:30px;
+            margin-top:20px;
+        }
+        #communityfooter{
+            width:100%;
+            height:50px;
+            margin:auto;
+            margin-top:20px;  
+            background-color:#53565A;
+            background-image: url('{!LEFT($Site.CurrentSiteUrl, LEN($Site.CurrentSiteUrl)-1)}/resource/TquilaFooter');
+            background-repeat:no-repeat;
+            /*background-size:{!$Setup.Tquila_Community_CSS__c.Width__c} auto;*/
+            background-position:50% 50%;
+            position: absolute;
+            left: 0px;
+        }
+        .zen-bodyZen.brdPalette.brandPrimaryBrd, .bodyDiv.brdPalette.brandPrimaryBrd{
+            box-shadow:none;
+            border-top: 0px;
+            border-radius: 5px;
+        }
+        #bodyTable{
+            padding-bottom:0px;
+        }
+
+        
+    /*Search box CSS*/
+        #communitysearch{
+            width: 200px;
+            float: right;
+            height: 30px;
+            padding: 35px 0px;
+        }
+        #communitysearch .searchTextbox{
+            border-radius: 5px;
+            border: 0px;
+            padding: 10px;
+            height: 10px;
+            float:left;
+            display:block;
+            width: 145px;
+        }
+        #communitysearch .searchTextbox:focus{
+            outline-width: 0;
+        }
+        #communitysearch #searchButton{
+           display:none;
+        }
+        #communitysearch #searchButtonDiv{
+            float:right;
+            width:30px;
+            height:30px;
+            border-radius:5px;
+            background-color:{!$Setup.Tquila_Community_CSS__c.Primary__c};
+            background-image: url('{!LEFT($Site.CurrentSiteUrl, LEN($Site.CurrentSiteUrl)-1)}/resource/TquilaSearch');
+            background-size: 15px 15px;
+            background-position: 7px 7px;
+            background-repeat: no-repeat;
+            cursor:pointer;  
+        }
+        #sidebarDiv {
+            border-top-left-radius: 5px;
+        }
+        
+    /*Tabs CSS*/
+        .zen #tabContainer{
+            background: none !important;
+            position: absolute;
+            top: -50px;
+            height: 30px;
+            box-shadow: none;
+        }
+        .zen .zen-tabMenu>li {
+            height: 30px;
+            min-width: 50px;
+            /*background: {!$Setup.Tquila_Community_CSS__c.Tertiary__c};*/
+            background:none;
+            margin: 0px 10px;
+            text-align: center;
+            line-height: 30px;
+            padding:0px;
+            border:0px;
+            border-radius: 5px;
+        }
+        .zen .zen-tabMenu>li:first-child{
+            margin-left:0px
+        }
+        .zen .zen-tabMenu .zen-active{
+            background:none;
+            box-shadow:none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .zen .zen-tabMenu a{
+            display: block;
+            padding: 0px 10px;
+            text-align: center;
+            color: #999a9b;
+            text-transform:uppercase;
+            font-weight:normal;
+        }
+        .zen .zen-tabMenu a:hover{
+            color: {!$Setup.Tquila_Community_CSS__c.Primary__c};
+            text-decoration:none;
+        }
+        #tabBar {
+            margin: 0px;
+        }
+        .zen .zen-tabMenu{
+            padding:0px;
+        }
+        
+    /*Content CSS*/
+        #bodyDiv{
+            /*width:{!$Setup.Tquila_Community_CSS__c.Width__c};*/
+            margin:auto;
+            /*min-width:{!$Setup.Tquila_Community_CSS__c.Width__c};*/
+            float:none;
+            display:block;
+        }
+
+    /*Home page CSS*/
+        #welcomeMessage{
+            font-size: 40px;
+            color: #efefef;
+            font-family: "HelveticaNeueW02-Thin", "HelveticaNeueW02-45Ligh", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeueW02-45Ligh", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Nimbus Sans L", sans-serif;
+            text-align: center;
+            font-style: italic;
+            background: {!$Setup.Tquila_Community_CSS__c.Secondary__c};
+            border-radius: 5px;
+            line-height:50px;
+            height: 100px;
+            padding: 10px;
+            position: relative;
+            top: -402px;
+            display: table;
+            max-width: 100%;
+            opacity:0.9;
+        }
+        #welcomeMessage:hover{
+            opacity:1;
+            cursor:pointer;
+        }
+        #welcomeMessage p{
+            float:left;
+            display:block;
+            margin:0px;
+        }
+    
+        #welcomeImage{
+            width:100%;
+            border-radius:5px;
+        }
+        .pageWidget{
+            width:50%;
+            float:left;
+            box-sizing: border-box;     
+        }
+        .pageSection{
+            margin-top:-130px;
+        }
+        .pageWidget:nth-child(odd){
+            padding-right:10px;
+        }
+        .pageWidget p{
+            padding: 55px 20px 0px 20px;
+            line-height: 20px;
+            margin: 0px;
+        }
+        .pageWidget p:first-letter{
+            font-size:500%;
+        }
+        .widgetContent{
+            background:#EFEFEF;
+            border-radius:5px;
+            min-height:200px;
+            padding:10px;
+        }
+        .widgetTitle{
+            margin-top:20px;
+            color:#FFFFFF;
+            height:30px;
+            font-size:14px;
+            line-height:30px;
+            text-transform:uppercase;
+            padding:0px 3px 0px 10px;
+            border-radius:5px;
+            margin-bottom:10px;
+            background:{!$Setup.Tquila_Community_CSS__c.Primary__c};
+        }
+        .userPhoto{
+            width:100px;
+            height:100px;
+            border-radius:50px;
+            margin-right:10px;
+            float:left;
+        }
+        .widgetContent table{
+            width:100%;
+        }
+        .widgetRow{
+            width:100%;
+        }
+        .widgetLabel, .widgetData{
+            font-size:12px;
+        }
+        .widgetLabel{
+            
+        }
+        .widgetTitle img {
+            float: right;
+            height: 24px;
+            width: 24px;
+            margin-top: 3px;
+        }
+        #speechIcon{
+            width:20px;
+            height:20px;
+            margin-right:2px;
+            margin-top:5px;
+        }
+        .ideaContent, .ideaBody, .ideaFooter{
+            width: 100% !important;
+        }
+
+</apex:page>

@@ -1,0 +1,25 @@
+<!--PLEASE READ: If you override the automatically generated CSS, your Chatter Answers community might not function correctly.-->
+<apex:page language="en_US" showHeader="false" cache="true">
+	<body>
+		<div class="csMini">
+			<div class="threecolumn">
+				<div class="leftContent">
+					<chatteranswers:guestsignin />
+					<chatteranswers:aboutme communityId="09a200000009UbG"/>
+					<chatteranswers:datacategoryfilter communityId="09a200000009UbG"/>
+				</div>
+				<div class="mainContent">
+					<div class="lowerMainContent" id="lowerMainContent">
+						<div id="rightContent" class="rightContent"></div>
+						<div id="centerContent" class="centerContent">
+							<chatteranswers:searchask communityId="09a200000009UbG"/>
+							<chatteranswers:feedfilter />
+							<chatteranswers:feeds communityId="09a200000009UbG"/>
+						</div>
+					</div>
+				</div>
+				<div class="clearingBox"></div>
+			</div>
+		</div>
+	</body>
+</apex:page>

@@ -1,0 +1,39 @@
+<apex:page showHeader="true" standardController="Time__c" extensions="SPM_TimeEditController">
+
+    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" />
+    <script>
+        $(document).ready(function ()
+        {
+            // Hide cancel button if loaded from timesheets
+            if (document.URL.indexOf('isdtp=vw') != -1)
+            {
+                $(".cancel").hide();
+            }
+
+        });
+    </script>
+
+    <apex:sectionHeader title="Time Tracker Edit" subtitle="New Time Tracker" />
+
+    <apex:form >
+
+        <apex:pageBlock title="Time Tracker Edit" mode="edit">
+
+            <apex:pageMessages />
+
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}" />
+                <apex:commandButton value="Cancel" action="{!cancel}" styleClass="cancel" />
+            </apex:pageBlockButtons>
+
+            <apex:pageBlockSection title="Information">
+                <apex:repeat value="{!$ObjectType.Time__c.FieldSets.PageFields}" var="f">
+                    <apex:inputField value="{!Time__c[f]}" required="{!f.Required}" />
+                </apex:repeat>
+            </apex:pageBlockSection>
+
+        </apex:pageBlock>
+
+    </apex:form>
+    
+</apex:page>

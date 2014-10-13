@@ -1,0 +1,209 @@
+<apex:component controller="umProxy">
+
+	<!-- Site specific details [BEWARE TO CHANGE THIS]-->
+	<!-- ******************************************** -->
+		<script type="text/javascript">
+			//Defining site prefix if exists
+			window.camV2_sitePrefix = "{!$Site.Prefix}";
+
+			//To use as Loader / default image 40x40, if change size, be sure to check css to center the item properly
+			window.loaderImgSource = "{!URLFOR($Resource.um_branding,'assets/89.gif')}";
+
+			window.siteData = {};
+			window.siteData.Communities_Public_Name__c	= "{!JSENCODE(siteSettings['umChatterAnswers_zoneLabelSingular__c'])}";
+			window.siteData.Communities_Public_Plural_Name__c ="{!JSENCODE(siteSettings['umChatterAnswers_zoneLabelPlural__c'])}";
+			window.siteData.umSite_announcements__c		= "{!(siteSettings['umSite_announcements__c'])}";
+			window.siteData.brandingImagePath__c 		= "{!JSENCODE(siteSettings['umSite_iconImage__c'])}";
+			window.siteData.backgroundImagePath__c 		= "{!JSENCODE(siteSettings['umSite_backgroundImage__c'])}";
+			window.siteData.umSite_backgroundColor__c 	= "{!JSENCODE(siteSettings['umSite_backgroundColor__c'])}";
+			window.siteData.searchBannerLabel__c		= "{!JSENCODE(siteSettings['umSite_searchBannerLabel__c'])}";
+			window.siteData.knowledgeArticle__c			= "{!JSENCODE(siteSettings['umSite_announcementsKaId__c'])}";
+			window.siteData.siteWelcomeMessage__c		= "{!JSENCODE(siteSettings['umSite_welcomeMessage__c'])}";
+			window.siteData.urlForStaticResources   	= "{!URLFOR($Resource[siteSettings['umSite_staticResource__c']])}";
+
+			window.rootRelations = new Object();
+		</script>
+	<!-- ******************************************** -->
+	<!-- Communities and topics solution for Chatter Anwers and PKB [BEWARE TO CHANGE THIS]-->
+	<!-- ****************************************************** -->
+	<apex:repeat value="{!Zones}" var="maps">
+
+		<script type="text/javascript">
+			window.aux							= {};
+			window.aux.iconPath 				= "{!URLFOR($Resource[siteSettings['umSite_staticResource__c']], JSENCODE(maps['iconImage__c']))}";
+	        window.aux.textName  				= "{!JSENCODE(maps['publicName__c'])}";
+	        window.aux.searchBannerLabel__c  	= "{!JSENCODE(maps['searchBannerLabel__c'])}";
+			window.aux.publicName  				= "{!JSENCODE(maps['publicName__c'])}";
+			window.aux.label 					= "{!JSENCODE(maps['publicName__c'])}";
+			window.aux.zoneDescription 			= "{!JSENCODE(maps['zoneDescription__c'])}";
+			window.aux.id 						= "{!JSENCODE(maps['zone__c'])}";
+			window.aux.apiName 					= "{!JSENCODE(maps['dataCategory__c'])}";
+			window.aux.totalArticles 			= "{!JSENCODE(maps['totalArticles'])}";
+			window.aux.totalQuestions 			= "{!JSENCODE(maps['totalQuestions'])}";
+			window.aux.backgroundColor__c		= "{!JSENCODE(maps['backgroundColor__c'])}";
+			window.aux.backgroundImagePath__c	= "{!JSENCODE(maps['backgroundImage__c'])}";
+			window.aux.announcements__c			= "{!(maps['announcements__c'])}";
+			window.aux.knowledgeArticle__c		= "{!JSENCODE(maps['announcementsKaId__c'])}";
+			window.aux.dataCategory__c 			= "{!JSENCODE(maps['dataCategory__c'])}";
+			window.aux.urlForStaticResources   	= "{!URLFOR($Resource[siteSettings['umSite_staticResource__c']])}";
+			window.rootRelations["{!JSENCODE(maps['dataCategory__c'])}"] = "{!JSENCODE(maps['publicName__c'])}";
+		</script>
+
+		<script type="text/javascript">
+			if ( window.communityData == undefined ) window.communityData = [];
+			window.communityData.push(window.aux);
+		</script>
+    </apex:repeat>
+    <!-- ****************************************************** -->
+
+
+	<!-- ******************************************** -->
+	<!-- Communities and topics solution for only PKB  enabled [BEWARE TO CHANGE THIS]-->
+	<!-- ****************************************************** -->
+<script>
+
+		function createNode (parent, data){
+			node = new Object();
+			node.root = parent;
+			node.rootName = data.rootName;
+			node.name  = data.dcName;
+			node.label = data.label;
+			node.rootPath =  (parent.rootPath == "" )? data.subCatName+':'+data.catName : parent.rootPath +':'+data.subCatName;
+			node.depth = data.depth;
+			node.dcIndex = data.dcIndex;
+			node.childs = new Array();
+			parent.childs.push(node);
+			return node;
+		}
+
+		function createTree(lastNode,nodeData){
+			if (prevD == currentD){
+				parentNode = lastNode.root;
+			}
+			if (prevD < currentD){
+				parentNode = lastNode;
+			}
+			if (prevD > currentD){
+				//navigate back using root
+				parentNode = lastNode;
+				tmp = prevD;
+				i = 10;
+				while ((currentD <= tmp) || i == 0){
+					parentNode = parentNode.root;
+					tmp--;
+					i--;
+				}
+			}
+			return createNode(parentNode,nodeData);
+		}
+
+		nodeData={};
+		root = new Object();
+		root.childs = new Array();
+		root.label = "Filter By";
+		root.name = "Filter By";
+		root.rootPath = "";
+		root.depth = -1;
+		prevD = -1;
+		categoryIndex= 0;
+		dataCList = new Array();
+
+	</script>
+
+
+
+<apex:repeat value="{!categories}" var="c">
+
+	<script>
+		prevD = -1;
+		currentD = 0;
+
+		categoryIndex ++;
+		nodeData={	catName:	"{!JSENCODE(c['rootCategory'])}",
+					subCatName:	"{!c['categoryGroup']}",
+					label:		"{!JSENCODE(c['label'])}",
+					rootName : 	"{!JSENCODE(c['rootCategory'])}",
+					dcName :    "{!JSENCODE(c['rootCategory'])}",
+					depth:		0,
+					dcIndex:categoryIndex};
+		lastNode = createTree(root,nodeData);
+		prevD = currentD;
+		dataCList[categoryIndex]="{!JSENCODE(c['rootCategory'])}";
+
+		if ( window.rootRelations['{!JSENCODE(c['rootCategory'])}'] === undefined ){
+			window.rootRelations['{!JSENCODE(c['rootCategory'])}'] = '{!HTMLENCODE(c['rootCategory'])}';
+		}
+	</script>
+
+	<knowledge:categoryList categoryVar="category" categoryGroup="{!c['categoryGroup']}" rootCategory="{!c['rootCategory']}"   level="{!categoriesDepth}" rendered="{!ACCESS_KNOWLEDGE}" >
+
+		<script>
+			currentD = parseInt("{!category.depth}");
+			nodeData={	catName:	"{!JSENCODE(c['rootCategory'])}",
+						subCatName:	"{!JSENCODE(category.Name)}",
+						label:		"{!JSENCODE(category.Label)}",
+						rootName : 	"{!JSENCODE(c['rootCategory'])}",
+						depth:		{!category.depth},
+						dcName:     "{!JSENCODE(category.Name)}",
+						dcIndex:categoryIndex};
+
+			lastNode = createTree(lastNode,nodeData);
+			prevD = currentD;
+			if ( window.rootRelations['{!JSENCODE(category.Name)}'] === undefined ){
+				window.rootRelations['{!JSENCODE(category.Name)}'] = '{!JSENCODE(category.Label)}';
+			}
+			window.siteData.root = root;
+		</script>
+	</knowledge:categoryList>
+
+</apex:repeat>
+
+<script type="text/javascript">
+var pkb2_ctiCONSTANTS = function(){
+			var labels = {
+					'iphone_pause'	: ",",
+					'iphone_wait' 	: "*",
+					'android_pause' : ",",
+					'android_wait'  : ";"
+			};
+
+			function deviceIsAndroid(){ return ( /Android/i.test(navigator.userAgent) );};
+			function deviceIsWebOS (){ return ( /webOS/i.test(navigator.userAgent) );};
+			function deviceIsIPhone(){ return ( /iPhone/i.test(navigator.userAgent) );};
+			function deviceIsIPad(){ return ( /iPad/i.test(navigator.userAgent) );};
+			function deviceIsBlackBerry(){ return ( /BlackBerry/i.test(navigator.userAgent) );};
+			function deviceIsIPod(){return ( /iPod/i.test(navigator.userAgent) );};
+
+			function replaceWithCTI(numberToCall,ctiString,caseNumber){
+
+				if (deviceIsIPhone()){
+					numberToCall += ctiString.replace(/\[P\]/g,labels['iphone_pause']).replace(/\[W\]/g,labels['iphone_wait']).replace(/\[CN\]/g,caseNumber);
+				}else
+				if (deviceIsAndroid()){
+					numberToCall += ctiString.replace(/\[P\]/g,labels['android_pause']).replace(/\[W\]/g,labels['android_wait']).replace(/\[CN\]/g,caseNumber);
+				}
+
+
+				return numberToCall;
+			}
+
+			return {
+					get: replaceWithCTI
+			}
+}
+
+	function liveAgentIframe( status){
+		//console.log(' chat online :'+status);
+		if (status){
+			$('#chatFlowLink').show();
+			$('#chatFlowLinkDisabled').hide();
+		}else{
+			$('#chatFlowLink').hide();
+			$('#chatFlowLinkDisabled').show();
+		}
+	}
+
+var iframeSrcPath  ="{!URLFOR($Page.umLiveAgentH)}" ;
+var resourcesPath  ="{!URLFOR($Resource.um_js)}" ;
+</script>
+</apex:component>

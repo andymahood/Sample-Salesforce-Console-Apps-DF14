@@ -1,0 +1,287 @@
+{
+    "properties": [
+        {
+            "modifiers": [], 
+            "name": "CaseId", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 19, 
+                "line": 3
+            }, 
+            "type": "String"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "ShowWarning", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 20, 
+                "line": 4
+            }, 
+            "type": "Boolean"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "TARGET_DURATION", 
+            "visibility": "PRIVATE", 
+            "references": [], 
+            "location": {
+                "column": 21, 
+                "line": 5
+            }, 
+            "type": "Decimal"
+        }
+    ], 
+    "externalReferences": [], 
+    "innerClasses": [
+        {
+            "properties": [
+                {
+                    "modifiers": [], 
+                    "name": "OwnerId", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 19, 
+                        "line": 38
+                    }, 
+                    "type": "Id"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "Alias", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 23, 
+                        "line": 39
+                    }, 
+                    "type": "String"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "AveCloseDuration", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 24, 
+                        "line": 40
+                    }, 
+                    "type": "Decimal"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "TargetCloseDuration", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 24, 
+                        "line": 41
+                    }, 
+                    "type": "Decimal"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "CurrentCaseDuration", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 24, 
+                        "line": 42
+                    }, 
+                    "type": "Decimal"
+                }
+            ], 
+            "externalReferences": [], 
+            "innerClasses": [], 
+            "interfaces": [], 
+            "constructors": [
+                {
+                    "modifiers": [], 
+                    "name": "SLAData", 
+                    "parameters": [
+                        {
+                            "type": "Id", 
+                            "name": "oId"
+                        }, 
+                        {
+                            "type": "String", 
+                            "name": "alias"
+                        }, 
+                        {
+                            "type": "Decimal", 
+                            "name": "aveClose"
+                        }, 
+                        {
+                            "type": "Decimal", 
+                            "name": "targetClose"
+                        }, 
+                        {
+                            "type": "Decimal", 
+                            "name": "currentCase"
+                        }
+                    ], 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 16, 
+                        "line": 44
+                    }, 
+                    "type": null
+                }
+            ], 
+            "namespace": null, 
+            "name": "SLAData", 
+            "tableDeclaration": {
+                "type": "SLAData", 
+                "modifiers": [], 
+                "references": [], 
+                "location": {
+                    "column": 18, 
+                    "line": 37
+                }, 
+                "name": "SLAData"
+            }, 
+            "key": null, 
+            "variables": [
+                {
+                    "type": "Id", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 27, 
+                        "line": 44
+                    }, 
+                    "name": "oId"
+                }, 
+                {
+                    "type": "String", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 39, 
+                        "line": 44
+                    }, 
+                    "name": "alias"
+                }, 
+                {
+                    "type": "Decimal", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 54, 
+                        "line": 44
+                    }, 
+                    "name": "aveClose"
+                }, 
+                {
+                    "type": "Decimal", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 72, 
+                        "line": 44
+                    }, 
+                    "name": "targetClose"
+                }, 
+                {
+                    "type": "Decimal", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 93, 
+                        "line": 44
+                    }, 
+                    "name": "currentCase"
+                }
+            ], 
+            "id": null, 
+            "methods": []
+        }
+    ], 
+    "interfaces": [], 
+    "constructors": [], 
+    "namespace": null, 
+    "name": "ConsoleSLAGraphController", 
+    "tableDeclaration": {
+        "type": "ConsoleSLAGraphController", 
+        "modifiers": [], 
+        "references": [], 
+        "location": {
+            "column": 27, 
+            "line": 1
+        }, 
+        "name": "ConsoleSLAGraphController"
+    }, 
+    "key": "01p20000004TgrdAAC", 
+    "variables": [
+        {
+            "type": "Map", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 26, 
+                "line": 8
+            }, 
+            "name": "data"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 27, 
+                "line": 11
+            }, 
+            "name": "groupedResults"
+        }, 
+        {
+            "type": "Decimal", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 17
+            }, 
+            "name": "selectedCaseDuration"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 24, 
+                "line": 20
+            }, 
+            "name": "selectedCase"
+        }, 
+        {
+            "type": "AggregateResult", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 24, 
+                "line": 28
+            }, 
+            "name": "ar"
+        }
+    ], 
+    "id": "01p20000004TgrdAAC", 
+    "methods": [
+        {
+            "modifiers": [], 
+            "name": "getSLAData", 
+            "parameters": [], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 26, 
+                "line": 7
+            }, 
+            "returnType": "LIST", 
+            "type": null
+        }
+    ]
+}

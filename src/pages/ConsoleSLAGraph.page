@@ -1,0 +1,14 @@
+<apex:page showHeader="false" sidebar="false" controller="ConsoleSLAGraphController">s
+	<apex:outputPanel id="chart" style="padding: 10px;">
+	    <apex:chart height="300" width="500" data="{!SLAData}">
+	    	  <apex:axis type="Numeric" position="left" fields="AveCloseDuration,TargetCloseDuration,CurrentCaseDuration" 
+	            title="Duration" grid="true"/>
+	    	  <apex:axis type="Category" position="bottom" fields="Alias" 
+	            title="Owner">
+	    	  </apex:axis>
+	    	  <apex:barSeries axis="left" xField="Alias" yField="AveCloseDuration" orientation="vertical" colorSet="#ff6600" highlightLineWidth="0" />
+	    	  <apex:lineSeries axis="left" xField="Alias" yField="TargetCloseDuration" markerType="cross" markerSize="4" markerFill="#FF0000"/>	
+	    	  <apex:lineSeries axis="left" xField="Alias" yField="CurrentCaseDuration" markerType="circle" markerSize="4" markerFill="#b7a752" strokeColor="#b7a752"/>
+	    </apex:chart>
+    </apex:outputPanel>
+</apex:page>

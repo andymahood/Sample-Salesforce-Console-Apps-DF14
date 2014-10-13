@@ -1,0 +1,17 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false"
+standardStylesheets="false" cache="false"  >
+
+	<html lang="en">
+		<head>
+			<apex:includeScript value="{!URLFOR($Resource.um_js, 'Libs/JQuery/jquery-min.js')}"/>
+		</head>
+		<body>
+			<a id="agentOnlineBtn" style="display:none;">
+				<p>Chat online</p>
+			</a>
+			<a id="agentOfflineBtn" style="display:none;">
+				<p>Chat offline</p>
+			</a>
+		</body>
+	</html>
+</apex:page>

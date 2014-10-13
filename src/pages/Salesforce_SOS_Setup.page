@@ -1,0 +1,419 @@
+<apex:page sidebar="false" showHeader="true" standardStylesheets="false" controller="goinstant_sos_demo_setup_controller">
+<apex:composition template="GoInstant_SDO_Bootstrap_Template_SOS"/>
+
+<apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+<apex:includeScript value="/support/console/29.0/integration.js"/>
+
+<style type="text/css">
+   .noSidebarCell {
+        background: #E0E5E9;
+    }
+
+    h1 {
+        display: block;
+        margin: 16px 0 24px;
+        text-align: center;
+        font-size: 32px;
+        font-weight: normal;
+        color: #293F54;
+    }
+
+    h2 {
+        font-size: 18px;
+        color: #2E4153;
+        padding: 14px 0 0;
+        margin: 0;
+        background-color: #FFF;
+    }
+
+    p {
+       font-weight: 300;
+        font-size: 14px;
+        line-height: 20px;
+        color: #647687;
+        padding: 2px 0 14px 0;
+        margin: 0;
+    }
+
+    .source {
+        padding: 5px 9px;
+        color: #666;
+    }
+
+        code.source {
+            display: inline-block;
+        }
+
+    .mybutton {
+        display: inline-block;
+        float: right;
+        min-width: 150px;
+        margin: 10px 0 10px 15px;
+        padding: 9px 20px;
+        line-height: 1.5;
+        text-align: center;
+        border: 1px solid #1c78b1;
+        border-radius: 5px;
+        font-size: 16px;
+        color: white;
+        background-color: #3F9FD9;
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3F9FD9), to(#2789C7));
+        background-image: -webkit-linear-gradient(top, #3F9FD9, #2789C7);
+        background-image: -moz-linear-gradient(top, #3f9fd9, #2789c7);
+        background-image: -ms-linear-gradient(top, #3f9fd9, #2789c7);
+        background-image: -o-linear-gradient(top, #3f9fd9, #2789c7);
+    }
+
+        .mybutton:hover {
+            background: #3F9FD9 !important;
+            text-decoration: none;
+            color: white;
+        }
+
+        .mybutton:active {
+            background: #278AC7 !important;
+        }
+
+
+    .accordion {
+        max-width: 800px;
+        margin: 12px auto 100px;
+    }
+
+        .accordion-group {
+            background: white;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #D8D4D4;
+        }
+
+            .accordion-heading .accordion-toggle {
+                font-size: 20px;
+                line-height: 1.55;
+                padding: 18px;
+                background-color: #FFF;
+                background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFF), to(#F1F1F1));
+                background-image: -webkit-linear-gradient(top, #FFF, #F1F1F1);
+                background-image: -moz-linear-gradient(top, #ffffff, #f1f1f1);
+                background-image: -ms-linear-gradient(top, #ffffff, #f1f1f1);
+                background-image: -o-linear-gradient(top, #ffffff, #f1f1f1);
+                -webkit-transition: all 0.15s ease;
+                -moz-transition: all 0.15s ease;
+                -o-transition: all 0.15s ease;
+                transition: all 0.15s ease;
+            }
+
+                .accordion-heading a.accordion-toggle:active {
+                    background: #FAFBFD !important;
+                }
+
+                .accordion-heading a.accordion-toggle:hover {
+                    text-decoration: none;
+                    color: #4AB471;
+                }
+
+                .accordion-heading .accordion-toggle span {
+                    display: inline-block;
+                    width: 1.5em;
+                    height: 1.5em;
+                    margin-right: .25em;
+                    border-radius: 50%;
+                    text-align: center;
+                    background: #4AB471;
+                    color: white;
+                }
+
+        .accordion-inner {
+            padding: 2em;
+        }
+
+        .accordion-img {
+            border: 1px solid #ddd;
+            padding: 16px;
+            margin-top: 24px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+        }
+
+    .select-settings {
+        padding: 7px 15px;
+        margin-bottom: 25px;
+        background: #F9FBFC;
+        border-radius: 4px;
+        border: 1px solid #ECEEF0;
+    }
+        .select-settings .control-wrapper {
+            margin: 0;
+        }
+
+        .select-settings .control-wrapper label {
+            width: 107px;
+            padding-left: 0;
+            color: #2A94D6;
+        }
+
+        .select-settings select {
+            display: inline-block;
+            margin: 0;
+        }
+
+        #delete_button {
+            display: none;
+        }
+            #delete_button:hover {
+                color: #CF5C60;
+                text-decoration: none;
+            }
+
+       form {
+        margin: 1em 0;
+    }
+
+    .control-wrapper {
+        margin: 1em 0;
+    }
+
+        .control-wrapper:before,
+        .control-wrapper:after {
+            content: "";
+            display: table;
+        }
+        .control-wrapper:after {
+            clear: both;
+        }
+
+        .control-wrapper label {
+            float: left;
+            width: 115px;
+            text-align: right;
+            color: #333;
+            padding: 14px 22px 10px 10px;
+            font-weight: 600;
+        }
+
+    .controls {
+        float: left;
+        width: auto;
+        padding-top: 10px;
+    }
+
+        .controls > input,
+        .controls > .source {
+            margin-bottom: 0;
+        }
+
+        .controls small {
+            display: block;
+            font-size: .9em;
+            color: #999;
+        }
+
+        .controls small span {
+            color: #666;
+        }
+
+    .form-footer {
+        margin-top: 16px;
+        padding-top: 1em;
+        text-align: right;
+        border-top: 1px solid #ddd;
+    }
+
+    .form-footer .mybutton {
+        float: none;
+    }
+
+    .cta-link {
+        float: left;
+        width: 475px;
+    }
+
+        .cta-link p {
+            font-size: 1.5em;
+            line-height: 1.5;
+        }
+
+        .cta-link .mybutton {
+            display: block;
+            float: none;
+            margin-left: 0;
+        }
+
+    .cta-qr {
+        float: right;
+        width: 210px;
+        margin-bottom: 24px;
+        padding: 1.2em 1em;
+        background: #2A94D6;
+        border-radius: 4px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,.15);
+    }
+
+    .cta-qr p {
+        margin: 0 0 8px;
+        padding: 0;
+        line-height: 1.2;
+        color: white;
+    }
+
+    .cta-qr img {
+        border-radius: 3px;
+    }
+
+   .hide_me {
+       display: none;
+   }
+</style>
+
+<h1>SOS Setup Wizard</h1>
+
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                <span>1</span> Create/Sign In to GoInstant
+            </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <a href="https://goinstant.com/signup?src=sos" class="mybutton" target="_blank">GoInstant Sign Up</a>
+                <h2>1a. Create a GoInstant Account</h2>
+                <p>You will first need to Sign Up for GoInstant. This Sign Up button above will automatically create your "sos" application during the sign up process.
+                <br/>
+                <br/><strong style="color: #990000">NOTE: If you already have a GoInstant account, you will need to login and create an application called "sos".</strong></p>
+                <h2>1b. Copy Connect URL</h2>
+                <p>Once your Account has been created, login and go to your dashboard. Copy the "Connect URL" for the "sos" application (you will need this in Step 2).</p>
+                <div class="accordion-img"><apex:image value="{!$Resource.goinstant_sos_setup_step1}"/></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                <span>2</span> Manage the Custom Setting
+            </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <p><a href="/setup/ui/listCustomSettings.apexp" class="mybutton" target="_blank">Custom Settings</a>
+                On the "Custom Settings" page click "Manage" for <span class='bold_text'>goinstant_demo_sos_settings</span>, then click the “New” button at the top of the page. Input/paste your Connect URL (from Step 1.) into the "connectUrl" Custom Setting. Save the Custom Setting.</p>
+                <div class="accordion-img"><apex:image value="{!$Resource.goinstant_sos_setup_step2}"/></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseSOS1">
+            <span>3</span> Add Console Component
+            </a>
+        </div>
+        <div id="collapseSOS1" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <a href="/02u" class="mybutton" target="_blank">Apps</a>
+                <p>Click "Edit" for the Console App that you are demoing from (for example, you may need to click "Edit" for the <span class='bold_text'>Service Cloud Console</span>).
+                Under "Choose Console Component", add the "goinstant_sos_queue" to selected items. Save the changes.</p>
+                <div class="accordion-img"><apex:image value="{!$Resource.goinstant_sos_step3}"/></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseSOS2">
+            <span>4</span> Update Case Page Layout
+            </a>
+        </div>
+        <div id="collapseSOS2" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <a href="/ui/setup/layout/PageLayouts?type=Case&setupid=CaseLayouts" class="mybutton" target="_blank">Case Page Layout</a>
+                <p>Under "Page Layouts for Case Feed Users", open the dropdown for "Technical Issue Case Feed". Click "Edit detail view". On the next screen, select "Related Lists", and add the "Salesforce_SOS" list to the page layout. Save the changes.</p>
+                <div class="accordion-img"><apex:image value="{!$Resource.goinstant_sos_step4a}"/></div>
+                <div class="accordion-img"><apex:image value="{!$Resource.goinstant_sos_step4b}"/></div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseSOS3">
+            <span>5</span> Custom Console Component Icon
+            </a>
+        </div>
+        <div id="collapseSOS3" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <a href="/06G" class="mybutton" target="_blank">Custom Console Components</a>
+                <p>Click "Edit" for the "goinstant_sos_queue". Change the "Button Icon URL" to:
+                <code class="source" id='icon_url'></code>
+                </p>
+            </div>
+        </div>
+    </div>
+<span class="hide_me">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseSOS4">
+                <span>6</span> User Roles / Permissions
+            </a>
+        </div>
+        <div id="collapseSOS4" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <a href="/0C5?setupid=SkillSettings&retURL=%2Fui%2Fsetup%2FSetup%3Fsetupid%3DLiveAgent" class="mybutton" target="_blank">Skill Settings</a>
+                <p>
+                    Salesforce SOS uses the same skills as Live Agent to route requests to the right agents. Go to the skills settings page and create a new skill.
+                </p>
+                <p>
+                    Enter 'SOS' for the name and developer name. Make sure you assign your user or profile so you can receive requests.
+                </p>
+            </div>
+        </div>
+    </div>
+</span>
+
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseSOS5" id='sos_settings_block'>
+                <span>6</span> Store Phone Settings
+            </a>
+        </div>
+        <div id="collapseSOS5" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <c:goinstant_sos_store_settings />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseSOS6">
+                <span>7</span> Download the Salesforce SOS app
+            </a>
+        </div>
+        <div id="collapseSOS6" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <div class="cta-link">
+                    <p>Download the mobile app by visiting this URL on your mobile phone: <a class="mybutton" href="https://sos.goinstant.com/beta" target="_blank">https://sos.goinstant.com/beta</a></p>
+                </div>
+                <div class="cta-qr">
+                    <p>Scan this code for a quick link to the download page:</p>
+                    <img src="{!$Resource.sosqr}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    if (!window.location.origin) {
+        window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+    }
+    
+    document.getElementById('icon_url').innerHTML = window.location.origin +'/resource/goinstant_sos_icon';
+</script>
+</apex:page>

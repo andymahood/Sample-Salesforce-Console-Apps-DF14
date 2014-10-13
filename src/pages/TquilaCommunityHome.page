@@ -1,0 +1,84 @@
+<apex:page controller="TquilaCommunityHome" sidebar="false" cache="false">
+
+    <div id="welcomeSection">
+        <img id="welcomeImage" src="{!LEFT($Site.CurrentSiteUrl, LEN($Site.CurrentSiteUrl)-1)}/resource/TquilaBanner"/>
+        <div id="welcomeMessage" onclick="window.location = '/_ui/core/userprofile/UserProfilePage';">
+            <img class="userPhoto" src="{!currentUser.FullPhotoUrl}"/>
+            <p>Welcome to the community <br/> {!currentUser.FirstName} {!currentUser.LastName}</p>
+        </div>
+    </div>
+
+    <div class="pageSection">
+        <!-- Intro -->
+        <div class="pageWidget introWidget">
+            <p>
+                Welcome to the Tquila community. Here at Tquila we help you become a company that understands its customers. A company that empowers employees with the best technology to create positive experiences for customers and partners, creating brand loyalty. We help you manage all your customer, partner and employee data so you can act on insight at the touch of a button. And we decrease time-to-value to give you positive results, fast. We believe that Salesforce is the best technology platform you can build on but we also understand that one of the biggest challenges for customers is engaging the right technology partner and having them understand your business. Tquila does exactly that.  
+            </p>
+        </div>
+        <!-- Cases -->
+        <div class="pageWidget">
+            <div class="widgetTitle">My Cases<img src="{!LEFT($Site.CurrentSiteUrl, LEN($Site.CurrentSiteUrl)-1)}/resource/TquilaCase"/></div>
+            <div class="widgetContent">
+                <table>
+                    <tr class="widgetRow">
+                        <th class="widgetLabel">Number</th>
+                        <th class="widgetLabel">Subject</th>
+                        <th class="widgetLabel">Status</th>
+                    </tr>
+                    <apex:repeat value="{!listCases}" var="currentCase">
+                        <tr class="widgetRow">
+                            <td class="widgetData"><a href="/{!currentCase.id}" target="_top">{!currentCase.CaseNumber}</a></td>
+                            <td class="widgetData"><a href="/{!currentCase.id}" target="_top">{!currentCase.Subject}</a></td>
+                            <td class="widgetData">{!currentCase.Status}</td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+            </div>
+        </div>
+    
+        <!-- Ideas -->
+        <div class="pageWidget">
+            <div class="widgetTitle">Top Ideas<img src="{!LEFT($Site.CurrentSiteUrl, LEN($Site.CurrentSiteUrl)-1)}/resource/TquilaIdea" id="speechIcon"/></div>
+            <div class="widgetContent">
+                <table>
+                    <tr class="widgetRow">
+                        <th class="widgetLabel">Name</th>
+                        <th class="widgetLabel">Votes</th>
+                    </tr>
+                    <apex:repeat value="{!listIdeas}" var="currentIdea">
+                        <tr class="widgetRow">
+                            <td class="widgetData"><a href="/{!currentIdea.id}" target="_top">{!currentIdea.Title}</a></td>
+                            <td class="widgetData"><apex:outputField value="{!currentIdea.VoteTotal}"/></td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Knowledge -->
+        <div class="pageWidget">
+            <div class="widgetTitle">Popular Articles<img src="{!LEFT($Site.CurrentSiteUrl, LEN($Site.CurrentSiteUrl)-1)}/resource/TquilaArticle"/></div>
+            <div class="widgetContent">
+                <table>
+                    <tr class="widgetRow">
+                        <th>Name</th>
+                        <th>Published</th>
+                    </tr>
+                    <knowledge:articleList articleVar="article" sortBy="mostViewed" pageSize="10">
+                        <tr class="widgetRow">
+                            <td class="widgetData"><a href="{!URLFOR($Action.KnowledgeArticle.View, article.id)}" target="_top">{!article.title}</a></td>
+                            <td class="widgetData">
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!article.firstPublishedDate}" /> 
+                                </apex:outputText>
+                            </td>                          
+                        </tr>
+                    </knowledge:articleList>
+                </table>
+            </div>
+        </div>  
+    
+        
+    </div>
+
+</apex:page>

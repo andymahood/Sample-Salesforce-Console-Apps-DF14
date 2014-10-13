@@ -1,0 +1,23 @@
+<apex:page sidebar="false" standardStylesheets="false" cache="false" controller="umCustomSettingController">
+<html>
+<head>
+<apex:stylesheet value="{!URLFOR($Resource.um_config,'bootstrap.css')}" />
+<apex:stylesheet value="{!URLFOR($Resource.um_config,'camstyle.css')}" />
+<script>window.baseUrlFragment = "{!URLFOR($Resource.um_config)}"; </script>
+<script data-main="{!URLFOR($Resource.um_config, 'js/app')}" src="{!URLFOR($Resource.um_config, 'js/require.js')}"></script>
+<style type="text/css">
+td.pbTitle {
+    width: 60% !important;
+}
+</style>
+</head>
+<body>
+<apex:pageBlock title="Service Cloud Mobile Self-Service Application">
+<div class="tb">
+<div id="app_splash"><apex:image id="cammainloader" value="{!URLFOR($Resource.um_config, 'camimgs/mainloader.gif')}" alt="Loading..."/></div>
+<div id="appContext"></div>
+</div>
+</apex:pageBlock>
+</body>
+</html>
+</apex:page>

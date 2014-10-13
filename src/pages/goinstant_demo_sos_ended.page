@@ -1,0 +1,16 @@
+<apex:page showHeader="false" standardStylesheets="false">
+    <apex:includeScript value="/support/console/29.0/integration.js"/>
+    
+    <script>
+    	/**
+		 * Tell parent to change frame to transcript page.
+		 */
+    
+    	sforce.console.fireEvent('salesforce.sos', JSON.stringify({
+            command: 'setFrameURI',
+            src: '/apex/goinstant_demo_sos_transcript_page' + window.location.search + '&isdtp=wv'
+        }), function(res) {
+        	console.log(res);
+        });
+    </script>
+</apex:page>

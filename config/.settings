@@ -1,0 +1,19 @@
+{
+    "username": "andy@3tdo.com", 
+    "environment": "production", 
+    "project_name": "df14_servicecloud", 
+    "workspace": "/Users/andy/Dropbox/dev-workspaces/tquila-git", 
+    "org_url": "", 
+    "namespace": "", 
+    "id": "JC7IO3KB27DF8WDHTJLLJ8M1AF0HAJNH", 
+    "metadata_container": "1dc20000000HIGdAAO", 
+    "subscription": [
+        "ApexClass", 
+        "ApexComponent", 
+        "ApexPage", 
+        "ApexTrigger", 
+        "StaticResource", 
+        "CustomObject", 
+        "Profile"
+    ]
+}

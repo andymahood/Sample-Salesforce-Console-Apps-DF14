@@ -1,0 +1,87 @@
+<apex:page sidebar="false" standardStylesheets="false" title="Tquila Communities in a box - {!$User.FirstName} {!$User.LastName} - {!$User.Email} - {!$Organization.Name}">
+<head>
+<style>
+.buttonApp {
+    float:left; 
+    margin:5px; 
+    min-width: 275px; 
+    max-width: 250px; 
+    height: 35px; 
+    background-color: rgba(255, 102, 0, 0.9); 
+    text-decoration: none; 
+    cursor: pointer; 
+    color:#ffffff; line-height:35px;
+    text-transform:uppercase; 
+    font-size: 0.9em; 
+}
+</style>
+ <!-- Shared assets -->
+        <apex:stylesheet value="{!$Resource.shared}" /> 
+
+        <!-- Example assets -->
+        <apex:stylesheet value="{!$Resource.jcarouselbasic}" />
+
+        <apex:includeScript value="{!$Resource.jquery}" />
+        <apex:includeScript value="{!$Resource.jcarouselJS}" />
+        <apex:includeScript value="{!$Resource.jcarouselbasicJS}" />
+        <apex:includeScript value="https://fast.fonts.net/jsapi/86a39b12-09b3-482c-a543-82b688c9307e.js" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-49208058-5']);
+  _gaq.push(['_setDomainName', 'force.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+    <!-- start -->
+    <div class="wrapper"> 
+
+            <!-- slider start -->
+            <div class="jcarousel-wrapper">
+                <div class="jcarousel">
+                    <ul>
+                        <li style="margin-left:0px;"><img src="{!URLFOR($Resource.TquilaCommunities, 'TquilaCommunities/slider-1.png')}" width="1000" height="480" alt="" /></li>
+                        <li style="margin-left:0px;"><img src="{!URLFOR($Resource.TquilaCommunities, 'TquilaCommunities/slider-2.png')}" width="1000" height="480" alt="" /></li>
+                        <li style="margin-left:0px;"><iframe width="1000" height="480" src="//www.youtube.com/embed/9JWD2wD9ipk" frameborder="0"></iframe></li>
+                    </ul>
+                </div>
+
+                <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+                <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+                <p class="jcarousel-pagination"></p>
+            
+            </div>
+            <!-- slider end -->
+
+            <!-- more info -->
+           <div class="tContainer tx txCentre">
+           <p class="th2 txCentre">Communities in a Box</p>
+           <p class="tx txCentre">Setting up your own custom community can be a daunting experience as you will have many things to consider: User Experience and Interface, business processes to include, setting up the community Chatter to enable meaningful conversations, the list goes on. 
+                                   Since we’ve been through this process more than a few times now, we thought we’d make it easier for you - So we’ve put together a package to get you started with Salesforce Communities quickly and easily.</p>
+           <p class="tx txCentre">Tquila Communities in a Box package is ideal for organisations starting their first community - it will provide you and your users with an easy to use, branded platform, which can be further developed at a later stage once you have user feedback and more capability to add.</p>
+   
+
+            <!--
+            <div style="width:100%;">
+                <div style="width:855px; margin:auto; padding: 30px 0 0 0;">
+                    <div class="buttonApp" onclick="window.open('http://tquila.com/sites/default/files/downloads/tquila_anywhere.pdf','Tquila Anywhere');">Download Information Sheet</div>
+                    <div class="buttonApp" onclick="window.open('https://docs.google.com/a/tquila.com/document/d/1nHpZ5OjX8acX5JFfqjSolLsqMTQhTyaWZ6iw_1cEQN4/edit?usp=drive_web','Tquila Anywhere');">Tquila Anywhere Demo Script</div>
+                    <div class="buttonApp" onclick="window.open('https://itunes.apple.com/gb/app/tquila-anywhere/id572493200','Download the App');">Download The App</div>
+                </div>
+            </div> -->
+            
+        </div>
+            <!-- more info -->
+   
+    </div>
+    <!-- end -->
+
+</apex:page>

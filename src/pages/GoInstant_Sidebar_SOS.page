@@ -1,0 +1,105 @@
+<apex:page showHeader="false" standardStylesheets="false" standardController="Case">
+
+	<apex:includeScript value="/support/console/29.0/integration.js"/>
+    <apex:includeScript value="{!HTMLENCODE($Resource.goinstant_sos_lodash)}" />
+
+    <style>
+        BODY { border:none; margin:0px; padding:0px; }
+    </style>
+
+    <script>
+        (function() {
+
+            // List of safe domains in which the frame or window can safely be redirected.
+            var SAFE_DOMAIN_WHITELIST = [
+                'force.com',
+                'salesforce.com',
+                'goinstant.com',
+                'herokuapp.com'
+            ];
+
+            // Grab the sosRoom details which we set when we accepted the
+            // session request
+            var sosRoomDetails = JSON.parse(sessionStorage.getItem('sosRoomDetails')) || {};
+            
+            function whitelistedDomain(domain) {
+                // Use DOM's link parser to extract domain and hostname
+                var link = document.createElement('a');
+                link.setAttribute('href', domain);
+                var hostname = link.hostname;
+
+                // No hostname provided
+                if (!hostname) {
+                    hostname = window.location.hostname;
+                }
+
+                // Extract second level domain name to match against whitelist
+                var hostRoot = hostname.split('.').slice(-2).join('.');
+                var whitelisted = _.indexOf(SAFE_DOMAIN_WHITELIST, hostRoot) === -1 ? false : true;
+
+                if (!whitelisted) {
+                    console.log('Domain ', hostRoot, ' not whitelisted');
+                }
+                
+                return whitelisted;
+            }
+
+            // Bind to console events to manage iframe and page location
+        	sforce.console.addEventListener('salesforce.sos', function(res) {
+                try {
+                	var msg = JSON.parse(res.message);
+
+                    // Check domain against whitelist
+                    if (msg.src && !whitelistedDomain(msg.src)) {
+                        console.log('SOS Queue: attempted to redirect to a non-whitelisted URL');
+                        return;
+                    }
+
+                    switch (msg.command) {
+                    	case 'setFrameURI':
+                            if (msg.src) {
+                                sosFrame.src = msg.src;
+                            }
+                            break;
+                        case 'setLocationURI':
+                            if (msg.src && whitelistedDomain(msg.src)) {
+                                window.location.href = msg.src;
+                            }
+                            break;
+                        case 'reload':
+                            window.location.reload();
+                            break;
+                    }
+                } catch (e) {
+                    console.log('Error parsing console event message: ', e.message);
+                }
+            });
+
+            // Backwards compatibility
+            // We now send this data along with the session information. But need to support old apps
+            // which will use the default heroku instance.
+            var serverUrl = sosRoomDetails.serverURL || 'https://gosos.herokuapp.com';
+            var connectUrl = '{!JSENCODE($Setup.goinstant_demo_sos_settings__c.connectUrl__c)}'.split('/');
+
+            var accountName;
+            if (sosRoomDetails.goinstant) {
+                accountName = sosRoomDetails.goinstant.account;
+            } else {
+                accountName = connectUrl[connectUrl.length-2];
+            }
+
+            var targetUrl = serverUrl + '/index.html?roomName=' + sosRoomDetails.pin + '&accountName='+accountName;
+            console.log('targetUrl: ', targetUrl);
+
+            var sosFrame = document.createElement('iframe');
+            sosFrame.src = targetUrl;
+            sosFrame.width = 343;
+            sosFrame.height = 705;
+            sosFrame.style.border = 'none';
+            sosFrame.frameborder = '0';
+            sosFrame.scrolling = 'no';
+            document.getElementsByTagName('body')[0].appendChild(sosFrame);
+        })();
+    </script>
+
+</apex:page>

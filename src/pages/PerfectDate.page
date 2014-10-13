@@ -1,0 +1,187 @@
+<apex:page controller="Perfection" standardStylesheets="false" showHeader="true">
+<style>
+.buttonApp {
+    float:left; 
+    margin:5px; 
+    min-width: 200px; 
+    max-width: 200px; 
+    height: 35px; 
+    background-color: rgba(255, 102, 0, 0.9); 
+    text-decoration: none; 
+    cursor: pointer; 
+    color:#ffffff; line-height:35px;
+    text-transform:uppercase;
+    text-align:center; 
+    font-size: 0.9em;
+}
+
+
+</style>
+
+ <!-- Shared assets -->
+    <apex:stylesheet value="{!$Resource.shared}" /> 
+    <apex:stylesheet value="{!$Resource.jcarouselbasic}" />
+
+    <apex:includeScript value="{!$Resource.jquery}" />
+    <apex:includeScript value="{!$Resource.jcarouselJS}" />
+    <apex:includeScript value="{!$Resource.jcarouselbasicJS}" />
+    <apex:includeScript value="https://fast.fonts.net/jsapi/86a39b12-09b3-482c-a543-82b688c9307e.js" />
+
+    <apex:form >
+        <apex:define name="_content">
+            <div class="PerfectDataHeader"></div>
+            <div>
+                <div>
+                    <h5><apex:actionStatus startText="In Progress..." id="TheStatus" /></h5>
+                </div>
+            </div>
+            <div class="PerfectDataContainer txCentre">
+
+                <div style=" width:630px; margin:auto; overflow:auto;">
+                    <apex:outputPanel id="theBlock">
+                                    <div class="buttonApp">
+                                        <apex:commandLink action="{!all}" value="All Dates" id="all" reRender="theBlock" status="TheStatus"/>
+                                    </div>
+
+                                    <!-- button container start -->
+                                    <div class="PerfectDataButtonContainer">
+                                        <!-- button start -->
+                                        <div class="buttonApp">
+                                            <apex:commandLink action="{!doOpps}" value="Opportunities" id="o" reRender="theBlock" status="TheStatus"/>
+                                        </div>
+                                        <!-- button start -->
+                                        <!-- Result start -->                                    
+                                        <div>
+                                            <apex:outputPanel rendered="{!IF(Os!='',true,false)}">
+                                                <span>{!Os}</span>
+                                            </apex:outputPanel>
+                                        </div>
+                                        <!-- Result end -->
+                                    </div>                                                                        
+                                    <!-- button container end -->                                    
+
+                                    <!-- button container start -->
+                                    <div class="PerfectDataButtonContainer">
+                                        <!-- button start -->
+                                        <div class="buttonApp">
+                                            <apex:commandLink action="{!doAssets}" value="Assets" id="a" reRender="theBlock" status="TheStatus"/>
+                                        </div>
+                                        <!-- button start -->
+                                        <!-- Result start -->                                    
+                                        <div>
+                                            <apex:outputPanel rendered="{!IF(Ass!='',true,false)}">
+                                                <span>{!Ass}</span>
+                                            </apex:outputPanel>
+                                        </div>
+                                        <!-- Result end -->
+                                    </div>                                                                        
+                                    <!-- button container end -->                                    
+
+                                    <!-- button container start -->
+                                    <div class="PerfectDataButtonContainer">
+                                        <!-- button start -->
+                                        <div class="buttonApp">
+                                            <apex:commandLink action="{!doContracts}" value="Contracts" id="ct" reRender="theBlock" status="TheStatus"/>
+                                        </div>
+                                        <!-- button start -->
+                                        <!-- Result start -->                                    
+                                        <div>
+                                            <apex:outputPanel rendered="{!IF(Cts!='',true,false)}">
+                                                <span>{!Cts}</span>
+                                            </apex:outputPanel>
+                                        </div>
+                                    <!-- Result end -->
+                                    </div>                                                                        
+                                    <!-- button container end -->                                    
+
+                                    <!-- button container start -->
+                                    <div class="PerfectDataButtonContainer">
+                                        <!-- button start -->
+                                        <div class="buttonApp">
+                                            <apex:commandLink action="{!doCampaigns}" value="Campaigns" id="cp" reRender="theBlock" status="TheStatus"/>
+                                        </div>
+                                        <!-- button start -->
+                                        <!-- Result start -->                                    
+                                        <div>
+                                            <apex:outputPanel rendered="{!IF(Cps!='',true,false)}">
+                                                <span>{!Cps}</span>
+                                            </apex:outputPanel>
+                                        </div>
+                                        <!-- Result end -->
+                                    </div>                                                                        
+                                    <!-- button container end -->                                    
+
+                                    <!-- button container start -->
+                                    <div class="PerfectDataButtonContainer">
+                                        <!-- button start -->
+                                        <div class="buttonApp">
+                                            <apex:commandLink action="{!doTasks}" value="Tasks" id="t" reRender="theBlock" status="TheStatus"/>
+                                        </div>
+                                        <!-- button start -->
+                                        <!-- Result start -->                                    
+                                        <div>
+                                            <apex:outputPanel rendered="{!IF(Ts!='',true,false)}">
+                                                <span>{!Ts}</span>
+                                            </apex:outputPanel>
+                                        </div>
+                                        <!-- Result end -->
+                                        </div>                                                                        
+                                    <!-- button container end -->                                    
+
+                                    <!-- button container start -->
+                                    <div class="PerfectDataButtonContainer">
+                                        <!-- button start -->
+                                        <div class="buttonApp">
+                                            <apex:commandLink action="{!doEvents}" value="Events" id="e" reRender="theBlock" status="TheStatus"/>
+                                        </div>
+                                        <!-- button start -->
+                                        <!-- Result start -->                                    
+                                        <div>
+                                            <apex:outputPanel rendered="{!IF(Es!='',true,false)}">
+                                                <span>{!Es}</span>
+                                            </apex:outputPanel>
+                                        </div>
+                                        <!-- Result end -->
+                                    </div>                                                                        
+                                    <!-- button container end -->                                    
+
+                                    <!-- button container start -->
+                                    <div class="PerfectDataButtonContainer">
+                                        <!-- button start -->
+                                        <div class="buttonApp">
+                                            <apex:commandLink action="{!doCases}" value="Cases" id="cs" reRender="theBlock" status="TheStatus"/>
+                                        </div>
+                                        <!-- button start -->
+                                        <!-- Result start -->                                    
+                                        <div>
+                                            <apex:outputPanel rendered="{!IF(Cs!='',true,false)}">
+                                                <span>{!Cs}</span>
+                                            </apex:outputPanel>
+                                        </div>
+                                        <!-- Result end -->
+                                    </div>                                                                        
+                                    <!-- button container end -->                                    
+
+                                        <!-- button container start -->
+                                    <div class="PerfectDataButtonContainer">
+                                        <!-- button start -->
+                                        <div class="buttonApp">
+                                            <apex:commandLink action="{!doQuotes}" value="Quotes" id="Qts" reRender="theBlock" status="TheStatus"/>
+                                        </div>
+                                        <!-- button start -->
+                                        <!-- Result start -->                                    
+                                        <div>
+                                            <apex:outputPanel rendered="{!IF(Qts!='',true,false)}">
+                                                <span>{!Qts}</span>
+                                            </apex:outputPanel>
+                                        </div>
+                                        <!-- Result end -->
+                                    </div>                                                                        
+                                    <!-- button container end -->                                    
+
+                    </apex:outputPanel>            
+                </div>
+            </div>
+        </apex:define>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,17 @@
+<apex:page showHeader="false" sidebar="false">
+	<apex:includeScript value="/support/console/31.0/integration.js"/>
+	<script>
+		function openNewTaskConsoleTab() {
+			sforce.console.openPrimaryTab(null, '/00T/e', true, 'New Task', function (result) {
+				//callback for openPrimaryTab
+				alert('Should this fire FIRST?');
+				if (!result.success) {
+					//handle an error
+				}
+			});
+			//alert('or Should this fire FIRST?');
+		}
+	</script>
+
+	<input id="newTaskTabAction" type="button" value="Open New Task Tab" onclick="openNewTaskConsoleTab();" />
+</apex:page>

@@ -1,0 +1,537 @@
+<apex:page showheader="false">
+<head>
+<script type='text/javascript' language='Javascript' src='https://www.salesforce.com/common/assets/js/global.js'></script>
+<script type='text/javascript' language='Javascript' src='https://www.salesforce.com/common/assets/js/submitbutton.js'></script>
+<style>
+    table{
+        width:200px;
+        font-weight:14px;
+        margin-top:10px;
+        margin-bottom:20px;
+        margin-left:50px;
+    }
+    html{
+        font-family:Arial;
+
+    }
+    td input{
+        width: 200px;
+        display: block;
+        height: 20px;
+    }
+    td label{
+    font-family: "HelveticaNeueW02-45Ligh","HelveticaNeue-Light","Helvetica Neue Light","HelveticaNeueW02-45Ligh","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Nimbus Sans L",sans-serif !important;
+font-size: 0.85em !important;
+font-weight: bold !important;
+color: #53565a !important;
+line-height: 1.5em !important;
+text-transform: uppercase !important;
+text-align: left !important;
+padding-right: 1.5em !important;
+float: none !important;
+display: block !important;
+margin-bottom:5px;
+margin-top:10px;
+background: url(http://www.tquila.com/sites/default/files/images/required.png) no-repeat top right !important;
+}
+    
+</style>
+<script type="text/javascript" language="Javascript">
+    function selVal(s_ele,s_val){
+        for(var sel_i=0;sel_i<s_ele.length;sel_i++){
+            if(s_ele.options[sel_i].value==s_val){
+                s_ele.selectedIndex=sel_i;
+                break;
+            }
+        }
+    }
+    function chkedVal(s_ele,s_val){
+        for(var sel_i=0;sel_i<s_ele.length;sel_i++){
+            if(s_ele[sel_i].value==s_val){
+                s_ele[sel_i].checked=true;
+                break;
+            }
+        }
+    }
+    function checkData(){
+        showValErrors();
+        fillData();
+    }
+</script>
+<script type='text/javascript'>
+    function showValErrors(){
+        var fm = document.forms['signup_form'];
+         try{
+        }catch(e){
+             alert('show val e: ' + e);
+        }
+    }
+    function fillData(){
+        var fm = document.forms['signup_form'];
+             try{
+            }catch(e){
+                 alert(e);
+        }
+    }
+</script>
+<script type="text/javascript" language="JavaScript">
+    var fm;
+    var arCompanyStateAllOpts;
+    var state_fd;
+    var country_fd;
+    var bStateInit = false;
+    var formname_ele;
+    var campaignid_ele;
+    var arCompanyTemplateDefOpt;
+    var arCompanyTemplateOpts;
+    var arCompanyTemplateTeamOpt;
+    arCompanyTemplateDefOpt = Array(new Option("Generic", 'pe_default'));
+    arCompanyTemplateTeamOpt = Array(new Option("Generic", 'te_default'));
+
+    arCompanyTemplateOpts = Array( new Option("Generic", "pe_default",true,true),  new Option("Banking", "banking"),  new Option("Insurance", "insurance"),  new Option("Media/Advertising", "media"),  new Option("Manufacturing", "manufacturing"),  new Option("Professional Services", "profserv"),  new Option("Software", "software"),  new Option("Telecommunications", "telecommunications"));
+
+    var oProVars = {"cid":"7012000000173S7","ndx":0,"fm":"Signup1"};
+    var oTeamVars = {"cid":"70120000000nZBT","ndx":0,"fm":"TeamSignup"};
+
+    var oCurOrg={"l":'en_US',"o":"PlanOrgPE","t":"pe_default"};
+
+
+    arNotApply = Array( new Option("Not Required", ''));
+
+
+    arCanada = Array(   new Option("Select One", '')
+                        , new Option("Alberta", "AB")
+                        , new Option("British Columbia", "BC")
+                        , new Option("Manitoba", "MB")
+                        , new Option("New Brunswick", "NB")
+                        , new Option("Newfoundland", "NL")
+                        , new Option("Northwest Territories", "NT")
+                        , new Option("Nova Scotia", "NS")
+                        , new Option("Nunavut", "NU")
+                        , new Option("Ontario", "ON")
+                        , new Option("Prince Edward Island", "PE")
+                        , new Option("Quebec", "QC")
+                        , new Option("Saskatchewan", "SK")
+                        , new Option("Yukon", "YT")
+    );
+
+    arUSA = Array(      new Option("Select One", '')
+                        , new Option("Alabama", "AL")
+                        , new Option("Alaska", "AK")
+                        , new Option("Arizona", "AZ")
+                        , new Option("Arkansas", "AR")
+                        , new Option("California", "CA")
+                        , new Option("Colorado", "CO")
+                        , new Option("Connecticut", "CT")
+                        , new Option("Delaware", "DE")
+                        , new Option("District of Columbia", "DC")
+                        , new Option("Florida", "FL")
+                        , new Option("Georgia", "GA")
+                        , new Option("Hawaii", "HI")
+                        , new Option("Idaho", "ID")
+                        , new Option("Illinois", "IL")
+                        , new Option("Indiana", "IN")
+                        , new Option("Iowa", "IA")
+                        , new Option("Kansas", "KS")
+                        , new Option("Kentucky", "KY")
+                        , new Option("Louisiana", "LA")
+                        , new Option("Maine", "ME")
+                        , new Option("Maryland", "MD")
+                        , new Option("Massachusetts", "MA")
+                        , new Option("Michigan", "MI")
+                        , new Option("Minnesota", "MN")
+                        , new Option("Mississippi", "MS")
+                        , new Option("Missouri", "MO")
+                        , new Option("Montana", "MT")
+                        , new Option("Nebraska", "NE")
+                        , new Option("Nevada", "NV")
+                        , new Option("New Hampshire", "NH")
+                        , new Option("New Jersey", "NJ")
+                        , new Option("New Mexico", "NM")
+                        , new Option("New York", "NY")
+                        , new Option("North Carolina", "NC")
+                        , new Option("North Dakota", "ND")
+                        , new Option("Ohio", "OH")
+                        , new Option("Oklahoma", "OK")
+                        , new Option("Oregon", "OR")
+                        , new Option("Pennsylvania", "PA")
+                        , new Option("Rhode Island", "RI")
+                        , new Option("South Carolina", "SC")
+                        , new Option("South Dakota", "SD")
+                        , new Option("Tennessee", "TN")
+                        , new Option("Texas", "TX")
+                        , new Option("Utah", "UT")
+                        , new Option("Vermont", "VT")
+                        , new Option("Virginia", "VA")
+                        , new Option("Washington", "WA")
+                        , new Option("West Virginia", "WV")
+                        , new Option("Wisconsin", "WI")
+                        , new Option("Wyoming", "WY")
+    );
+
+    arCompanyStateAllOpts = Array(  new Option("Select One", "")
+                        , new Option("Alabama", "AL")
+                        , new Option("Alaska", "AK")
+                        , new Option("Arizona", "AZ")
+                        , new Option("Arkansas", "AR")
+                        , new Option("California", "CA")
+                        , new Option("Colorado", "CO")
+                        , new Option("Connecticut", "CT")
+                        , new Option("Delaware", "DE")
+                        , new Option("District of Columbia", "DC")
+                        , new Option("Florida", "FL")
+                        , new Option("Georgia", "GA")
+                        , new Option("Hawaii", "HI")
+                        , new Option("Idaho", "ID")
+                        , new Option("Illinois", "IL")
+                        , new Option("Indiana", "IN")
+                        , new Option("Iowa", "IA")
+                        , new Option("Kansas", "KS")
+                        , new Option("Kentucky", "KY")
+                        , new Option("Louisiana", "LA")
+                        , new Option("Maine", "ME")
+                        , new Option("Maryland", "MD")
+                        , new Option("Massachusetts", "MA")
+                        , new Option("Michigan", "MI")
+                        , new Option("Minnesota", "MN")
+                        , new Option("Mississippi", "MS")
+                        , new Option("Missouri", "MO")
+                        , new Option("Montana", "MT")
+                        , new Option("Nebraska", "NE")
+                        , new Option("Nevada", "NV")
+                        , new Option("New Hampshire", "NH")
+                        , new Option("New Jersey", "NJ")
+                        , new Option("New Mexico", "NM")
+                        , new Option("New York", "NY")
+                        , new Option("North Carolina", "NC")
+                        , new Option("North Dakota", "ND")
+                        , new Option("Ohio", "OH")
+                        , new Option("Oklahoma", "OK")
+                        , new Option("Oregon", "OR")
+                        , new Option("Pennsylvania", "PA")
+                        , new Option("Rhode Island", "RI")
+                        , new Option("South Carolina", "SC")
+                        , new Option("South Dakota", "SD")
+                        , new Option("Tennessee", "TN")
+                        , new Option("Texas", "TX")
+                        , new Option("Utah", "UT")
+                        , new Option("Vermont", "VT")
+                        , new Option("Virginia", "VA")
+                        , new Option("Washington", "WA")
+                        , new Option("West Virginia", "WV")
+                        , new Option("Wisconsin", "WI")
+                        , new Option("Wyoming", "WY")
+                        , new Option("Alberta", "AB")
+                        , new Option("British Columbia", "BC")
+                        , new Option("Manitoba", "MB")
+                        , new Option("New Brunswick", "NB")
+                        , new Option("Newfoundland", "NL")
+                        , new Option("Northwest Territories", "NT")
+                        , new Option("Nova Scotia", "NS")
+                        , new Option("Nunavut", "NU")
+                        , new Option("Ontario", "ON")
+                        , new Option("Prince Edward Island", "PE")
+                        , new Option("Quebec", "QC")
+                        , new Option("Saskatchewan", "SK")
+                        , new Option("Yukon", "YT")
+    );
+
+    function InitStateOpts(){
+        state_fd = fm.elements['CompanyState'];
+        country_fd = fm.elements['CompanyCountry'];
+        mapCountries = {"CA":arCanada, "US":arUSA};
+        bStateInit = true;
+    }
+
+
+        function updOrgT(fd){
+            if(fd.selectedIndex>0){oProVars["ndx"]=fd.selectedIndex;}
+            updOrg("t",this.value);
+        }
+        function updOrg(n,v){
+            oCurOrg[n]=v;
+            coordOrg();
+        }
+        function coordOrg(){
+            o_fd = fm.elements['PlanOrgType'];
+            t_fd = fm.elements['CompanyTemplate'];
+            l_fd = fm.elements['CompanyLanguage'];
+
+            if(oCurOrg.o=="PlanOrgWE"){
+                oCurOrg.t=="te_default";
+            }else{
+                if((oCurOrg.l!="en_US") || (oCurOrg.t=="te_default")){
+                    oCurOrg.t="pe_default";
+                }
+            }
+            arTmp = (oCurOrg.o=="PlanOrgWE")?arCompanyTemplateTeamOpt:((oCurOrg.l=="en_US")?arCompanyTemplateOpts:arCompanyTemplateDefOpt);
+
+            if(typeof(t_fd)!='undefined'){
+                old_ubound = t_fd.options.length;
+                new_ubound = arTmp.length;
+                z_ubound = old_ubound;
+                if(new_ubound > old_ubound){z_ubound=new_ubound;}
+                for(oi=0; oi < new_ubound; oi++){t_fd.options[oi] = arTmp[oi];}
+                for(zi = t_fd.options.length-1;zi>=oi;zi--){t_fd.options[zi]= null;}
+            }
+            if(oCurOrg.o=="PlanOrgWE"){
+                if(typeof(t_fd)!='undefined'){t_fd.selectedIndex=0;}
+                formname_ele.value=oTeamVars.fm;
+                campaignid_ele.value=oTeamVars.cid;
+            }else{
+                if(typeof(t_fd)!='undefined'){t_fd.selectedIndex=((oCurOrg.l=="en_US")?oProVars.ndx:0);}
+                formname_ele.value=oProVars.fm;
+                campaignid_ele.value=oProVars.cid;
+            }
+        }
+
+
+        function swapCountryStates(arCountry){
+            state_fd = fm.elements['CompanyState'];
+            country_fd = fm.elements['CompanyCountry'];
+            new_ubound = arCountry.length;
+            old_ubound = state_fd.options.length;
+            z_ubound = old_ubound;
+            if(new_ubound > old_ubound){z_ubound=new_ubound;}
+            for(oi=0; oi < new_ubound; oi++){state_fd.options[oi] = arCountry[oi];}
+            for(zi = state_fd.options.length-1;zi>=oi;zi--){state_fd.options[zi]= null;}
+        }
+
+        function checkStates(c){
+            try{
+                if(!bStateInit){InitStateOpts();}
+                if(c == ''){
+                    arCountry = arCompanyStateAllOpts;
+                }else{
+                    arCountry = mapCountries[c];
+                    if(typeof(arCountry) == 'undefined'){arCountry = arNotApply;}
+                    if(arCountry){swapCountryStates(arCountry);}
+                    var st_span = document.getElementById('state_req_span');
+                    if(st_span){st_span.style.display = ((c == 'US')||(c == 'CA'))?'inline':'none';}
+                }
+            }catch(e){
+                    alert('reg fm states' + e.description);
+            }finally{}
+        }
+
+    function isValidPhoneNumber(num, requiredDigits) {
+        var digits = 0;
+        if (num == null) return false;
+        for( i=0; i<num.length; i++ ){
+            var c = num.charCodeAt(i);
+            if( (c>=48) && (c<=57) ) digits++;
+        }
+        return (digits >= requiredDigits);
+    }
+    function isValidEmail(emailad) {
+       var exclude=/[^@\-\.\w\']|^[_@\.\-]|[\._\-]{2}|[@\.]{2}|(@)[^@]*\1/;
+       var check=/@[\w\-]+\./;
+       var checkend=/\.[a-zA-Z]{2,4}$/;
+       return (((emailad.length > 80) || (emailad.search(exclude) != -1)||(emailad.search(check)) == -1)||(emailad.search(checkend) == -1))?false:true;
+    }
+
+    function rand ( n ){
+    return ( Math.floor ( Math.random ( ) * n + 1 ) );
+    }
+
+  function setUsername(){
+    
+          var appName = "TDO";
+          var at="@";
+          var emailAddr = document.forms[0].Email.value;
+          var lat=emailAddr.indexOf(at);
+          if (lat == -1) {
+             return false;
+          }
+          var userFront = emailAddr.substring(0, lat);
+          document.forms[0].UserUsername.value = userFront + "@" + rand(99) + appName + ".com";
+
+      
+      return true;
+  }
+
+
+    function validate() {
+        var ArErrMsg= new Array();
+        var err_msg = new String();
+       
+
+            if((fm.elements['FirstName']) && (fm.elements['FirstName'].value.length < 1)){
+                ArErrMsg['FirstName']="Enter your First Name";
+            }
+
+            if((fm.elements['LastName']) && (fm.elements['LastName'].value.length < 1)){
+                ArErrMsg['LastName']="Enter your Last Name";
+            }
+
+            if((fm.elements['Title']) && (fm.elements['Title'].value.length < 1)){
+                ArErrMsg['Title']="Enter your Title";
+            }
+
+            if((fm.elements['Company']) && (fm.elements['Company'].value.length < 1)){
+                ArErrMsg['Company']="Enter your Company Name";
+            }
+
+            if (!isValidPhoneNumber(fm.elements['Phone'].value, 10)) { ArErrMsg['Phone']="Enter a Valid Phone Number";}
+
+            if (!isValidEmail(fm.elements['Email'].value)) { ArErrMsg['Email']="Enter a Valid Email Address";}
+            
+            if(fm.elements['Email'].value.indexOf("tquila.com") == -1 && fm.elements['Email'].value.indexOf("salesforce.com") == -1){ArErrMsg['Email']="Please enter a valid email address";}
+
+            if(fm.elements['Country'].selectedIndex < 1){
+                ArErrMsg['Country']="Choose a Valid Country";
+            }else{
+                c_ele = fm.elements['Country'];
+                var c_val = c_ele[c_ele.selectedIndex].value;
+                if((c_val == 'CA') || (c_val == 'US')){if(fm.elements['State'].selectedIndex < 1) {ArErrMsg['State']="Enter your State/Province";}}
+            }
+
+            if(fm.elements['NumberOfEmployees'].selectedIndex < 1) {ArErrMsg['NumberOfEmployees']="Select the Number of Employees";}
+
+            if ((fm.process_form.value != false) && (fm.SubscriptionAgreement.checked != true)){
+                ArErrMsg['SubscriptionAgreement']="Please read and agree to the Master Subscription Agreement";
+            }
+            var fd_i=0;
+            for(var fd_n in ArErrMsg){
+                err_msg = new String(err_msg.concat("\n" + ArErrMsg[fd_n]));
+                fd_i++;
+            }
+            if(fd_i>0){
+                alert(err_msg);
+                return false;
+            }
+
+
+        
+
+        var result = setUsername();
+        if (result == false) {
+            return false;
+        }
+
+        return true;
+
+    }
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-49208058-5']);
+  _gaq.push(['_setDomainName', 'force.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<img src="{!$Resource.TquilaDemoOrgLogo}" style="display:block;margin-left:50px;margin-bottom:30px;margin-top:30px;"/>
+<form action="http://www.salesforce.com/leadcapture/PartnerSignupServlet" method="post" name="signup_form" onSubmit='return validate()' >
+    <input type="hidden" name="process_form" value="true" />
+    <input type="hidden" name="UserUsername" id="UserUsername" value="" />
+    <input type="hidden" name="LeadSource" value="Trialforce" />
+    <!-- TODO: Add Signup Config Item Name of Config record as formName -->
+    <input type="hidden" name="formName" value="TquilaDemoSignup"/>
+    <!-- TODO: Add Partner Account Record Id for Partner Lookup on Lead (Provided by Salesforce.com-->
+    <input type="hidden" name="Lead.Partner_Account__c" value="0012000001BtIWx"/>
+    <!-- TODO: Update Success and Failure Page -->
+    <input type="hidden" name="successPage" value='http://www.tquila.com' />
+    <input type="hidden" name="failPage" value='http://www.tquila.com' />
+    <input type="hidden" name="Lead.Referrer_Company__c" value="Tquila" />
+    <input type="hidden" name="Product_Interest__c" value="Tquila Demo Org" />
+    <input type="hidden" name="CompanyLanguage" value="en_US" />
+    <table>
+        <tr>
+            <td><label for='FirstName' id='UserFirstName_lbl'>First Name</label><input type='text' NAME="FirstName" id="FirstName" MAXLENGTH="255" class="std" /></td>
+        </tr>   
+        <tr>
+            <td><label for='LastName' id='UserLastName_lbl'>Last Name</label><input type='text' NAME="LastName" id="LastName" MAXLENGTH="255" class="std" /></td>
+        </tr>
+        <tr>
+            <td class='col1'><label for='Company' id='CompanyName_lbl'>Company</label><input type='text' NAME="Company" id="Company" MAXLENGTH="255" class="std" value="Tquila"/></td>
+        <tr></tr>
+            <td><label for='Email' id='UserEmail_lbl'>E-mail</label><input type='text' NAME="Email"  id="Email" MAXLENGTH="255" class="std"/></td>
+        </tr>
+    </table>
+    <input type='text' NAME="Phone" id="Phone" MAXLENGTH="255" class="std" value="0000000000" style="display:none;"/>
+    <input type='text' NAME="Title" id="Title" MAXLENGTH="255" class="std" value="CEO" style="display:none;"/>
+    <input type='checkbox' name='SubscriptionAgreement' id='SubscriptionAgreement' value='on' checked="checked" style="display:none;" />
+    <select NAME='NumberOfEmployees' id='NumberOfEmployees' class='std' style="display:none;">
+        <option value=''>-- Select One --</OPTION>
+        <option value='300' selected="selected" >201 - 400 employees</option>
+    </select> 
+    <select name="Country" id="Country" class="std" style="display:none;">
+        <option value=''>-- Select One --</OPTION>
+        <option value='GB'   selected="selected"  >United Kingdom</option>
+    </select>
+    <select name="State" id="State" class="std" style="display:none;">
+        <option value=''>-- US/Canada Only --</OPTION>
+    </select>
+    <input type='image' src='{!$Resource.TquilaSignUpButton}' alt='http://www.salesforce.com/opencms/system/modules/com.salesforce.marketing.frontend/templates/forms/Submit' style="margin-top:40px;margin-left:50px;display:block;margin-top:40px;"/>
+    <script language='Javascript'>
+        function toggleOrgDiv(bShow){
+            var org_opts_h_on=document.getElementById('org_opts_h_on');
+            var org_opts_h_off=document.getElementById('org_opts_h_off');
+            var org_opts_div=document.getElementById('org_opts_div');
+            if(bShow){
+                org_opts_h_on.style.display='inline';
+                org_opts_h_off.style.display='none';
+                org_opts_div.style.display='inline';
+            }else{
+                org_opts_h_on.style.display='none';
+                org_opts_h_off.style.display='inline';
+                org_opts_div.style.display='none';
+            }
+        }
+    </script>
+</form>
+
+<script type="text/javascript">
+    if(document.forms['signup_form']){
+        fm=document.forms['signup_form'];
+        formname_ele = fm.elements['formName'];
+    }
+    checkData();
+</script>
+<script type="text/javascript">buttons();</script>
+<script type="text/javascript">
+    var s_account      = "";
+    var s_customer     = "noncustomer";
+    var rsStage        = "salesforcepoc"; // staging suite
+    var rsLive         = "salesforceall"; // live suite
+    var rsUsers        = "salesforcecurollup"; // customer suite
+    var rsNonUsers     = "salesforcencrollup";  // non-customer suite
+    var stageHostname  = "opencms";
+    var orgStatus      = "";
+    // detect if serving content on stage or prod
+    if ((top.location.href.indexOf(stageHostname) == -1) ||
+        (getArgs('prod')==1)) {
+      s_account += rsLive;
+    } else {
+      s_account += rsStage;
+    }
+    // detect if visitor is a user
+    if (readCookie('oinfo')) {
+        orgStatus = getArgs('status',decode64(readCookie('oinfo')));
+    }
+    if ((orgStatus != "" && orgStatus.toUpperCase != "TRIAL") ||
+         (getArgs('user')==1)) {
+        s_account += ',' + rsUsers;
+      s_customer = 'customer';
+    } else {
+        s_account += ',' + rsNonUsers;
+    }
+</script>
+<script type="text/javascript">
+    if(document.forms['signup_form']){
+        var fm=document.forms['signup_form'];
+        formname_ele = fm.elements['formName'];
+        formname_ele_val=formname_ele.value;
+    }
+    checkData();
+</script>
+</apex:page>

@@ -1,0 +1,1213 @@
+{
+    "properties": [
+        {
+            "modifiers": [], 
+            "name": "theCase", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 14, 
+                "line": 3
+            }, 
+            "type": "Case"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "searchParam", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 16, 
+                "line": 4
+            }, 
+            "type": "String"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "customersMap", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 27, 
+                "line": 5
+            }, 
+            "type": "Map"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "productMap", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 31, 
+                "line": 6
+            }, 
+            "type": "Map"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "customers", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 24, 
+                "line": 8
+            }, 
+            "type": "LIST"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "products", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 28, 
+                "line": 17
+            }, 
+            "type": "LIST"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "customrsMap", 
+            "visibility": "PRIVATE", 
+            "references": [], 
+            "location": {
+                "column": 28, 
+                "line": 25
+            }, 
+            "type": "Map"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "selectedFields", 
+            "visibility": "PRIVATE", 
+            "references": [], 
+            "location": {
+                "column": 20, 
+                "line": 27
+            }, 
+            "type": "String"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "whereStatment", 
+            "visibility": "PRIVATE", 
+            "references": [], 
+            "location": {
+                "column": 9, 
+                "line": 30
+            }, 
+            "type": "String"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "isCustomersEmpty", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 32
+            }, 
+            "type": "Boolean"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "showNewCust", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 364
+            }, 
+            "type": "Boolean"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "cont", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 374
+            }, 
+            "type": "Contact"
+        }, 
+        {
+            "modifiers": [], 
+            "name": "isInserted", 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 16, 
+                "line": 375
+            }, 
+            "type": "String"
+        }
+    ], 
+    "externalReferences": [], 
+    "innerClasses": [
+        {
+            "properties": [
+                {
+                    "modifiers": [], 
+                    "name": "ID", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 20, 
+                        "line": 249
+                    }, 
+                    "type": "String"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "imageURL", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 20, 
+                        "line": 250
+                    }, 
+                    "type": "String"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "name", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 20, 
+                        "line": 251
+                    }, 
+                    "type": "String"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "oppID", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 20, 
+                        "line": 252
+                    }, 
+                    "type": "String"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "oppName", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 20, 
+                        "line": 253
+                    }, 
+                    "type": "String"
+                }
+            ], 
+            "externalReferences": [], 
+            "innerClasses": [], 
+            "interfaces": [], 
+            "constructors": [
+                {
+                    "modifiers": [], 
+                    "name": "ProductImage", 
+                    "parameters": [
+                        {
+                            "type": "String", 
+                            "name": "ID"
+                        }, 
+                        {
+                            "type": "String", 
+                            "name": "oppID"
+                        }, 
+                        {
+                            "type": "String", 
+                            "name": "oppName"
+                        }, 
+                        {
+                            "type": "String", 
+                            "name": "imageURL"
+                        }, 
+                        {
+                            "type": "String", 
+                            "name": "name"
+                        }
+                    ], 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 13, 
+                        "line": 255
+                    }, 
+                    "type": null
+                }
+            ], 
+            "namespace": null, 
+            "name": "ProductImage", 
+            "tableDeclaration": {
+                "type": "ProductImage", 
+                "modifiers": [], 
+                "references": [], 
+                "location": {
+                    "column": 18, 
+                    "line": 248
+                }, 
+                "name": "ProductImage"
+            }, 
+            "key": null, 
+            "variables": [
+                {
+                    "type": "String", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 33, 
+                        "line": 255
+                    }, 
+                    "name": "ID"
+                }, 
+                {
+                    "type": "String", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 44, 
+                        "line": 255
+                    }, 
+                    "name": "oppID"
+                }, 
+                {
+                    "type": "String", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 58, 
+                        "line": 255
+                    }, 
+                    "name": "oppName"
+                }, 
+                {
+                    "type": "String", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 74, 
+                        "line": 255
+                    }, 
+                    "name": "imageURL"
+                }, 
+                {
+                    "type": "String", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 91, 
+                        "line": 255
+                    }, 
+                    "name": "name"
+                }
+            ], 
+            "id": null, 
+            "methods": []
+        }, 
+        {
+            "properties": [
+                {
+                    "modifiers": [], 
+                    "name": "contact", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 21, 
+                        "line": 265
+                    }, 
+                    "type": "Contact"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "cases", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 24, 
+                        "line": 266
+                    }, 
+                    "type": "LIST"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "casesSize", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 21, 
+                        "line": 267
+                    }, 
+                    "type": "Integer"
+                }, 
+                {
+                    "modifiers": [], 
+                    "name": "score", 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 21, 
+                        "line": 269
+                    }, 
+                    "type": "Integer"
+                }
+            ], 
+            "externalReferences": [], 
+            "innerClasses": [], 
+            "interfaces": [], 
+            "constructors": [
+                {
+                    "modifiers": [], 
+                    "name": "Customer", 
+                    "parameters": [
+                        {
+                            "type": "Contact", 
+                            "name": "c"
+                        }
+                    ], 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 13, 
+                        "line": 271
+                    }, 
+                    "type": null
+                }
+            ], 
+            "namespace": null, 
+            "name": "Customer", 
+            "tableDeclaration": {
+                "type": "Customer", 
+                "modifiers": [], 
+                "references": [], 
+                "location": {
+                    "column": 18, 
+                    "line": 264
+                }, 
+                "name": "Customer"
+            }, 
+            "key": null, 
+            "variables": [
+                {
+                    "type": "Contact", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 30, 
+                        "line": 271
+                    }, 
+                    "name": "c"
+                }, 
+                {
+                    "type": "Object", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 38, 
+                        "line": 278
+                    }, 
+                    "name": "compareTo"
+                }, 
+                {
+                    "type": "Customer", 
+                    "modifiers": [], 
+                    "references": [], 
+                    "location": {
+                        "column": 19, 
+                        "line": 279
+                    }, 
+                    "name": "compareToEmp"
+                }
+            ], 
+            "id": null, 
+            "methods": [
+                {
+                    "modifiers": [], 
+                    "name": "compareTo", 
+                    "parameters": [
+                        {
+                            "type": "Object", 
+                            "name": "compareTo"
+                        }
+                    ], 
+                    "visibility": "PUBLIC", 
+                    "references": [], 
+                    "location": {
+                        "column": 21, 
+                        "line": 278
+                    }, 
+                    "returnType": "Integer", 
+                    "type": null
+                }
+            ]
+        }
+    ], 
+    "interfaces": [], 
+    "constructors": [
+        {
+            "modifiers": [], 
+            "name": "RelatedCustomerCasesController", 
+            "parameters": [
+                {
+                    "type": "StandardController", 
+                    "name": "stdController"
+                }
+            ], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 9, 
+                "line": 34
+            }, 
+            "type": null
+        }
+    ], 
+    "namespace": null, 
+    "name": "RelatedCustomerCasesController", 
+    "tableDeclaration": {
+        "type": "RelatedCustomerCasesController", 
+        "modifiers": [], 
+        "references": [], 
+        "location": {
+            "column": 27, 
+            "line": 1
+        }, 
+        "name": "RelatedCustomerCasesController"
+    }, 
+    "key": "01p20000004TiPmAAK", 
+    "variables": [
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 19, 
+                "line": 10
+            }, 
+            "name": "lCustomers"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 23, 
+                "line": 19
+            }, 
+            "name": "lProducts"
+        }, 
+        {
+            "type": "StandardController", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 69, 
+                "line": 34
+            }, 
+            "name": "stdController"
+        }, 
+        {
+            "type": "Id", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 6, 
+                "line": 36
+            }, 
+            "name": "caseId"
+        }, 
+        {
+            "type": "OpportunityLineItem", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 35, 
+                "line": 63
+            }, 
+            "name": "lineItem"
+        }, 
+        {
+            "type": "ProductImage", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 24, 
+                "line": 73
+            }, 
+            "name": "prodImg"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 13, 
+                "line": 93
+            }, 
+            "name": "emailSearchStr"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 13, 
+                "line": 94
+            }, 
+            "name": "phoneSearchStr"
+        }, 
+        {
+            "type": "Set", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 21, 
+                "line": 95
+            }, 
+            "name": "phones"
+        }, 
+        {
+            "type": "Set", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 21, 
+                "line": 96
+            }, 
+            "name": "emails"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 24, 
+                "line": 104
+            }, 
+            "name": "contacts"
+        }, 
+        {
+            "type": "Customer", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 20, 
+                "line": 106
+            }, 
+            "name": "cust"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 23, 
+                "line": 125
+            }, 
+            "name": "searchResults"
+        }, 
+        {
+            "type": "Contact", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 21, 
+                "line": 129
+            }, 
+            "name": "contact"
+        }, 
+        {
+            "type": "Contact", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 15, 
+                "line": 143
+            }, 
+            "name": "contact"
+        }, 
+        {
+            "type": "Set", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 35, 
+                "line": 152
+            }, 
+            "name": "contactIds"
+        }, 
+        {
+            "type": "Case", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 18, 
+                "line": 154
+            }, 
+            "name": "c"
+        }, 
+        {
+            "type": "Map", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 26, 
+                "line": 173
+            }, 
+            "name": "contactsWithClosedCases"
+        }, 
+        {
+            "type": "Customer", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 22, 
+                "line": 190
+            }, 
+            "name": "cust"
+        }, 
+        {
+            "type": "Contact", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 18, 
+                "line": 191
+            }, 
+            "name": "contact"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 22, 
+                "line": 193
+            }, 
+            "name": "closedCases"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 13, 
+                "line": 201
+            }, 
+            "name": "caseId"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 13, 
+                "line": 202
+            }, 
+            "name": "accountId"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 13, 
+                "line": 203
+            }, 
+            "name": "contactId"
+        }, 
+        {
+            "type": "Case", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 11, 
+                "line": 207
+            }, 
+            "name": "c"
+        }, 
+        {
+            "type": "PageReference", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 20, 
+                "line": 210
+            }, 
+            "name": "ref"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 13, 
+                "line": 219
+            }, 
+            "name": "checkSymbolsAmount"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 14, 
+                "line": 224
+            }, 
+            "name": "searchStr"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 14, 
+                "line": 226
+            }, 
+            "name": "soslSearch"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 27, 
+                "line": 227
+            }, 
+            "name": "searchList"
+        }, 
+        {
+            "type": "Contact", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 25, 
+                "line": 228
+            }, 
+            "name": "contact"
+        }, 
+        {
+            "type": "Customer", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 23, 
+                "line": 229
+            }, 
+            "name": "cust"
+        }, 
+        {
+            "type": "Message", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 32, 
+                "line": 235
+            }, 
+            "name": "myMsg"
+        }, 
+        {
+            "type": "Message", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 32, 
+                "line": 238
+            }, 
+            "name": "myMsg"
+        }, 
+        {
+            "type": "Message", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 25, 
+                "line": 242
+            }, 
+            "name": "myMsg"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 10, 
+                "line": 334
+            }, 
+            "name": "caseId"
+        }, 
+        {
+            "type": "Case", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 9, 
+                "line": 337
+            }, 
+            "name": "caseToClose"
+        }, 
+        {
+            "type": "PageReference", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 343
+            }, 
+            "name": "ref"
+        }, 
+        {
+            "type": "Case", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 14, 
+                "line": 397
+            }, 
+            "name": "c"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 53, 
+                "line": 287
+            }, 
+            "name": "searchQuery"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 73, 
+                "line": 287
+            }, 
+            "name": "newParamter"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 57, 
+                "line": 300
+            }, 
+            "name": "EmailSearchStr"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 80, 
+                "line": 300
+            }, 
+            "name": "PhoneSearchStr"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 103, 
+                "line": 300
+            }, 
+            "name": "selectedFields"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 126, 
+                "line": 300
+            }, 
+            "name": "whereStatement"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 23, 
+                "line": 303
+            }, 
+            "name": "searchResultsEmails"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 23, 
+                "line": 304
+            }, 
+            "name": "searchResultsPhones"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 11, 
+                "line": 306
+            }, 
+            "name": "soslSearchEmail"
+        }, 
+        {
+            "type": "String", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 311
+            }, 
+            "name": "soslSearchPhone"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 23, 
+                "line": 317
+            }, 
+            "name": "searchResults"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 24, 
+                "line": 319
+            }, 
+            "name": "contactSearchResultsEmails"
+        }, 
+        {
+            "type": "LIST", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 24, 
+                "line": 324
+            }, 
+            "name": "contactSearchResultsPhones"
+        }, 
+        {
+            "type": "Contact", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 54, 
+                "line": 348
+            }, 
+            "name": "contect"
+        }, 
+        {
+            "type": "Integer", 
+            "modifiers": [], 
+            "references": [], 
+            "location": {
+                "column": 11, 
+                "line": 349
+            }, 
+            "name": "score"
+        }
+    ], 
+    "id": "01p20000004TiPmAAK", 
+    "methods": [
+        {
+            "modifiers": [], 
+            "name": "buildRelatedCustomersList", 
+            "parameters": [], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 92
+            }, 
+            "returnType": "void", 
+            "type": null
+        }, 
+        {
+            "modifiers": [], 
+            "name": "fillCases", 
+            "parameters": [
+                {
+                    "type": "Set", 
+                    "name": "contactIds"
+                }
+            ], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 152
+            }, 
+            "returnType": "void", 
+            "type": null
+        }, 
+        {
+            "modifiers": [], 
+            "name": "relateAccount", 
+            "parameters": [], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 26, 
+                "line": 200
+            }, 
+            "returnType": "PageReference", 
+            "type": null
+        }, 
+        {
+            "modifiers": [], 
+            "name": "searchCustomers", 
+            "parameters": [], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 215
+            }, 
+            "returnType": "void", 
+            "type": null
+        }, 
+        {
+            "modifiers": [], 
+            "name": "closeCaseAsDup", 
+            "parameters": [], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 23, 
+                "line": 332
+            }, 
+            "returnType": "PageReference", 
+            "type": null
+        }, 
+        {
+            "modifiers": [], 
+            "name": "showNewCustomer", 
+            "parameters": [], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 14, 
+                "line": 378
+            }, 
+            "returnType": "void", 
+            "type": null
+        }, 
+        {
+            "modifiers": [], 
+            "name": "showSearchOrList", 
+            "parameters": [], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 383
+            }, 
+            "returnType": "void", 
+            "type": null
+        }, 
+        {
+            "modifiers": [], 
+            "name": "doSave", 
+            "parameters": [], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 17, 
+                "line": 388
+            }, 
+            "returnType": "void", 
+            "type": null
+        }, 
+        {
+            "modifiers": [
+                "STATIC"
+            ], 
+            "name": "buildAddToSearchQuery", 
+            "parameters": [
+                {
+                    "type": "String", 
+                    "name": "searchQuery"
+                }, 
+                {
+                    "type": "String", 
+                    "name": "newParamter"
+                }
+            ], 
+            "visibility": "PRIVATE", 
+            "references": [], 
+            "location": {
+                "column": 24, 
+                "line": 287
+            }, 
+            "returnType": "String", 
+            "type": null
+        }, 
+        {
+            "modifiers": [
+                "STATIC"
+            ], 
+            "name": "searchForCustomers", 
+            "parameters": [
+                {
+                    "type": "String", 
+                    "name": "EmailSearchStr"
+                }, 
+                {
+                    "type": "String", 
+                    "name": "PhoneSearchStr"
+                }, 
+                {
+                    "type": "String", 
+                    "name": "selectedFields"
+                }, 
+                {
+                    "type": "String", 
+                    "name": "whereStatement"
+                }
+            ], 
+            "visibility": "PRIVATE", 
+            "references": [], 
+            "location": {
+                "column": 31, 
+                "line": 300
+            }, 
+            "returnType": "LIST", 
+            "type": null
+        }, 
+        {
+            "modifiers": [
+                "STATIC"
+            ], 
+            "name": "calculateAccountScore", 
+            "parameters": [
+                {
+                    "type": "Contact", 
+                    "name": "contect"
+                }
+            ], 
+            "visibility": "PUBLIC", 
+            "references": [], 
+            "location": {
+                "column": 24, 
+                "line": 348
+            }, 
+            "returnType": "Integer", 
+            "type": null
+        }
+    ]
+}

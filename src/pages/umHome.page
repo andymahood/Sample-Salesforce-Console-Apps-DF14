@@ -1,0 +1,53 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false"
+    standardStylesheets="false" cache="false" controller="umProxy" >
+
+
+<html lang="en">
+    <head>
+    <TITLE>{!$Site.Name}</TITLE>
+    <meta name="google-site-verification" content="8bKZCXd64fG-m1sgkcmgQaSD6JMiytu7JPdjg9IrLJA" />
+    <!--  Head tags goes here  -->
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <apex:stylesheet value="{!URLFOR($Resource[siteSettings['umSite_staticResource__c']],'siteStyle.css')}" />
+
+    <!-- TEMPLATES COMPONENT -->
+    <c:umTemplates />
+
+    <c:umZonesInit />
+
+    <script data-main="{!URLFOR($Resource.um_js, 'main')}"
+            src="{!URLFOR($Resource.um_js, 'Libs/Require/require.js')}"></script>
+
+
+    <script src="{!URLFOR($Resource.um_js, 'Libs/JQuery/binaryajax.js')}"></script>
+    <script src="{!URLFOR($Resource.um_js, 'Libs/JQuery/exif.js')}"></script>
+    <script src="{!URLFOR($Resource.um_js, 'Libs/JQuery/canvasResize.js')}"></script>
+
+    </head>
+    <body>
+
+<!-- MOBILE APP LAYER -->
+<div class="sideMenuView sideMenuClosed"></div>
+<div id="b_appLayer">
+    <div class="homePageView"></div>
+    <div class="zoneSelectionView"></div>
+    <div class="zonePageView"></div>
+    <div class="articlePageView"></div>
+    <div class="searchPageView"></div>
+    <div class="longerListView"></div>
+    <div class="questionPageView"></div>
+    <div class="casePageView"></div>
+    <div class="questionCreateView"></div>
+    <div class="profilePageView"></div>
+    <div class="profileQuestionsListView"></div>
+    <div class="profileCasesListView"></div>
+    <div class="contactUsView"></div>
+    <div class="contactDView"></div>
+</div>
+
+</BODY>
+</html>
+</apex:page>

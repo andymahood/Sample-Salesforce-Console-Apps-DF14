@@ -1,0 +1,382 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false">
+<head>
+<apex:includeScript value="{!URLFOR($Resource.um_js,'Libs/JQuery/jquery-min.js')}" />
+<apex:includeScript value="{!URLFOR($Resource.um_js,'Utils/mobileDetection.js')}" />
+<script type="text/javascript">
+$(function(){
+		if(window.mobilecheck()){
+			$('body').addClass("mobileCam");
+			window.scrollTo(0,1);
+		}else{
+			$('.umhp').hide();
+			$('#onlyMobile').hide();
+		}
+		//Let's check if facebook is available, if it is, lets patch the mobile url
+		//so we can send user to mobile homepage after FB login
+		var dir = $('.facebook').parent();
+		if ( dir != undefined ){
+			var oldURL = dir.attr("href");
+			dir.attr({ "href" : oldURL+"&startURL=%2FumHome"});
+		}
+		$('.topLeftCancelIconWrapper').click(function(e){
+            window.history.back(1);
+        });
+});
+</script>
+<style type="text/css">
+html {
+	-webkit-text-size-adjust: 100%;
+}
+.mobileCam{
+	background: #e4e4e4 !important; /* Old browsers */
+	background: -moz-linear-gradient(top,  #e4e4e4 0%, #e6e6e6 100%) !important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4e4e4), color-stop(100%,#e6e6e6)) !important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* IE10+ */
+	background: linear-gradient(to bottom,  #e4e4e4 0%,#e6e6e6 100%) !important; /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4e4e4', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-9 */
+}
+.mobileCam .camBody{
+	background: #e4e4e4 !important; /* Old browsers */
+	background: -moz-linear-gradient(top,  #e4e4e4 0%, #e6e6e6 100%) !important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4e4e4), color-stop(100%,#e6e6e6)) !important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* IE10+ */
+	background: linear-gradient(to bottom,  #e4e4e4 0%,#e6e6e6 100%) !important; /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4e4e4', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-9 */
+	margin: auto;
+	padding: 0px;
+}
+.mobileCam .popup{
+	text-align: left;
+	overflow: visible;
+	height: auto;
+	padding: 0px;
+	margin: 0px 14px;
+}
+.mobileCam .popup .text{
+	border: 1px solid #bbc0c4;
+	display: block;
+	height: 24px;
+}
+.mobileCam .mouseOverInfoOuter{
+	display: none !important;
+}
+.mobileCam .popUpContent{
+	width: 100% !important;
+	padding: 5px 0px;
+	background: #e4e4e4 !important; /* Old browsers */
+	background: -moz-linear-gradient(top,  #e4e4e4 0%, #e6e6e6 100%) !important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4e4e4), color-stop(100%,#e6e6e6)) !important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* IE10+ */
+	background: linear-gradient(to bottom,  #e4e4e4 0%,#e6e6e6 100%) !important; /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4e4e4', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-9 */
+	-webkit-box-shadow:none !important;
+	-moz-box-shadow:none !important;
+	box-shadow:none !important;
+	overflow: visible;
+}
+.mobileCam .form .col {
+	float: none;
+	margin: 0px;
+	padding: 0;
+	text-align: left;
+	border: 0px !important;
+	width: 100%;
+}
+.mobileCam .csFormKey{
+	float: none;
+	text-align: left;
+	margin-top: 13px;
+}
+.mobileCam .csFormKey a{
+	margin-bottom: 10px;
+}
+.mobileCam .csFormKey .required{
+	color: #980000;
+	margin-bottom: 10px;
+}
+.mobileCam .popup .last{
+	padding: 0px !important;
+}
+.mobileCam .last a{
+	display: block;
+	width: 92%;
+}
+.mobileCam .umhp{
+	margin: 3px 0px;
+}
+.mobileCam .logCancelButton{
+    position: absolute;
+	top: 16px;
+	left: 14px;
+	background: url("{!URLFOR($Resource.um_branding, 'assets/X-Close@2x.png')}") no-repeat 0 0px !important;
+	width: 13px;
+	height: 15px;
+	background-size: contain !important;
+}
+
+.mobileCam .topLeftCancelIconWrapper{
+     width: 45px;
+     position: absolute;
+     height: 45px;
+     left: 0;
+     top :0;
+}
+
+.mobileCam .logHeader {
+	background: #2891D3;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI4OTFkMyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMTdiYmMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #2891D3 0%, #117BBC 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2891D3), color-stop(100%,#117BBC));
+    background: -webkit-linear-gradient(top, #2891D3 0%,#117BBC 100%);
+    background: -o-linear-gradient(top, #2891D3 0%,#117BBC 100%);
+    background: -ms-linear-gradient(top, #2891D3 0%,#117BBC 100%);
+    background: linear-gradient(to bottom, #2891D3 0%,#117BBC 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2891d3', endColorstr='#117bbc',GradientType=0 );
+    height: 45px;
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+}
+.mobileCam .logTitle{
+    margin: 0px auto;
+    color: white;
+    display: block;
+    text-align: center;
+    padding-top: 14px;
+    font-size: 18px;
+}
+
+.mobileCam .col label,.mobileCam .col input {
+	clear: both;
+	width:100% !important;
+	padding:0 !important;
+	padding-top:5px !important;
+	padding-bottom: 5px !important;
+	border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+}
+.mobileCam.col input {
+	border: 1px solid #ccc !important;
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
+	height: 24px;
+	text-indent: 10px;
+}
+.mobileCam form .popUpContent {
+	background: #e4e4e4 !important; /* Old browsers */
+	background: -moz-linear-gradient(top,  #e4e4e4 0%, #e6e6e6 100%) !important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4e4e4), color-stop(100%,#e6e6e6)) !important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* IE10+ */
+	background: linear-gradient(to bottom,  #e4e4e4 0%,#e6e6e6 100%) !important; /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4e4e4', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-9 */
+	-webkit-box-shadow:none !important;
+	-moz-box-shadow:none !important;
+	box-shadow:none !important;
+}
+.mobileCam .signInClass{
+	background-color: #484849;
+	font-size: 13px !important;
+	color: #ffffff;
+	font-weight: normal;
+	text-align: center;
+	height: 18px;
+	vertical-align: middle;
+	padding-top: 7px;
+	font-size: 13px !important;
+	margin-bottom: 0px;
+}
+.mobileCam .col h1 {
+	display:none;
+}
+.mobileCam .row a.signUpToggle {
+	background: transparent !important;
+	border: none !important;
+	display: inline-block;
+	color: #3c3d3e !important;
+	font-weight: bold;
+	font-size: 15px;
+	width: auto !important;
+	margin-top: 0px !important;
+}
+.mobileCam .col.last {
+	text-align: center;
+	width: 100% !important;
+}
+.mobileCam .row.first h3 {
+	margin: 0 0 10px 0px;
+	color: #3c3d3e;
+	font-size: 15px;
+	text-decoration: none;
+	margin-top: 14px;
+	font-weight: normal !important;
+	margin-right: 3px !important;
+	display: inline-block !important;
+	margin-top: 7px;
+}
+.mobileCam .button.big {
+	margin: 0 !important;
+	background: #3e9ed8;
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top, #3e9ed8 0%, #117BBC 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3e9ed8), color-stop(100%,#117BBC));
+	background: -webkit-linear-gradient(top, #3e9ed8 0%,#117BBC 100%);
+	background: -o-linear-gradient(top, #3e9ed8 0%,#117BBC 100%);
+	background: -ms-linear-gradient(top, #3e9ed8 0%,#117BBC 100%);
+	background: linear-gradient(to bottom, #3e9ed8 0%,#117BBC 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e9ed8', endColorstr='#117bbc',GradientType=0 );
+	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border: 1px #1c78b1 solid !important;
+	color:#ffffff !important;
+	padding-top: 5px !important;
+	height: 36px;
+	display: inline-block !important;
+	margin-top: 15px !important;
+}
+.mobileCam .form .col {
+	width: 100% !important;
+}
+.mobileCam .col .required {
+	text-align: right !important;
+	color: #3c3d3e !important;
+	font-size: 13px !important;
+	display:none;
+}
+.mobileCam .required2 {
+	text-align: right !important;
+	color: #ffffff !important;
+	font-size: 13px !important;
+	margin: 0 !important;
+	background: #3e9ed8;
+	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.mobileCam .form .row {
+	text-align: center;
+}
+.mobileCam .csFormKey a {
+	display: none !important;
+	}
+.mobileCam .linkWr {
+	color:#ffffff !important;
+	width: 220px;
+	display: inline-block !important;
+	text-align: center;
+	margin-left: -110px;
+	left: 50%;
+	background-color: #e4e4e4;
+	z-index: 25;
+	position: absolute;
+	top: -7px;
+}
+
+.mobileCam .linkDeco {
+	font-size:13px !important;
+	color:#696e71 !important;
+	display: inline-block !important;
+	text-decoration: none;
+	text-decoration: none !important;
+}
+.mobileCam .linkDeco.gBack {
+	display: inline-block !important;
+	text-decoration: none !important;
+}
+.mobileCam .line1, .mobileCam .line2 {
+	border-bottom: 1px solid #c2c7cb !important;
+	display: block;
+	width: 100%;
+	position: relative;
+	z-index: 1;
+	margin-top: 21px;
+	padding: 0px;
+}
+.mobileCam span.cond {
+	color:#696e71 !important;
+	display: inline-block !important;
+	font-style: italic;
+}
+.mobileCam .col.umhp {
+	position: relative;
+	overflow: visible;
+	text-align: left;
+	width: auto;
+	margin: 0px 14px;
+	padding: 0px;
+}
+.mobileCam .notice {
+	margin-top: 19px !important;
+}
+.mobileCam .form .error {
+	border: 1px solid #f8e38e !important;
+	background-color: #ffffdc !important;
+}
+.mobileCam .button {
+	width: 100% !important;
+	margin: 0px !important;
+	padding: 10px 0px !important;
+	border: 0px !important;
+	color: #fff !important;
+	background: #3e9ed8;
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top, #3e9ed8 0%, #117BBC 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3e9ed8), color-stop(100%,#117BBC));
+	background: -webkit-linear-gradient(top, #3e9ed8 0%,#117BBC 100%);
+	background: -o-linear-gradient(top, #3e9ed8 0%,#117BBC 100%);
+	background: -ms-linear-gradient(top, #3e9ed8 0%,#117BBC 100%);
+	background: linear-gradient(to bottom, #3e9ed8 0%,#117BBC 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e9ed8', endColorstr='#117bbc',GradientType=0 );
+	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border:1px #1c78b1 solid !important;
+}
+.mobileCam form .row.first {
+	text-align: center;
+	margin-top: 10px !important;
+	border-top: 1px solid #BBC0C4 !important;
+	margin-bottom: -15px !important;
+}
+.mobileCam .form .row h3 {
+	margin: 0 0 10px 0px;
+	color: #3c3d3e;
+	font-size: 15px;
+	text-decoration: none;
+	margin-top: 14px;
+	font-weight: normal !important;
+	margin-right: 3px !important;
+	display: inline-block !important;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+</head>
+<body class="camBody">
+<div class="camVfContainer">
+	<div id="onlyMobile">
+		<div class="logHeader">
+			<span class="topLeftCancelIconWrapper">
+				<div id="b_logCancelButton" class="logCancelButton"></div>
+			</span>
+  			<span id="b_logTitle" class="logTitle">Sign Up</span>
+		</div>
+		<h1 class="signInClass">All fields are required</h1>
+	</div>
+<div class="col umhp">
+	<div class="line1"></div>
+	<div class="linkWr">
+		<a href="javascript:window.opener ? window.close() : history.back();" class="linkDeco gBack">« Go Back</a>
+		<span class="cond">or</span>
+		<a href="umHome" class="linkDeco">Go to home page &raquo;</a>
+	</div>
+
+</div>
+<chatteranswers:registration hideTerms="True" />
+</div>
+</body>
+</apex:page>

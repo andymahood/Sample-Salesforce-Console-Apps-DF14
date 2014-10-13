@@ -1,0 +1,17 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false">
+    <apex:includeScript value="{!URLFOR($Resource.goinstant_sos_SDO_jqueryui192, '/js/jquery-1.8.3.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.goinstant_sos_SDO_jqueryui192, '/js/jquery-ui-1.9.2.custom.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.goinstant_sos_SDO_bootstrap, '/js/bootstrap.js')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.goinstant_sos_SDO_jqueryui192, '/css/smoothness/jquery-ui-1.9.2.custom.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.goinstant_sos_SDO_bootstrap, '/css/bootstrap.css')}"/>
+    
+    <apex:insert name="_header"/>
+    <apex:insert name="_content"/>
+    <apex:insert name="_footer"/>
+    
+    <style>
+        #phHeaderLogoImage {
+            max-width: none;
+        }
+    </style>
+</apex:page>

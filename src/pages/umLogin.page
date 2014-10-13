@@ -1,0 +1,281 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false">
+<head>
+<apex:includeScript value="{!URLFOR($Resource.um_js,'Libs/JQuery/jquery-min.js')}" />
+<apex:includeScript value="{!URLFOR($Resource.um_js,'Utils/mobileDetection.js')}" />
+<script type="text/javascript">
+	$(function(){
+		if(window.mobilecheck()){
+			$('body').addClass("mobileCam");
+			window.scrollTo(0,1);
+		}else{
+			$('.umhp').hide();
+			$('#b_logTitle').hide();
+		}
+		//Let's check if facebook is available, if it is, lets patch the mobile url
+		//so we can send user to mobile homepage after FB login
+		var dir = $('.facebook').parent();
+		if ( dir != undefined ){
+			var oldURL = dir.attr("href");
+			dir.attr({ "href" : oldURL+"&startURL=%2FumHome"});
+		}
+		$('.topLeftCancelIconWrapper').click(function(e){
+			window.history.back(1);
+		});
+	});
+</script>
+<style type="text/css">
+html {
+	-webkit-text-size-adjust: 100%;
+}
+.mobileCam{
+	background: #e4e4e4 !important; /* Old browsers */
+	background: -moz-linear-gradient(top,  #e4e4e4 0%, #e6e6e6 100%) !important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4e4e4), color-stop(100%,#e6e6e6)) !important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #e4e4e4 0%,#e6e6e6 100%) !important; /* IE10+ */
+	background: linear-gradient(to bottom,  #e4e4e4 0%,#e6e6e6 100%) !important; /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4e4e4', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-9 */
+}
+.mobileCam .camBody{
+	background-color: #fff;
+	margin: auto;
+	padding: 0px;
+}
+.camVfContainer{
+}
+.mobileCam .row button{
+	margin-left: 0px !important;
+}
+.mobileCam .popup{
+	text-align: left;
+	overflow: visible;
+	height: auto;
+	padding: 0px;
+	margin: 0px 0px;
+}
+.mobileCam .popup .text{
+	display: block;
+	display: block;
+	border: 0px;
+	height: 24px;
+	padding: 5px;
+	border: 1px solid #bbc0c4;
+}
+.mobileCam .mouseOverInfoOuter{
+	display: none !important;
+}
+.mobileCam .popUpContent{
+	-webkit-box-shadow: 0 0 0px #fff;
+	-moz-box-shadow: 0 0 0px #fff;
+	box-shadow: 0 0 0px #fff;
+	width: 100% !important;
+	padding: 0px 0px;
+	background: transparent !important;
+}
+.mobileCam .form .col {
+	float: none !important;
+	width: 100%;
+	margin: 0px;
+	padding: 0;
+	text-align: left;
+	border: 0px !important;
+}
+.mobileCam .csFormKey{
+	/*float: none;
+	text-align: left;*/
+	display: none;
+}
+.mobileCam .csFormKey a{
+	margin-bottom: 10px;
+}
+.mobileCam .csFormKey .required{
+	color: #980000;
+	margin-bottom: 10px;
+}
+.mobileCam .popup .last{
+	padding: 0px !important;
+}
+.mobileCam .last a{
+	display: block;
+	width: 30%;
+}
+.mobileCam .umhp{
+	margin: 3px 5px;
+}
+.mobileCam .dsign{
+	margin: 0px 5px;
+}
+.mobileCam .fp{
+	margin-bottom: 10px;
+}
+ .mobileCam .row a{
+	text-align: center;
+	display: block;
+	color: #797979;
+}
+.mobileCam .logHeader {
+	background: #2891D3;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI4OTFkMyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMTdiYmMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #2891D3 0%, #117BBC 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2891D3), color-stop(100%,#117BBC));
+    background: -webkit-linear-gradient(top, #2891D3 0%,#117BBC 100%);
+    background: -o-linear-gradient(top, #2891D3 0%,#117BBC 100%);
+    background: -ms-linear-gradient(top, #2891D3 0%,#117BBC 100%);
+    background: linear-gradient(to bottom, #2891D3 0%,#117BBC 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2891d3', endColorstr='#117bbc',GradientType=0 );
+    height: 45px;
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+}
+.mobileCam .logTitle{
+    margin: 0px auto;
+    color: white;
+    display: block;
+    text-align: center;
+    padding-top: 14px;
+    font-size: 18px;
+}
+.mobileCam .logCancelButton{
+    position: absolute;
+	top: 16px;
+	left: 14px;
+	background: url("{!URLFOR($Resource.um_branding, 'assets/X-Close@2x.png')}") no-repeat 0 0px !important;
+	width: 13px;
+	height: 15px;
+	background-size: contain !important;
+}
+
+.mobileCam .topLeftCancelIconWrapper{
+     width: 45px;
+     position: absolute;
+     height: 45px;
+     left: 0;
+     top :0;
+}
+
+.mobileCam .col label, .mobileCam .col input {
+	clear: both;
+	width:100% !important;
+	padding:0 !important;
+	padding-top:5px !important;
+	padding-bottom: 5px !important;
+	border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+}
+
+.mobileCam .col input {
+	text-indent: 10px !important;
+}
+.mobileCam .col h1 {
+	background-color: #484849;
+	font-size: 13px !important;
+	color: #ffffff;
+	font-weight: normal;
+	text-align: center;
+	height: 18px;
+	vertical-align: middle;
+	padding-top: 7px;
+	font-size: 13px !important;
+}
+.mobileCam .button {
+	width: 100% !important;
+	margin: 0px !important;
+	padding: 10px 0px !important;
+	border: 0px !important;
+	color: #fff !important;
+	background: #3e9ed8;
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top, #3e9ed8 0%, #117BBC 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3e9ed8), color-stop(100%,#117BBC));
+	background: -webkit-linear-gradient(top, #3e9ed8 0%,#117BBC 100%);
+	background: -o-linear-gradient(top, #3e9ed8 0%,#117BBC 100%);
+	background: -ms-linear-gradient(top, #3e9ed8 0%,#117BBC 100%);
+	background: linear-gradient(to bottom, #3e9ed8 0%,#117BBC 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e9ed8', endColorstr='#117bbc',GradientType=0 );
+	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border:1px #1c78b1 solid !important;
+}
+.mobileCam .form .row .button, .form .row .btn {
+margin:0 !important;
+}
+.mobileCam .form .row h3 {
+	margin: 0 0 10px 0px;
+	color: #3c3d3e;
+	font-size: 15px;
+	text-decoration: none;
+	margin-top: 14px;
+	font-weight: normal !important;
+	margin-right: 3px !important;
+	display: inline-block !important;
+}
+.mobileCam form .row {
+	margin-top: 20px !important;
+}
+.mobileCam form .row.first {
+	text-align: center;
+	margin-top: 10px !important;
+	border-top: 1px solid #BBC0C4 !important;
+	margin-bottom: -15px !important;
+}
+.mobileCam .WrapperForm{
+ 	padding-left:14px;
+ 	padding-right:14px;
+}
+.mobileCam .form.popUpContent {
+	overflow: visible !important;
+}
+.mobileCam .col h1 {
+	display: none;
+}
+.mobileCam .row a {
+	color: #3c3d3e;
+	font-size: 15px;
+	text-decoration: none;
+	margin-top: 14px;
+}
+.mobileCam .row a.signUpToggle {
+	background: transparent !important;
+	border: none !important;
+	display: inline-block;
+	color: #3c3d3e !important;
+	font-weight: bold;
+	font-size: 15px;
+	width: auto !important;
+}
+.mobileCam .divider {
+    margin-top: 14px;
+    height: 1px;
+    border-bottom: 1px solid #BBC0C4;
+    margin-bottom: 0px;
+}
+.mobileCam .notice {
+	margin-top: 19px !important;
+}
+.mobileCam .form .error {
+	border: 1px solid #f8e38e !important;
+	background-color: #ffffdc !important;
+}
+.mobileCam .last .row:last-of-type h3{
+	display: block !important;
+	text-align: center;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+</head>
+<body class="camBody">
+<div class="camVfContainer">
+	<div class="logHeader">
+		<span class="topLeftCancelIconWrapper">
+			<div id="b_logCancelButton" class="logCancelButton"></div>
+		</span>
+  		<span id="b_logTitle" class="logTitle">Log in</span>
+	</div>
+	<!--<div class="col umhp"><a href="umHome">&raquo; Go to home page</a></div>-->
+	<div class="WrapperForm">
+		<chatteranswers:login />
+	</div>
+</div>
+</body>
+</apex:page>

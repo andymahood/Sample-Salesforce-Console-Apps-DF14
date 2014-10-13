@@ -1,0 +1,5 @@
+<apex:page contentType="text/pain">
+User-agent: *
+Disallow:
+Sitemap: {!$Site.CurrentSiteUrl}umSiteMapIndex
+</apex:page>

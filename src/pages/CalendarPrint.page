@@ -1,0 +1,143 @@
+<apex:page controller="CalendarController" sidebar="false" showHeader="flase">
+	<head>
+		<c:Calendar_Includes forPrint="true"/>       
+		<c:Calendar_Custom_JavaScript />
+		
+		<style type="text/css" media="screen">
+			body{
+				background-color: #e3e3e3;
+			}
+			
+			h1, h2{
+				margin: 0;
+			}
+			
+			#calendar{
+				-moz-box-shadow:    0 0 2px 3px #ccc;
+				-webkit-box-shadow: 0 0 2px 3px #ccc;
+				box-shadow:         0 0 2px 3px #ccc;			
+				border: 1px solid #aaa;
+				background-color: white;
+				margin: 5px;
+				padding: 10px;
+			}
+			
+			#preview-text{
+				bottom: 20px;
+				display: block !important;
+				font-family: georgia;
+				right: 20px;
+				position: absolute;			
+			}
+			
+				#preview-text h1{
+					color: #a3a3a3;
+					font-size: 60px;
+				}
+				
+				#preview-text h2{
+					color: orange;
+					font-size: 16px;
+					font-style: italic;
+				}
+		
+		</style>
+		
+	  	<style type="text/css" media="all">
+	  	
+	  		html, body{
+	  			height: 100%;
+	  		}
+	  	
+			#calendar{
+				margin: 0px auto;
+				width: 900px;
+			}
+			
+				#calendar *{
+					font-family: verdana;
+				}
+		
+			div.fc-corner-left{
+				-moz-border-top-left-radius: 10px;
+				-moz-border-bottom-left-radius: 10px;
+				border-top-left-radius: 10px;
+				border-bottom-left-radius: 10px;
+			}
+			
+				div.fc-corner-left div.fc-event-inner{
+					-moz-border-top-left-radius: 10px;
+					-moz-border-bottom-left-radius: 10px;
+					border-top-left-radius: 10px;
+					border-bottom-left-radius: 10px;				
+				}			
+			
+			div.fc-corner-right{
+				-moz-border-top-right-radius: 10px;
+				-moz-border-top-bottom-radius: 10px;
+				border-top-right-radius: 10px;
+				border-bottom-right-radius: 10px;		
+			}
+			
+				div.fc-corner-right div.fc-event-inner{
+					-moz-border-top-right-radius: 10px;
+					-moz-border-bottom-right-radius: 10px;
+					border-top-right-radius: 10px;
+					border-bottom-right-radius: 10px;				
+				}
+			
+			.fc-button{
+				display: none;
+			}
+			
+			.fc-event{
+				border-width: 3px;
+				color: black !important;
+			}
+			
+			div.fc-event-inner{		
+				background-color: white !important;
+			}
+			
+			.fc-event-title{
+				color: black;
+			}
+			
+			table, tr{
+				border-collapse: collapse !important;		
+			}
+			
+			tr{
+				border-bottom: 1px solid #d3d3d3;
+			}
+			
+			td.fc-first div{
+				min-height: 20px !important;
+			}
+			
+			th{
+				border: 0;
+				color: black !important;
+			}
+			
+			.wm {
+				bottom: 20px;
+				left: 20px;			
+				position: absolute;
+			}
+		</style>
+
+    </head>
+    <body id="calendar-app"> 
+        
+        <div id="calendar"></div>
+        <apex:image value="{!URLFOR($Resource.calendar_images, 'tquila-london-wm.png')}" styleclass="wm"/>
+        
+        <div id="preview-text" style="display:none">
+	        <h1>Print Preview</h1>
+	        <h2>Press CMD/CTRL-P to print.</h2>
+        </div>
+        
+    </body>
+    
+</apex:page>

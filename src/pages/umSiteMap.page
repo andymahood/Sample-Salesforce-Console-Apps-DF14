@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<apex:page controller="umSiteMap" contentType="text/xml" showHeader="false" cache="false"  readOnly="true"><!-- contentType="text/xml"  -->
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<apex:repeat id="faqrepeat" var="d" value="{!articleList}" rendered="{!type=='a'}">
+	<apex:variable var="articleURL" value="{!$Site.CurrentSiteUrl}articles/{!HTMLENCODE(d.aType)}/{!d.urlName}/?l={!HTMLENCODE(lang)}/" />
+	<url>
+		<loc>{!articleURL} </loc>
+		<lastmod>{!d.lastpublisheddate}</lastmod>
+		<priority>0.5</priority>
+	</url>
+</apex:repeat>
+<apex:repeat id="qrepeat" var="q" value="{!questionList}" rendered="{!type=='q'}">
+	<apex:variable var="questionURL" value="{!$Site.CurrentSiteUrl}{!HTMLENCODE(q.ZoneName)}?id={!q.id}&amp;title={!HTMLENCODE(q.UrlName)}" />
+	<url>
+		<loc>{!questionURL} </loc>
+		<lastmod>{!q.createdDate}</lastmod>
+		<priority>0.5</priority>
+	</url>
+</apex:repeat>
+</urlset>
+</apex:page>

@@ -1,0 +1,176 @@
+<apex:page controller="CalendarController" sidebar="false" showHeader="{!IF($CurrentPage.Parameters.showHeader == 'false', false, true)}">
+    <head>
+        <c:Calendar_Includes />       
+        <c:Calendar_Custom_JavaScript />
+        <script type="text/javascript" src="{!URLFOR($Resource.jquery_colourpicker,'jquery.simple-color.js')}"></script>
+        <c:Calendar_Custom_Css />        
+ 
+    </head>
+    <body id="calendar-app">
+        
+        <div id="notify-pop" />
+        <div id="side-bar" style="display: {!IF($CurrentPage.Parameters.showHeader == 'false', 'none', 'block')}">
+
+            <div id="actions" class="sidebar-section"> 
+                <h2 style="position: relative">Actions</h2> 
+                <div id="warnings"></div>
+                <ul class="buttons">
+                    <li>
+                        <a id="btn-show-filter" href="#" class="button large">Filter Calendar</a>
+                    </li>
+                    <li>
+                        <a id="btn-print" class="button large" href="#" target="_blank">Print Preview</a>
+                    </li>   
+                    <li>
+                        <a id="btn-change-colours" class="button large" href="#">Change Event Colors</a>
+                    </li>                                
+                    <li>
+                        <a id="btn-clear-filter" class="koButton large" href="#" style="display:none">&#215; Clear All Filters</a>
+                    </li>     
+                </ul>
+                
+                <div class="clear"></div>
+            </div>
+            
+            <div id="Config" class="sidebar-section"> 
+            <h2>Object Setup</h2>
+                <br/><br/>
+                <apex:form >
+                        
+                    <apex:outputLabel value="Salesforce Object" for="objectName"/>
+                    <select id="objectName" class="config-field-name ui-state-default ui-corner-all" size="1">
+                    </select>
+                    
+                    <apex:outputpanel id="oPanel">
+                        <apex:outputLabel value="Start Date" for="startDate"/>
+                        <select id="startDate" class="config-field-name ui-state-default ui-corner-all" size="1">
+                        </select>
+                        
+                        <apex:outputLabel value="End Date" for="endDate"/>
+                        <select id="endDate" class="config-field-name ui-state-default ui-corner-all" size="1">
+                        </select>
+                        <br/><br/>
+                        
+                        <div style="display:none;">
+                            <input id="default_set" type="checkbox" />
+                            <label for="default_set">Save as Default</label>
+                        </div>
+                    <a class="goButton large" href="#" id="fetchRecords">Load Records</a>
+                    
+                    </apex:outputpanel>
+                        
+                </apex:form>
+            </div>
+            
+            <!-- Container for pops JS will populate  -->
+            <div id="campaignInfoPopOvr" />
+        
+            <div id="support" class="sidebar-section">
+                <h2>Help</h2>
+                <ul class="buttons">                    
+                    <li>
+                        <a id="btn-show-help" target="_blank" href="#" class="button large">Getting Started</a>
+                    </li>                                
+                </ul>
+                
+                <div class="clear"></div>               
+            </div>
+        </div>
+        
+        <div id="calendar-container" style="margin-left:220px">
+            <div id="dashboard" style="display: {!IF($CurrentPage.Parameters.showHeader == 'false', 'none', 'block')}" />
+            <div id="calendar"></div>
+        </div>
+        
+        
+        <div id="filter-dialog" style="display:none">
+        
+            <!-- plugin starts here -->
+            <apex:form id="filter-form">
+            
+                <!-- <apex:actionFunction action="{!loadColourRecordsForSObject}" name="rerenderDependencies" rerender="colour-picker-list,campaignInfoPopOvr" oncomplete="refreshColourPickers();"/>  -->
+                
+                <div>
+                    <h2>Please select the criteria for your filter below.</h2>
+                </div>
+                
+                <div id="filter-criteria-wrapper">
+                    <div id="filter-set-1" class="active filter-expression">
+                        <div class="left">
+                            <select name="filter-field-name" class="filter-field-name ui-state-default ui-corner-all" size="1">
+                            </select>
+                        </div>
+                        
+                        <div class="left">
+                            <select size="1" name="filter-operator-type" class="filter-operator-type ui-state-default ui-corner-all"></select>
+                        </div>              
+        
+                        <div class="left">
+                            <input type="text" name="filter-field-value" class="filter-field-value ui-state-default ui-corner-all required" style="display:none"/>
+                            
+                            <select size="1" name="select-filter-field-value" class="select-filter-field-value ui-state-default ui-corner-all" style="display:none"></select>
+                            
+                            <input type="hidden" value="" class="real-date-value" />
+                        </div>
+                    </div>
+                    
+                    <div class="left">
+                        <a href="#" id="add-criteria" name="add-criteria" class="button small" style="color: green">+</a>
+                        
+                        <div id="and-or" style="display:none">
+                            <input type="radio" id="option-and" name="radio" value="AND" checked="checked"/> <label for="option-and">AND</label>
+                            <input type="radio" id="option-or" name="radio" value="OR"/> <label for="option-or">OR</label>
+                        </div>
+                    </div>  
+                                    
+                    <!-- Place holder for the second criteria -->
+                    <div id="filter-set-2" style="display:none" class="inactive filter-expression">
+                   
+                    </div>  
+                    
+                    <a href="#" id="remove-criteria" name="remove-criteria" class="button small left" style="color:red !important;display:none">&#215;</a>                                        
+                    
+                    <div class="clear"></div> 
+                
+                </div>
+                <div class="left defCheck">
+                    <input id="default_filter_set" name="default_filter_set_name" type="checkbox" />
+                    <label for="default_filter_set">Save this filter as default</label>
+                </div> 
+                <div class="left">
+                    <a href="#" id="btn-filter-apply" class="button med">Apply</a>
+                </div>
+                <div class="left" style="margin-left: 6px">
+                    <a id="btn-reset-filter" class="koButton med" href="#">Reset</a>
+                </div>
+            </apex:form>
+        </div>
+        
+        <div id="detail-iframe-dialog" style="display:none">
+            <iframe id="record-detail"/>
+        </div>
+        
+        <div id="colour-picker-dialog" style="display:none">
+            <p>
+                Please select the colour you'd like each record to use when displayed in the calendar. The color
+                picker only shows the events displayed in the current calendar view.
+            </p>
+            <div id="record-color-container">
+                <apex:outputPanel id="colour-picker-list" layout="block">
+                    <div></div>
+                </apex:outputPanel>
+            </div>
+            
+        </div>
+        
+        <script type="text/javascript">
+          var uvOptions = {};
+          (function() {
+            var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+            uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/D1bu7vE4BYuSw7MXbdJ5AQ.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+          })();
+        </script>               
+    </body>
+    
+</apex:page>

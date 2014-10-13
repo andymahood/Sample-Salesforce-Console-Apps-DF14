@@ -1,0 +1,482 @@
+<apex:component >
+    <style type="text/css">
+        
+        .dashboard {
+            padding: 6px 14px 6px 14px;
+            margin-bottom: 5px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+            text-align: center;
+            border: 1px solid #FBEED5;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            color: #468847;
+            background-color: #DFF0D8;
+            border-color: #D6E9C6;
+        }
+        
+        .alert {
+            color: #C09853;
+            background-color: #FCF8E3;
+            border: 1px solid #FBEED5;
+        }
+            
+        .warningText {
+            background-image : url({!URLFOR($Resource.icon_set,'alert-triangle-red.png')});
+            background-repeat: no-repeat;
+            padding-left: 20px;
+            text-align: left;
+        }
+        
+        body .bodyDiv {
+            font-size: 13px;
+        }
+    
+        #calendar {
+            margin: 0 auto;
+        }
+        
+        .clear{
+            clear: both;
+        }
+        
+        .error{
+            color: red;
+        }
+        
+        #config-wrapper .button, #and-or{
+            margin: 5px 0;
+        }
+        
+        .config-field-name{
+            margin-right: 5px;
+            width: 183px;
+        }
+        
+        #filter-criteria-wrapper .button, #and-or{
+            margin: 5px 0;
+        }
+        
+        .filter-expression{
+            float: left;
+            margin: 5px 0;
+        }
+        
+        .filter-field-name{
+            margin-right: 5px;
+            width: 300px;
+        }
+        
+        .filter-operator-type{
+            margin-right: 5px;
+            width: 110px;
+        }
+        
+        .filter-field-value, .select-filter-field-value{
+            width: 110px;
+        }
+
+        #filter-dialog .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+            padding: 2px 5px;   
+        }
+        
+        #filter-dialog .ui-button-text{
+            padding: 0 !important;
+        }       
+        
+        .float-left{
+            float:left;
+        }
+        
+        .label{
+            clear: both;
+            color: #1C94C4;
+            float: left;
+            font-weight: bold;
+            margin: 0 20px 0 0;
+            text-align: right;
+            width: 100px;
+        }
+        
+        #record-color-container{
+            height: 400px;
+            overflow-y: scroll;
+            overflow-x: visible;
+        }
+        
+        #record-detail{
+            border: 0;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .record-to-colour{
+            background-color: white;
+            border: 1px solid whitesmoke;
+            margin: 2px 0;
+            padding: 3px;
+        }
+        
+        .record-to-colour label{
+            float: left;
+            font-size: 12px;
+            line-height: 21px;
+            width: 155px;
+        }
+        
+        .record-to-colour .simpleColorContainer{
+            float: left;
+        }
+
+        .ui-buttonset{
+            margin: 0 4px;
+        }
+        
+        ul.buttons, .buttons li{
+            margin: 0;
+            padding: 0;
+        }
+        
+        ul.buttons{
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        ul.buttons li{
+            float: left;
+            font-size: 12px;
+            list-style: none;
+            margin: 2px;
+            padding: 4px;               
+        }
+            
+        ul.buttons .ui-button-text{
+            font-size: 12px;
+        }
+        
+        ul.buttons .ui-button{
+            width: 100%;
+        }
+                
+        #side-bar{
+            float: right;
+            width: 215px;
+        }
+                
+        .sidebar-section{
+            background-color: whitesmoke;
+            border: 1px solid #e3e3e3;
+            margin-bottom: 5px;
+            padding: 5px 15px;
+        }
+        
+        .sidebar-section h2{
+            color: #333;
+            font-size: 22px;
+            /* font-family: 'Droid Serif', serif; */
+        }
+            
+        /* jQuery UI overrides */
+        .fc-content{
+            clear: none;
+        }
+        
+        .fc-header-title h2{
+            font-size: 22px;
+            font-family: 'Droid Serif', serif;
+        }
+        
+        /* jQuery notification overrides */
+        #bart_title{
+            display: block;
+            font-size: 24px;
+        }
+        
+        #bart_text{
+            font-size: 16px;
+        }
+        
+        #bart_wrapper{
+            z-index: 9999;
+        }
+        
+        /* Button stuff */
+        .koButton {
+            background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #fa665a), color-stop(1, #d34639) );
+            background:-moz-linear-gradient( center top, #fa665a 5%, #d34639 100% );
+            background-color:#fa665a;
+            -moz-box-shadow: inset 0px 1px 0px 0px #fab3ad;
+            -webkit-box-shadow: inset 0px 1px 0px 0px #FAB3AD;
+            box-shadow: inset 0px 1px 0px 0px #FAB3AD;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px; 
+            border: 1px solid #D83526;
+            text-shadow: 0px 1px 0px #98231A;
+            padding: 10px 20px;
+            display: block;
+            font-family: Lucida Grande;
+            font-size: 12px;
+            line-height: 8px;
+            color: #FFFFFF !important;
+            height: 10px;
+            text-decoration: none;  
+            text-align: center;
+        }
+
+        .koButton:hover {
+            background: #FA665A;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FA665A), color-stop(100%,#FF4940));
+            background: -moz-linear-gradient(center top, #FA665A 0%, #FF4940 100%);
+            color: white;
+            text-decoration: none;          
+        }
+
+        .koButton:active {
+            background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #D34639), color-stop(1, #FA665A) );
+            background: -moz-linear-gradient( center top, #D34639 5%, #FA665A 100% );
+            -webkit-box-shadow: 0px 1px 0px 0px #FAB3AD inset;
+            -moz-box-shadow: 0px 1px 0px 0px #FAB3AD inset;
+            box-shadow: 0px 1px 0px 0px #FAB3AD inset;
+            text-decoration: none;          
+        }
+
+        .koButton.large{
+            width: 130px;
+        }
+        
+        .koButton.med{
+            width: 60px;
+        }
+             
+        .goButton {
+            margin-top: 15px;
+            margin-left: 6px;
+            background: #89C403;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#89C403), color-stop(100%,#77A809));
+            background: -moz-linear-gradient(center top, #89C403 0%, #77A809 100%);
+            -webkit-box-shadow: 0px 1px 0px 0px #A4E271 inset, 0px -1px 0px 0px #0d2803 inset, 0px 2px 2px 0px #d4d4d4;
+            -moz-box-shadow: 0px 1px 0px 0px #A4E271 inset, 0px -1px 0px 0px #0d2803 inset, 0px 2px 2px 0px #d4d4d4;
+            box-shadow: 0px 1px 0px 0px #A4E271 inset, 0px -1px 0px 0px #0d2803 inset, 0px 2px 2px 0px #d4d4d4;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px; 
+            border-color: #a8d173;
+            border-width: 1px;
+            border-style: solid;
+            text-shadow: 1px 1px 0px #528009;
+            padding: 10px 20px;
+            display: block;
+            font-family: Lucida Grande;
+            font-size: 12px;
+            line-height: 8px;
+            color: #FFFFFF !important;
+            height: 10px;
+            text-decoration: none;  
+            text-align: center;
+        }
+
+        .goButton:hover {
+            background: #47d60e;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8AA37B), color-stop(100%,#89C403));
+            background: -moz-linear-gradient(center top, #8AA37B 0%, #89C403 100%);
+            color: white;
+            text-decoration: none;          
+        }
+
+        .goButton:active {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#77A809), color-stop(100%,#89C403));
+            background: -moz-linear-gradient(center top, #77A809 0%, #89C403 100%);
+            -webkit-box-shadow: 0px 1px 0px 0px #a3c229 inset;
+            -moz-box-shadow: 0px 1px 0px 0px #a3c229 inset;
+            box-shadow: 0px 1px 0px 0px #a3c229 inset;
+            
+            text-decoration: none;          
+        }       
+        
+        .goButton.large{
+            width: 130px;
+        }
+            
+        .button {
+            background: #79bbff;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#79bbff), color-stop(100%,#4197ee));
+            background:-moz-linear-gradient( center top, #79bbff 5%, #4197ee 100% );
+            -webkit-box-shadow: 0px 1px 0px 0px #8ad0ff inset, 0px -1px 0px 0px #004666 inset, 0px 2px 2px 0px #d4d4d4;
+            -moz-box-shadow: 0px 1px 0px 0px #8ad0ff inset, 0px -1px 0px 0px #004666 inset, 0px 2px 2px 0px #d4d4d4;
+            box-shadow: 0px 1px 0px 0px #8ad0ff inset, 0px -1px 0px 0px #004666 inset, 0px 2px 2px 0px #d4d4d4;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px; 
+            text-shadow: 0px 1px 0px #123e80;
+            padding: 10px 20px;
+            display: block;
+            border-color: #73a8d1;
+            border-width: 1px;
+            border-style: solid;
+            font-family: Lucida Grande;
+            font-size: 12px;
+            line-height: 8px;
+            color: #FFFFFF !important;
+            height: 10px;
+            
+            text-decoration: none;  
+            text-align: center;     
+        }
+
+        .button:hover {
+            background: #86a6f7;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#79bbff), color-stop(100%,#4097ff));
+            background: -moz-linear-gradient(center top, #79bbff 0%, #4097ff 100%);         color: white;
+            
+            text-decoration: none;          
+        }
+
+        .button:active {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e669e), color-stop(100%,#82b3f0));
+            background: -moz-linear-gradient(center top, #1e669e 0%, #82b3f0 100%);
+            -webkit-box-shadow: 0px 1px 0px 0px #a3c229 inset;
+            -moz-box-shadow: 0px 1px 0px 0px #a3c229 inset;
+            box-shadow: 0px 1px 0px 0px #a3c229 inset;
+            
+            text-decoration: none;          
+        }       
+        
+        .button.large{
+            width: 130px;
+        }
+        
+        .button.med{
+            width: 60px;
+        }
+        
+        .button.small{
+            height: 10px;
+            padding: 5px 10px;          
+            width: 10px;
+        }
+            
+        .disabled {
+            background : #E3E3E3;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#A9A9A9), color-stop(100%,#E3E3E3));
+            background: -moz-linear-gradient(center top, #A9A9A9 0%, #E3E3E3 100%);
+            -webkit-box-shadow: 0px 1px 0px 0px #A9A9A9 inset, 0px -1px 0px 0px #E3E3E3 inset, 0px 2px 2px 0px #E3E3E3;
+            -moz-box-shadow: 0px 1px 0px 0px #A9A9A9 inset, 0px -1px 0px 0px #E3E3E3 inset, 0px 2px 2px 0px #E3E3E3;
+            box-shadow: 0px 1px 0px 0px #A9A9A9 inset, 0px -1px 0px 0px #E3E3E3 inset, 0px 2px 2px 0px #E3E3E3;
+            border-color: grey;
+            cursor : none;
+        }
+    
+        .disabled:hover {
+            background : #E3E3E3;
+            background : -webkit-gradient(linear, left top, left bottom, color-stop(0%,#A9A9A9), color-stop(100%,#E3E3E3));
+            background : -moz-linear-gradient(center top, #A9A9A9 0%, #E3E3E3 100%);
+            cursor : none;      
+        }
+    
+        .notyMsg {
+            float:right;
+            width:250px;
+        }
+        
+        .notyImg {
+            float:left;
+            width:10px;
+        }
+    
+        .hover {
+            padding: 8px 35px 8px 14px;
+            margin-bottom: 18px;
+            color: #C09853;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+            background-color: #FCF8E3;
+            border: 1px solid #C09853;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+        .hover-info {
+            color: #C09853;
+            background-color: #FCF8E3;
+            border-color: #C09853;
+        }
+    
+        .defCheck {
+            width:600px;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        .event-padding {
+            padding: 5px;
+        }
+
+        .fc-event-title {
+            font-size: 1.2em;
+            font-family: Verdana;
+        }
+
+        .ui-widget-header {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-size: 1.3em;
+        }
+
+        .fc-header-title h2 {
+            font-family: Verdana;
+        }
+       
+        .legend-table td.colour {
+            width: 20px;
+        }
+
+        .legend-table td {
+            padding: 5px;
+        }
+
+        #calendar-totals {
+            margin-top: 20px;
+        }
+
+        #calendar-totals .total {
+            float:right;
+            width:200px;
+            font-size: 1.2em;
+            text-align:right;
+        }
+
+        #calendar-header .viewing-as {
+            float:left;
+            width: 400px;
+        }
+
+        #calendar-header .legend {
+            float:right;
+        }
+
+        .userSelect {
+            cursor: pointer;
+        }
+
+        .userSelect:hover {
+            text-decoration: underline;
+        }
+
+        .current-user {
+            font-weight: bold;
+            margin-right: 20px;
+        }
+        
+        #legend {
+            clear:both;
+            margin-top:30px;
+        }
+
+        .totals-row td {
+            padding: 5px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+    </style>
+</apex:component>

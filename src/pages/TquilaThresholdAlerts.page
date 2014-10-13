@@ -1,0 +1,82 @@
+<apex:page sidebar="false" standardStylesheets="false" title="Tquila Threshold Alerts - {!$User.FirstName} {!$User.LastName} - {!$User.Email} - {!$Organization.Name}">
+<head>
+<style>
+.buttonApp {
+    float:left; 
+    margin:5px; 
+    min-width: 275px; 
+    max-width: 250px; 
+    height: 35px; 
+    background-color: rgba(255, 102, 0, 0.9); 
+    text-decoration: none; 
+    cursor: pointer; 
+    color:#ffffff; line-height:35px;
+    text-transform:uppercase; 
+    font-size: 0.9em; 
+}
+</style>
+ <!-- Shared assets -->
+        <apex:stylesheet value="{!$Resource.shared}" /> 
+
+        <!-- Example assets -->
+        <apex:stylesheet value="{!$Resource.jcarouselbasic}" />
+
+        <apex:includeScript value="{!$Resource.jquery}" />
+        <apex:includeScript value="{!$Resource.jcarouselJS}" />
+        <apex:includeScript value="{!$Resource.jcarouselbasicJS}" />
+        <apex:includeScript value="https://fast.fonts.net/jsapi/86a39b12-09b3-482c-a543-82b688c9307e.js" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-49208058-5']);
+  _gaq.push(['_setDomainName', 'force.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+    <!-- start -->
+    <div class="wrapper"> 
+
+            <!-- slider start -->
+            <div class="jcarousel-wrapper">
+                <div class="jcarousel">
+                    <ul>
+                        <li style="margin-left:0px;"><img src="{!URLFOR($Resource.R6Alert, 'R6Alert/radian6-slider-1.png')}" width="1000" height="480" alt="" /></li>
+                        <li style="margin-left:0px;"><img src="{!URLFOR($Resource.R6Alert, 'R6Alert/radian6-slider-2.png')}" width="1000" height="480" alt="" /></li>
+                        <li style="margin-left:0px;"><img src="{!URLFOR($Resource.R6Alert, 'R6Alert/radian6-slider-3.png')}" width="1000" height="480" alt="" /></li>
+                    </ul>
+                </div>
+
+                <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+                <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+                <p class="jcarousel-pagination"></p>
+            
+            </div>
+            <!-- slider end -->
+
+            <!-- more info -->
+            <div class="tContainer tx txCentre">
+            <p class="th2 txCentre">Be proactive, not reactive.</p>
+            <p class="tx txCentre">Tquila Threshold Alerts is an integration piece between the Marketing Cloud's Radian 6 and Salesforce. Once a given threshold for a chosen Radian6 topic has been reached, an alert is triggered and delivered by email, chatter post or SMS.</p>
+            <div style="width:100%;">
+                <!--<div style="width:570px; margin:auto;">
+                    <div class="buttonApp" onclick="location.href='http://www.tquila.com','_blank';">Download information sheet</div>
+                    <div class="buttonApp" onclick="location.href='http://www.tquila.com','_blank';">R6 Alert demo script</div>
+                   
+                </div>-->
+            </div>
+        </div>
+            <!-- more info -->
+   
+    </div>
+    <!-- end -->
+
+</apex:page>

@@ -1,0 +1,38 @@
+<apex:component layout="none">
+	<apex:includeScript value="https://cdn.goinstant.net/v1/platform.min.js" />
+	<script type='text/javascript'>
+        function giConnect(roomName, cb) {
+            cb = cb || function() {};
+            var fullUrl = giConnectUrl();
+            if (!fullUrl) {
+                return;
+            }
+            
+            goinstant.connect(fullUrl, {rooms: [roomName, 'lobby']}, function(err, connection, roomObj, lobby) {
+                
+                if (err) {
+                    console.log('Error connecting to GoInstant:', err, err.message);
+                    return cb(err);
+                }
+                window.giRoom = roomObj;
+                window.giLobby = lobby;
+                window.giConnection = connection;
+                
+                $(document).trigger('GOINSTANT_CONNECTED');
+                    
+                cb();
+            });
+        }
+        
+        function getRoomName() {
+            var roomName = sessionStorage.gi_demo_room;
+            if (roomName) {
+                return roomName;
+            }
+            
+            roomName = Math.floor((Math.random()*100)) + '-' + Math.floor((Math.random()*10000));
+            sessionStorage.gi_demo_room = roomName;
+            return roomName;
+        }
+    </script>
+</apex:component>

@@ -1,0 +1,1387 @@
+<apex:component >
+        <script type="text/javascript">
+        	
+        	jQuery(document).ready(function($) {
+            	
+            	// Caching Object Ids
+            	$filterfieldname1 = $('#filter-set-1').children().find('.filter-field-name');
+				$filteroperatortype1 = $('#filter-set-1').children().find('.filter-operator-type');
+				$filterfieldvalue1 = $('#filter-set-1').children().find('.filter-field-value');
+				$selectfilterfieldvalue1 = $('#filter-set-1').children().find('.select-filter-field-value');
+				$altfilterfieldvalue1 = $('#filter-set-1').children().find('.real-date-value');
+            	$objectNameSelectList = $('[id$=objectName]');
+            	$startDateSelectList = $('[id$=startDate]');
+            	$endDateSelectList = $('[id$=endDate]');
+            	$colourPickerList = $('[id$=colour-picker-list]');
+            	$defaultCheckbox = $('[id$=default_set]');
+            	$defaultFilterCheckbox = $('[id$=default_filter_set]');
+				$configPanel = $('[id$=Config]');
+				$colorPalet = $('[id$=colour-picker-list]').children('div');
+				$colorMessages = $('[id$=colour-picker-messages]');
+            	
+            	objectName = '';
+            	startdate = '';
+                endDate = '';
+	            objText = '';
+	            startText = '';
+	            endText = '';
+            	whereCls = '';
+            	ffName1 = '';
+            	ffOpp1 = '';
+            	ffVal1 = '';
+            	ffAlt1 = '';
+            	ffName2 = '';
+            	ffOpp2 = '';
+           		ffVal2 = '';
+           		ffAlt2 = '';
+            	conjunctive = '';
+            	firstFilterField = '';
+            	
+	            defaultFilterSet = false;
+	            secondFilterSet = false;
+            	// Work around for the managed package namespace bug: vincent was here
+            	if(typeof tlcalendar === 'undefined'){
+            		window["tlcalendar"] = {};
+            		
+            		tlcalendar.CalendarController = CalendarController;
+            	}
+				//Set default Calendar Credentials
+            	tlcalendar.CalendarController.getDefaultSetting(function(result, event) {
+	            	if( result.length ) {
+	            		$.each(result, function(index, record) {
+	            			// From each Custom setting extract and assign the corresponding 
+	            			// Calendar variable
+	                    	objectName = record.tlcalendar__ObjectName__c;
+	                    	startdate = record.tlcalendar__StartDate__c;
+                			endDate = record.tlcalendar__EndDate__c;
+                			objText = record.tlcalendar__ObjectLabel__c;
+				            startText = record.tlcalendar__StartLabel__c;
+				            endText = record.tlcalendar__EndLabel__c;
+				            whereCls = record.tlcalendar__Where__c;
+				            conjunctive = record.tlcalendar__Logical_Operator__c;
+				            if ( typeof whereCls !== 'undefined' ) {
+				            	defaultFilterSet = true;
+				            	ffName1 = record.tlcalendar__Ffname1__c;
+				            	ffOpp1 = record.tlcalendar__Ffopp1__c;
+				            	ffVal1 = record.tlcalendar__Ffval1__c;
+				            	ffAlt1 = record.tlcalendar__altDateDT1__c;
+				            }
+				            if ( typeof conjunctive !== 'undefined' ) {
+				            	secondFilterSet = true;
+				            	ffName2 = record.tlcalendar__Ffname2__c;
+				            	ffOpp2 = record.tlcalendar__Ffopp2__c;
+				           		ffVal2 = record.tlcalendar__Ffval2__c;
+				           		ffAlt2 = record.tlcalendar__altDateDT2__c;
+				            }
+						});
+	            	}
+
+	            	applicationInit();
+	            }, {escape: false});
+
+            });
+            
+            function applicationInit() {
+            	
+            	saveException = '';
+            	viewKey = ""; // Represents the current view of the Calendar i.e Object, Fields and Filter
+            	cachcedEvents = "";
+            	isLoading = '';
+            	currentViewStart = '';
+        		currentViewEnd = '';
+        		_conditions = '';
+        		buildByDefault = false;
+        		
+				$defaultFilterCheckbox.change( function() {
+					obName = $objectNameSelectList.val();
+			        startName = $startDateSelectList.val();
+			        endName = $endDateSelectList.val();
+			        obLabel = $objectNameSelectList.find('option:selected').text();
+			        startLabel = $startDateSelectList.find('option:selected').text();
+			        endLabel = $endDateSelectList.find('option:selected').text();
+			        var $filterfieldname2 = '';
+					var	$filteroperatortype2 = '';
+					var	$filterfieldvalue2 = '';
+			        currentFilter = new filterWrapper(
+			        					$filterfieldname1.find('option:selected').text(),
+			        					$filteroperatortype1.find('option:selected').text(),
+			        					$filterfieldvalue1.val() == ''? $selectfilterfieldvalue1.find('option:selected').text() : $filterfieldvalue1.val(),
+										$altfilterfieldvalue1.val()
+									);
+
+			        if($('#filter-set-2').hasClass('active')) {
+			        	$filterfieldname2 = $('#filter-set-2').children().find('.filter-field-name');
+						$filteroperatortype2 = $('#filter-set-2').children().find('.filter-operator-type');
+						$filterfieldvalue2 = $('#filter-set-2').children().find('.filter-field-value');
+						$selectfilterfieldvalue2 = $('#filter-set-2').children().find('.select-filter-field-value');
+						$altfilterfieldvalue2 = $('#filter-set-2').children().find('.real-date-value');
+			        	currentFilter.filterField2 = $filterfieldname2.find('option:selected').text();
+			        	currentFilter.filterOpp2 = $filteroperatortype2.find('option:selected').text();
+			        	currentFilter.filterVal2 = $filterfieldvalue2.val() == ''? $selectfilterfieldvalue2.find('option:selected').text() : $filterfieldvalue2.val();
+			        	currentFilter.conjunction = $('input[type=radio]:checked', '#and-or').val();
+			        	currentFilter.alt2 = $altfilterfieldvalue2.val();
+			        }
+
+					if($defaultFilterCheckbox.is(':checked')){
+						var currentCondition = findWhereClause();
+				        tlcalendar.CalendarController.setDefaultSetting( obName, startName, endName, obLabel, startLabel, endLabel, currentCondition, currentFilter, function(result, event) {
+		            		if(result) {
+		            			messageUser('alert','The current filter has been set as default.');
+		            		}else{
+				            	$defaultCheckbox.removeAttr('checked');
+				            	messageUser('alert','Unable to save default setting. Please contact your system administrator.');
+				            }
+		            	}, {escape: false});
+	            	}
+	            	if(!$defaultFilterCheckbox.is(':checked')) {
+	            		removeFilterDefault(obName, startName, endName, obLabel, startLabel, endLabel);
+	            	}
+	            });
+        		
+        		function removeFilterDefault(obName, startName, endName, obLabel, startLabel, endLabel){
+        			currentFilter = new filterWrapper();
+            		tlcalendar.CalendarController.setDefaultSetting( obName, startName, endName, obLabel, startLabel, endLabel, '', currentFilter, function(result, event) {
+	            		if(result) {
+	            			messageUser('alert','The default filter has been removed.');
+	            		}
+	            	}, {escape: false});
+        		}
+        		
+				// Check or Uncheck the Default Checkbox based on defaults being
+				// selected using the Object and Field Checkboxes
+				function controlDefaultCheckbox() {
+					var nowObName = $objectNameSelectList.val();
+			        var nowStartName = $startDateSelectList.val();
+			        var nowEndName = $endDateSelectList.val();
+			        var currentFilter = new filterWrapper();
+			        tlcalendar.CalendarController.isDefaultSetting( nowObName, nowStartName, nowEndName, currentFilter, function(result, event) {
+			            if(result) {
+			            	$defaultCheckbox.attr('checked','true');
+			            }else{
+			            	$defaultCheckbox.removeAttr('checked');
+			            }
+		            }, {escape: false});
+				}
+
+				// When User Checks or Unchecks the checkbox, 
+				// Create or Delete or Update Custom Setting Accordingly
+	            $defaultCheckbox.change( function() {
+	            	if($defaultCheckbox.is(':checked')){
+	            		obName = $objectNameSelectList.val();
+				        startName = $startDateSelectList.val();
+				        endName = $endDateSelectList.val();
+				        obLabel = $objectNameSelectList.find('option:selected').text();
+				        startLabel = $startDateSelectList.find('option:selected').text();
+				        endLabel = $endDateSelectList.find('option:selected').text();
+				        currentFilter = new filterWrapper();
+				        tlcalendar.CalendarController.setDefaultSetting( obName, startName, endName, obLabel, startLabel, endLabel, '', currentFilter, function(result, event) {
+		            		if(result) {
+		            			messageUser('alert','The <strong>'+obLabel+'</strong> object with "start date" as <strong>'+startLabel+'</strong> and "end date" as <strong>'+endLabel+'</strong> has been set as default.');
+		            		}else{
+				            	$defaultCheckbox.removeAttr('checked');
+				            	messageUser('alert','Unable to save default setting. Please contact your system administrator.');
+				            }
+		            	}, {escape: false});
+	            	}
+	            	if(!$defaultCheckbox.is(':checked')) {
+	            		tlcalendar.CalendarController.deleteDefaultSetting ( function(result, event) {
+	            			if(result) {
+		            			messageUser('alert','The default setting has been removed.');
+		            		}
+		            	}, {escape: false});
+	            	}
+	            });
+
+            	// Fetch the objects from salesforce and populates it in the select box
+            	tlcalendar.CalendarController.getObjectsList(function(selectValues, event) {
+                    if ( !objectName.length ) {
+	                    $objectNameSelectList
+	                                .append($("<option></option>")
+	                                .attr("value","none")
+	                                .text("Select Salesforce Object")); 
+					}
+                    // Loop through each option and assign it to the select List
+                    $.each(selectValues, function(index, option) {
+                    	                    
+						$objectNameSelectList
+                                .append($("<option></option>")
+                                .attr("value",option.label)
+                                .text(option.value)); 
+						if(option.label == objectName){
+                        	$objectNameSelectList
+                            	.children("option")
+                                .attr("selected",'selected'); 
+                        }
+                    	
+                    });
+	            }, {escape: false});
+
+	            if ( objectName.length ) {
+	           		$('#btn-show-filter').addClass('disabled');
+	            	$('#btn-print').addClass('disabled');
+	            	$('#btn-change-colours').addClass('disabled');
+	            	setDashboard('display','Loading Events ...');
+	            	$defaultCheckbox.attr('checked','true');
+	            	if ( defaultFilterSet ) {
+						$defaultFilterCheckbox.attr('checked','true');
+						$('#btn-clear-filter').addClass('disabled').show();
+						_conditions = ' '+whereCls;
+	            	}
+		            // On Page load Fetch the fields for the selected Object
+		            tlcalendar.CalendarController.getAllFieldList( objectName, true, function(selectValues, event) {
+							$.each(selectValues, function(index, option) {
+		                        	$filterfieldname1
+		                            	.append($("<option></option>")
+		                                .attr("value",option.value)
+		                                .text(option.label)); 
+		                            if ( defaultFilterSet ) {
+		                            	if ( option.label == ffName1 ) {
+		                            		firstFilterField = option.value;
+		                            		$filterfieldname1
+			                            		.children("option")
+				                                .attr("selected",'selected'); 
+		                            	}
+		                            }
+			                });
+			                
+			                /* Taking a note of first field in the list of fields to load filter dialog */
+			                if ( !defaultFilterSet ) {
+			                	firstFilterField = selectValues[0].value;
+			                } else {
+			                	buildByDefault = true;
+			                }
+
+			                /* initialise filter form */
+                			setFilterExpressionFields('#filter-set-1');
+                			
+			                if ( secondFilterSet ) {
+								secondFilterClone();
+	            			}
+	            			
+					}, {escape: false});
+
+		            tlcalendar.CalendarController.getDateTimeFieldList( objectName, function(selectValues, event) {
+
+							$.each(selectValues, function(index, option) {
+
+									$startDateSelectList
+		                            	.append($("<option></option>")
+		                                .attr("value",option.value)
+		                                .text(option.label));
+									$endDateSelectList
+		                            	.append($("<option></option>")
+		                                .attr("value",option.value)
+		                                .text(option.label));
+									if(option.value == startdate){
+			                        	$startDateSelectList
+			                            	.children("option")
+			                                .attr("selected",'selected'); 
+			                        }
+									if(option.value == endDate){
+										$endDateSelectList
+			                            	.children("option")
+			                                .attr("selected",'selected'); 
+			                        }
+			                });
+							//Moderate controlled picklist by disabling the option selected in the
+							//controlling picklist  
+							controlPiclists($startDateSelectList, $endDateSelectList);
+
+					}, {escape: false});  
+	            }
+	            else {
+	            	$('#btn-show-filter').addClass('disabled');
+	            	$('#btn-print').addClass('disabled');
+	            	$('#btn-change-colours').addClass('disabled');
+	            	$('[id$=oPanel]').hide("fast");
+	            }
+
+	            // When a new object is selected Control the Start and End Date fields in the picklist!!
+	            $objectNameSelectList.change( function() {
+
+	            	$objectNameSelectList.find('option:contains("Select Salesforce Object")').remove();
+	            	// Disable buttons to avoid sync problem
+	            	$('#fetchRecords').addClass('disabled');
+	            	$('#btn-show-filter').addClass('disabled');
+	            	$('#btn-print').addClass('disabled');
+	            	$('#btn-change-colours').addClass('disabled');
+	            	$startDateSelectList.attr("disabled","disabled");
+	            	$endDateSelectList.attr("disabled","disabled");
+
+	            	$notyPop.children().remove();
+					$('#filter-set-2')
+                    	.find('*')
+                    	.remove()
+                    .end()
+                    	.removeClass('active')
+                    	.addClass('inactive');
+                    
+                    $('#add-criteria').show();	
+                    $('#remove-criteria').hide();
+                    $('#and-or').hide();
+                    $defaultFilterCheckbox.removeAttr('checked');
+                    
+	            	//Reset the filter
+	            	_conditions = ''; 
+	            	$('#btn-clear-filter').hide();
+
+					var selectedObject = $('[id$=objectName]').val();
+
+					// Populate Filter field Picklist with all the fields of the selected Object
+					tlcalendar.CalendarController.getAllFieldList(selectedObject, true, function(selectValues, event) {
+						$filterfieldname1.find('option').remove();
+						$.each(selectValues, function(index, option) {
+	                        	$filterfieldname1
+	                          	 	.append($("<option></option>")
+	                                .attr("value",option.value)
+	                                .text(option.label)); 
+		                });
+
+						//Change the Operator and Variable fields according to the 
+						//Filter field Picklist value
+			            var parentId = '#' + $('.filter-expression').attr('id');
+			            setFilterExpressionFields(parentId);
+
+					}, {escape: false}); 
+
+					// Control Start and End Date
+					tlcalendar.CalendarController.getDateTimeFieldList(selectedObject, function(selectValues, event) {
+
+						$startDateSelectList.find('option').remove();
+						$endDateSelectList.find('option').remove();
+						if(selectValues.length <= 1) {
+							$('[id$=oPanel]').hide("fast");
+							var tempObjText = $objectNameSelectList.find('option:selected').text();
+							messageUser('error', 'Object <strong>'+tempObjText+'</strong> only has fewer than two date or dateTime fields and therefore cannot be represented as a calendar event.' );
+						}
+						else {
+							$('[id$=oPanel]').show("fast");
+							$.each(selectValues, function(index, option) {
+	                        	$startDateSelectList
+	                            	.append($("<option></option>")
+	                                .attr("value",option.value)
+	                                .text(option.label)); 
+								$endDateSelectList
+	                            	.append($("<option></option>")
+	                                .attr("value",option.value)
+	                                .text(option.label)); 
+		                    });
+
+							//Moderate controlled picklist by disabling the option selected in the
+							//controlling picklist  
+							controlPiclists($startDateSelectList, $endDateSelectList);
+
+						}
+						controlDefaultCheckbox();
+						$startDateSelectList.removeAttr('disabled');
+	            		$endDateSelectList.removeAttr('disabled');
+						$('#fetchRecords').removeClass('disabled');
+					}, {escape: false}); 
+
+				});
+
+				//when Start DateTime picklist value changes
+				//Change the End DateTime value accordingly
+				$startDateSelectList.change( function() {
+					//Moderate controlled picklist by disabling the option selected in the
+					//controlling picklist  
+					controlPiclists($startDateSelectList, $endDateSelectList);
+					controlDefaultCheckbox();
+				});
+
+				$endDateSelectList.change( function() {
+					controlDefaultCheckbox();
+				});
+
+				//Disable the option in the dependant picklist
+				//which is selected in the controlling picklist 
+				function controlPiclists ( controllingPicklist, dependantPiclist ) {
+
+					var selectedValue = controllingPicklist.find('option:selected').val();
+					var selectedDependantValue = dependantPiclist.find('option:selected').val();
+					dependantPiclist.find('option:disabled').removeAttr('disabled');
+					dependantPiclist.find('option').each(function(){
+						var isValueSelected = false;
+						var isValueDisabled = false;
+						if (selectedValue != selectedDependantValue) {
+							isValueSelected = true;
+						}
+						if ($(this).val() == selectedValue && !isValueDisabled){
+						    $(this).attr('disabled','disabled');
+						    isValueDisabled = true;
+						}
+						else if ($(this).val() != selectedValue && !isValueSelected) {
+							$(this).attr('selected','selected');
+							isValueSelected = true;
+						}
+					});
+				}
+
+            	/* Logic for the Print button */
+            	$('#btn-print').click(function(e){
+            		if(!$('#btn-print').is('.disabled')) {
+	            		var currentView = $('#calendar').fullCalendar('getView');
+
+	            		var viewStartDate = currentView.start;
+	            		var viewYear = viewStartDate.getFullYear();
+	            		var viewMonth = viewStartDate.getMonth();
+
+	            		this.href = '{!URLFOR($Page.CalendarPrint)}?object='+ objectName +'&start='+ startdate +'&end='+ endDate +'&filter=' + escape(_conditions) + '&month=' + viewMonth + '&year=' +viewYear;
+
+	            		return true;
+	            	} else {
+	            		return false;
+	            	}
+            	});            	
+            
+      
+                /* 
+                 * calendar filter functioality 
+                */ 
+                
+                _DATE = 'DATE';  
+                _BOOLEAN = 'BOOLEAN';
+                _PICKLIST = 'PICKLIST';
+                _DATETIME = 'DATETIME';
+                _INTEGER = 'INTEGER';
+                _STRING = 'STRING';
+                _CURRENCY = 'CURRENCY';
+                
+                $('#btn-reset-filter').click(function(e){
+                    e.preventDefault();
+					resetFilterUI();
+                });    
+                
+                function resetFilterUI() {
+                	$('[id$=filter-form]').find('input[text], input[hidden], select').each(function(){
+                    	$(this).val('');
+                    });
+                    
+                    $defaultFilterCheckbox.removeAttr('checked');
+                    
+                    $('#filter-set-2')
+                    	.find('*')
+                    	.remove()
+                    .end()
+                    	.removeClass('active')
+                    	.addClass('inactive');
+                    setFilterExpressionFields('#filter-set-1');
+                    $('#add-criteria').show();	
+                    $('#remove-criteria').hide();
+                    $('#and-or').hide();
+                }
+                
+                $('#btn-clear-filter').click(function(e){
+                    e.preventDefault();
+                    _conditions = '';
+                    
+                    $('[id$=filter-form]').find('input[text], input[hidden], select').each(function(){
+                    	$(this).val('');
+                    });
+                    
+                    /*remove filter*/
+                    obName = $objectNameSelectList.val();
+			        startName = $startDateSelectList.val();
+			        endName = $endDateSelectList.val();
+			        obLabel = $objectNameSelectList.find('option:selected').text();
+			        startLabel = $startDateSelectList.find('option:selected').text();
+			        endLabel = $endDateSelectList.find('option:selected').text();
+                    removeFilterDefault(obName, startName, endName, obLabel, startLabel, endLabel);
+                    $defaultFilterCheckbox.removeAttr('checked');
+                    
+                    $('#filter-set-2')
+                    	.find('*')
+                    	.remove()
+                    .end()
+                    	.removeClass('active')
+                    	.addClass('inactive');
+                    	
+                    setFilterExpressionFields('#filter-set-1');
+                    
+                    $('#add-criteria').show();	
+                    $('#remove-criteria').hide();
+                    $('#and-or').hide();
+                    
+                    
+                    $('#calendar').fullCalendar( 'refetchEvents' );
+                    $(this).hide();      
+                    
+                });    
+                
+                // dynamically delegate the event handler for the filter expression
+                $('[id$=filter-form]').on('change', '.filter-field-name', filterFieldNameHandler);  
+                
+                // Handle Default filter checkbox 
+                $('[id$=filter-form]').on('change', '#filter-criteria-wrapper', filterDefaultCheckboxHandler); 
+                 
+                /* filter dialog btn set up */
+                $('#btn-show-filter').click(function(e){
+                   
+                   if(!$('#btn-show-filter').is('.disabled')) {
+                   
+	                    e.preventDefault();
+
+	                    $('#filter-dialog').dialog({
+	                        modal : true,
+	                        title : 'Filter '+objText,
+	                        width : 640,
+	                        close : rollBackFilter
+	                    });
+
+	               }
+
+                });
+                
+                $('#btn-show-help').click(function(e){
+					this.href = '{!URLFOR($Resource.tqcal_doc,'TqCalDoc.pdf')}';
+					return true;
+                });
+            
+                /* Calendar Setup */
+                var date = new Date();
+                var d = date.getDate();
+                var m = date.getMonth();
+                var y = date.getFullYear();
+                    
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        right: 'title'
+                    },
+                    dayClick: dayClickHandler,
+                    editable: true,
+                    eventClick: eventClickHandler,
+                    eventMouseover: mouseOverHandler,
+                    viewDisplay: function(view) {
+        				currentViewStart = $.fullCalendar.formatDate( view.visStart, 'yyyy-MM-dd HH:mm:ss');
+        				currentViewEnd = $.fullCalendar.formatDate( view.visEnd, 'yyyy-MM-dd HH:mm:ss');
+    				},
+                	eventMouseout: mouseOutHandler,
+                    eventResize: eventChangeHandler,
+                    eventDrop: eventChangeHandler,
+                    events: function(start, end, callback){
+                    	/* refetchEvents */
+                    	
+                    	//If Print Preview
+                    	if('{!$CurrentPage.Name}' == 'CalendarPrint') {
+	                    	objectName = "{!$CurrentPage.Parameters.object}";
+	                    	startdate = "{!$CurrentPage.Parameters.start}";
+	                    	endDate = "{!$CurrentPage.Parameters.end}";
+	                    	_conditions = unescape("{!$CurrentPage.Parameters.filter}");
+                    	} else {
+                    		//If on Page load give default values for Object and Fields
+
+                    	}
+                    	
+	                    //Wrap fields in an array
+	                	var fields = [startdate, endDate];
+
+	                	//Cache notification div for future Use
+	                	$notyPop = $('#notify-pop');
+	                	var currentViewKey = objectName+startdate+endDate+_conditions;
+
+	                	if( objectName.length ){
+	                		if( viewKey != currentViewKey ){
+			                	tlcalendar.CalendarController.getMyObjectAsJson(fields, objectName, _conditions, function(result, event) {
+			                    	if($notyPop.children().is("ul")) { //remove old notifications
+					                    $notyPop.children().remove();
+					                }
+					                messageUser('success', '<strong>Refreshing Calendar</strong>' );
+
+			                    	var parsedEventsObject = JSON.parse(result.eventData);
+			                    	if ( !parsedEventsObject.length ) {
+										setDashboard('warn','No <strong>'+objText+'</strong> records to display.');
+									} else {
+										var recordsFound = parsedEventsObject.length;
+										if(_conditions.length) {
+					                    	setDashboard('display','Now showing <strong>'+objText+'</strong> records <strong>'+_conditions+'</strong>. '+recordsFound+' records found.');
+					                    } else {	
+			                    			setDashboard('display','Now showing <strong>'+objText+'</strong> records with "start date" field as <strong>'+startText+'</strong> and the "end date" field as <strong>'+endText+'</strong>. '+recordsFound+' records found.');
+			                    		}
+				                    	if ( result.status.nullValues == true ) {
+											messageUser('alert','Some <strong>'+objText+'</strong> records are not being displayed because they are missing "start date" or "end date" values.');
+										}
+										if ( result.status.contradictions == true ) {
+											messageUser('alert','Some <strong>'+objText+'</strong> records are not being displayed because they have a "start date" that precedes the "end date".');
+										} 
+										if ( result.status.isUpdatable == false ) {
+											messageUser('alert','Calendar is read only because you do not have edit permission for the object or "start date" or "end date" fields.');
+										}
+									}
+									if ( saveException.length ) {
+										messageUser('alert',saveException);
+									}
+
+			                    	viewKey = objectName+startdate+endDate+_conditions;
+			                    	cachcedEvents = parsedEventsObject;
+
+			                    	hoverGenerator(parsedEventsObject);
+			                    	callback(parsedEventsObject);
+			                    	saveException = '';
+			                    	// Re-enable Actions Panel
+			                    	if('{!$CurrentPage.Name}' != 'CalendarPrint') {
+										$('#btn-show-filter').removeClass('disabled');
+						            	$('#btn-print').removeClass('disabled');
+						            	$('#btn-change-colours').removeClass('disabled');
+						            	if ( defaultFilterSet ) {
+						            		$('#btn-clear-filter').removeClass('disabled')
+						            	}
+					            	}
+			                    }, {escape: false});
+			            	} else {
+			            		callback(cachcedEvents);
+			            	}
+		                } else {
+	            			setDashboard('warn','In order to see your data in the calendar please select an object, start and end date fields. Note that if you check "Save as Default" then your data will load automatically.');
+	            		}
+                    },
+                    theme: true
+                });
+                
+                /*On click Handler for Fetch it Button*/
+                $('#fetchRecords').live('click',function() {
+                	if(!$('#fetchRecords').is('.disabled')) {
+                	
+                		//Reset the filter
+		            	_conditions = ''; 
+		            	$('#btn-clear-filter').hide();
+
+                		//Defaults being already set if picklist values are loaded by Remoting
+                    		if($objectNameSelectList.val() && $startDateSelectList.val() && $endDateSelectList.val()) {
+                    			objectName = $objectNameSelectList.val();
+			                	startdate = $startDateSelectList.val();
+			                	endDate = $endDateSelectList.val();
+			                	//Find the Object and Field Labels
+                    			objText = $objectNameSelectList.find('option:selected').text();
+		                		startText = $startDateSelectList.find('option:selected').text();
+		                		endText = $endDateSelectList.find('option:selected').text();
+                    		}
+						// Call Refetch Events with the parameters Objname, Start Date and End Date
+						//notify('Refreshing Calendar','The calendar is being refreshed to reflect the changes you\'ve made.');
+						$('#calendar').fullCalendar( 'refetchEvents' ); 
+
+					}
+				});
+                
+                /* Handle the event when a day is clicked */
+                function dayClickHandler(date, allDay, jsEvent, view) {
+                	
+                	tlcalendar.CalendarController.getNewActionUrl(objectName, function(result,event){
+                		var url = result;
+                		$('#record-detail').attr('src',url);
+                		var myname;
+	                    $('#detail-iframe-dialog').dialog({
+	                        modal: true,
+	                        height: 600,
+	                        width: 840,
+	                        close: function(event, ui){
+	                        		viewKey = '';
+	                                $('#calendar').fullCalendar( 'refetchEvents' );
+	                        }
+	                    });        		
+                		
+                	}, {escape:false});
+                	
+					return false;        
+                }
+                
+                /* Hack to make the calendar jump to the specified month */
+                var viewYear = parseInt({!IF(ISBLANK($CurrentPage.Parameters.year), '0', $CurrentPage.Parameters.year)});
+     			var viewMonth = parseInt({!IF(ISBLANK($CurrentPage.Parameters.month), '0', $CurrentPage.Parameters.month)});
+
+                if(viewYear>0){
+                	//taken out to avoid resetting of filter criteria
+                	//_conditions = ''; 
+                	
+                	$('#calendar').fullCalendar( 'gotoDate', viewYear, viewMonth);
+                }
+                
+                /* Event handler methods for the calendar */
+                
+                /* Load the detail page for any calendar event that is clicked. */
+                function eventClickHandler(event, jsEvent, view){
+                    var url = '{!URLFOR($Page.RecordDetail)}' + '?id=' + event.id;
+                    $('#record-detail').attr('src',url);
+                        
+                    $('#detail-iframe-dialog').dialog({
+                        modal: true,
+                        height: 600,
+                        width: 840,
+                        close: function(event, ui){
+                        		viewKey = '';
+                                $('#calendar').fullCalendar( 'refetchEvents' );
+                        }
+                    });
+                
+                    return false;
+                }
+                
+                function hoverGenerator(parsedEventsObject){
+                	$('#campaignInfoPopOvr').children().remove();
+                	$(parsedEventsObject).each(function(index, event){
+					    $('#campaignInfoPopOvr')
+					    		.append($("<div></div>")
+					    		.attr('id', event.id)
+					    		.attr('style', 'display:none')
+					    		.text(event.title));
+					});
+                }
+                
+                /* tooltip on hover */
+                function mouseOverHandler(event, jsEvent){
+                    $('#' + event.id).css({
+                        'position' : 'absolute',
+                        'z-index' : '9999',
+                        'top' : jsEvent.pageY - 90,
+                        'left' : jsEvent.pageX - 30
+                    }).addClass('hover hover-info').show();  
+                }
+                
+                function mouseOutHandler(event, jsEvent){
+                    $('#' + event.id).hide();
+                }
+                
+                function eventChangeHandler(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+                	var data = $('#calendar').fullCalendar('clientEvents');
+                    
+                    var ret = [];
+                    for(var i=0; i<data.length; i++) {
+                      
+                      var s = new Date(data[i].start);
+                      var e = new Date(data[i].end);
+                      
+                      var startDateStr = s.getFullYear() + '-' + (s.getMonth()+1) + '-' + s.getDate() + ' 00:00:00';
+                      var endDateStr = e.getFullYear() + '-' + (e.getMonth()+1) + '-' + e.getDate() + ' 00:00:00';                  
+                    
+                      var datum = {
+                        id: data[i].id,
+                        title: data[i].title,
+                        start: startDateStr,
+                        end: (data[i].end == null ? startDateStr : endDateStr),
+                        allDay: data[i].allDay
+                      }
+                      ret[i] = datum;
+                    }                
+                    
+                    var fields = [startdate, endDate];
+                    tlcalendar.CalendarController.saveEventObject(fields, objectName, JSON.stringify(ret), function(result, event) {
+                    	if( result.isSaved == false ) {
+                    		saveException = result.saveException;
+                    		viewKey = '';
+                    		$('#calendar').fullCalendar( 'refetchEvents' );
+                    	}
+                    }, {escape:true});
+                    //notify('Record Saved.','Your update has now been saved to the database.');
+                }
+                
+                /* form validation */
+                
+                /* For the filter form */
+                $('#btn-filter-apply').click(function(e){
+                	if(!$('#btn-filter-apply').is('.disabled')) {
+	                	e.preventDefault();
+						$('[id$=filter-form]').submit();
+					}
+                });
+                
+                $('[id$=filter-form]').validate({
+                    debug: true,
+                    submitHandler: function(form){
+                        filterCalendar();
+                        $('#filter-dialog').dialog('close');                
+                    }
+                });      
+                
+                $('#and-or').buttonset();
+                
+                /* Handler used when adding additional filter criteria */
+                $('#add-criteria').on('click', function(e){
+                	e.preventDefault();
+                	
+					$('#filter-set-1 div')
+						.clone(true)
+						.appendTo('#filter-set-2')
+						.find('.filter-field-value')
+						.attr('id','dummy');
+
+					$this = $(this);
+					$this.hide();
+					$('#and-or').show();
+
+					$('#filter-set-2')
+						.removeClass('inactive')
+						.addClass('active')
+						.show();
+
+					$('#remove-criteria').show();
+					setFilterExpressionFields('#filter-set-2');
+					filterDefaultCheckboxHandler();
+                });          
+                
+                $('#remove-criteria').on('click', function(){
+
+					$this = $(this);
+					$this.hide();
+
+					$('#and-or').hide();
+					$('#add-criteria').show();
+
+					$('#filter-set-2')
+						.find('*')
+						.remove()
+					.end()
+						.removeClass('active')
+						.addClass('inactive')
+						.hide();       
+					filterDefaultCheckboxHandler();         
+                });
+                
+                function StringBuffer() { 
+					this.buffer = []; 
+				} 
+
+				StringBuffer.prototype.append = function append(string) { 
+			 		this.buffer.push(string); 
+					return this; 
+				}; 
+
+				StringBuffer.prototype.toString = function toString() { 
+					return this.buffer.join(""); 
+				}; 
+
+                /* Colour picker code */
+                $('#btn-change-colours').click(function(){
+						if(!$('#btn-change-colours').is('.disabled')) {
+
+								//Wrap fields in an array
+		                		var fields = [startdate, endDate];
+
+								isLoading = true;
+
+								//Build Colour Picker
+								tlcalendar.CalendarController.loadColourRecords(objectName, fields, _conditions, currentViewStart, currentViewEnd, function( colourObject, event ) {
+			                		isLoading = false;
+			                		$colorPalet.empty();
+			                		DIVCOLOR = '<div class="record-to-colour"><label class="record-name">';
+			                		DIVCINPT = '<input class="colour_input" type="hidden" ';
+			                		DIVCLRBT = '<div class="clear"></div></div>';
+
+									if(colourObject.length) {
+										var domString = new StringBuffer();
+										for (i=0; i<colourObject.length; i++) {
+				                			/*Build the Div as a string*/
+				                			domString.append(DIVCOLOR);
+					                		domString.append(colourObject[i].name+'</label>');
+					                		domString.append(DIVCINPT+'id='+colourObject[i].id+' value='+colourObject[i].colour+'></input>');
+					                		domString.append(DIVCLRBT);
+										}
+
+										$colorPalet.append(domString.toString());
+
+										//Bind Simple Colour plugin
+										refreshColourPickers();
+										$colorMessages
+											.html('<p>Please select the colour you\'d like each record to use when displayed in the calendar.</p>');
+										$('[id$=record-color-container]').show();
+									} else {
+										$colorMessages
+											.html('<p>There are no records to show</p>');
+									}
+			                	}, {escape:false});
+			                	if( isLoading ) {
+			                		$colorMessages
+											.html('<p>Loading Records...</p>');
+									$('[id$=record-color-container]').hide();
+			                	}
+
+							    $('#colour-picker-dialog').dialog({
+				                    modal : true,
+				                    title : 'Choose your Colors!',
+				                    width : 470
+			               		});	 
+
+	               		}
+                });            
+
+       			/* Push the colour changes to the force.com db */
+       			$('#colour-picker-dialog').on('change', '.colour_input', function(event){
+       				$this = $(this);
+       				var id = $this.attr('id');
+       				var val = $this.val();
+       				
+       				tlcalendar.CalendarController.saveColour(id, val, function(result, event){
+       					viewKey = '';
+       					$('#calendar').fullCalendar( 'refetchEvents' );
+       				}, {escape: true});
+       			});
+       			/* End of colour picker */                
+            } // End of applicationInit function
+            
+            /* Code concerning the dynamic filters */
+            /* This might need to be reworked into a plug in */
+            
+            var OPTLIST_CMN = 
+            '<option value="=">Equal To</option>' +
+            '<option value="!=">Not Equal To</option>';
+            
+            var optionListForString = OPTLIST_CMN +
+            '<option value="LIKE ">LIKE</option>';
+            
+            var optionListForDate = OPTLIST_CMN +
+            '<option value="<">Less Than</option>' +
+            '<option value="<=">Less Than or Equal To</option>' +
+            '<option value=">">Greater Than</option>' +
+            '<option value=">=">Greater Than or Equal To</option>';
+            
+            var optionListForBooleanValue =
+            '<option value="true">True</option>' +
+            '<option value="false">False</option>';
+            
+            var optionListForInteger = optionListForDate;  
+            
+            function setFilterExpressionFields(selector){
+                var $parent = $(selector);
+                
+                filterFieldName = $parent.find('.filter-field-name').val();
+
+                // need to fetch picklist values dynamically
+                var optionListForPicklistValue;
+                filterFieldName = filterFieldName == null? firstFilterField : filterFieldName;
+                var objName = $('[id$=objectName]').val();
+                objName = objName == null? objectName : objName;
+
+                tlcalendar.CalendarController.getPicklistValuesAsString(objName, filterFieldName, function(result, event) {
+
+                    optionListForPicklistValue = result;
+                                    
+                }, {escape:false});
+                
+                tlcalendar.CalendarController.getFieldType(objName, filterFieldName, function(result, event) {
+                    
+                    
+                    /* reset all the properties */
+                    $parent
+                        .find('.filter-operator-type option')
+                        .remove()
+                    .end()
+                        .find('.select-filter-field-value option')
+                        .remove()
+                    .end()
+                        .find('.filter-field-value')
+                        .val('')
+                    .end()
+                        .find('.filter-field-value')
+                        .removeClass('number');
+                    
+                    $parent
+                        .find('.filter-field-value')
+                        .hide()
+                    .end()
+                        .find('.select-filter-field-value')
+                        .hide();
+                    /* end of reset */
+                    
+                    /* Attach the filter op type to the element */
+                    $parent
+                        .find('.filter-field-value')
+                        .data('type', result);
+                    
+                    /* the alternate field for the date and datetime picker */
+                    $altField = $parent.find('.real-date-value');
+                    
+                    /* Display the right kind of value field */
+                    if(result == _DATE){
+                    	
+                        $parent
+                            .find('.filter-field-value')
+                            .datetimepicker('destroy')
+                        .end()
+                        	.find('.filter-field-value')
+                            .show()
+                        .end()
+                        	.find('.filter-field-value')
+                            .datepicker({ 
+                                altFormat: 'yy-mm-dd',
+                                altField: $altField,
+                                dateFormat: $.datepicker.RFC_2822
+                            });
+                        
+                        /* set the option values */
+                        $parent.find('.filter-operator-type').append(optionListForDate);
+                                                
+                    }else if (result == _DATETIME){
+                    	
+                        $parent
+                            .find('.filter-field-value')
+                            .datepicker("destroy")
+                        .end()
+                            .find('.filter-field-value')
+                            .show()
+                        .end()
+                        
+                            .find('.filter-field-value')
+                            .datetimepicker({
+                                dateFormat: $.datepicker.RFC_2822,                      
+                                altField: $altField, 
+                                altFormat: 'yy-mm-dd',
+                                altFieldTimeOnly: false,
+                                timeFormat: 'hh:mm:ss'
+                            })
+                        .end()
+                            .find('.filter-operator-type')
+                            .append(optionListForDate); /* set the option values */                     
+                    } else {
+                        $parent.find('.filter-field-value').datepicker("destroy");
+                        
+                        /* set the option values */
+                        if (result == _STRING){
+                            $parent
+                                .find('.filter-field-value')
+                                .show()
+                            .end()
+                                .find('.filter-operator-type')
+                                .append(optionListForString);
+                        } else if (result == _INTEGER || result == _CURRENCY) {
+                            $parent.find('.filter-field-value').show();
+                            $parent.find('.filter-operator-type').append(optionListForInteger);
+                            $parent.find('.filter-field-value').addClass('number');
+                        } else if (result == _BOOLEAN) {
+                            $parent.find('.select-filter-field-value').show();
+                            $parent.find('.filter-operator-type').append(OPTLIST_CMN);
+                            $parent.find('.select-filter-field-value').append(optionListForBooleanValue);
+                        } else if (result == _PICKLIST){
+                            $parent.find('.select-filter-field-value').show();
+                            $parent.find('.filter-operator-type').append(OPTLIST_CMN);
+                            $parent.find('.select-filter-field-value').append(optionListForPicklistValue);
+                        }
+                    }
+                    
+                    if ( selector == '#filter-set-1' && buildByDefault) {
+                    	if ( defaultFilterSet ) {
+                    		// loop find ffOpp1 ffVal1 
+                    		$parent.find('.filter-operator-type').find('option').each(function(option){
+						        if ($(this).text() == ffOpp1) {
+						        	$(this).attr("selected",'selected');
+						        }
+						    });
+						    if (result == _BOOLEAN || result == _PICKLIST){
+						    	$parent.find('.select-filter-field-value').find('option').each(function(option){
+							        if ($(this).text() == ffVal1) {
+							        	$(this).attr("selected",'selected');
+							        }
+						    	});
+						    } else {
+						    	if(result == _DATE || result == _DATETIME){
+						    		$parent.find('.real-date-value').val(ffAlt1);
+						    	}
+						    	$parent.find('.filter-field-value').val(ffVal1);
+						    }
+						    if ( !secondFilterSet ) {
+						    	buildByDefault = false;
+						    }
+                    	}
+                    }
+                    if ( selector == '#filter-set-2' && buildByDefault) {
+                    	if ( secondFilterSet ) {
+                    		// loop find ffOpp2 ffVal2
+                    		$parent.find('.filter-operator-type').find('option').each(function(option){
+						        if ($(this).text() == ffOpp2) {
+						        	$(this).attr("selected",'selected');
+						        }
+						    });
+						    if (result == _BOOLEAN || result == _PICKLIST){
+						    	$parent.find('.select-filter-field-value').find('option').each(function(option){
+							        if ($(this).text() == ffVal2) {
+							        	$(this).attr("selected",'selected');
+							        }
+						    	});
+						    } else {
+						    	if(result == _DATE || result == _DATETIME){
+						    		$parent.find('.real-date-value').val(ffAlt2);
+						    	}
+						    	$parent.find('.filter-field-value').val(ffVal2);
+						    }
+						    if( conjunctive == 'AND' ){
+							    $('#option-and')
+							    	.attr('checked', true);
+							    $('#option-or')
+							    	.attr('checked', false);
+							    $('#option-and').click(); 
+          					 	$('#and-or').buttonset('refresh');
+							} else {
+							    $('#option-and')
+							    	.attr('checked', false);
+							    $('#option-or')
+							    	.attr('checked', true);
+							    $('#option-or').click(); 
+          					 	$('#and-or').buttonset('refresh');
+							}
+						    buildByDefault = false;
+                    	}
+                    }
+                    filterFieldType = result;
+                    $('#btn-filter-apply').removeClass('disabled');
+                });             
+            }
+            
+            function filterFieldNameHandler(event){
+            	
+            	$('#btn-filter-apply').addClass('disabled');
+            	
+                $parent = $(event.target).closest('.filter-expression');
+                
+                var parentId = '#' + $parent.attr('id');
+                
+                setFilterExpressionFields(parentId);
+                
+            } 
+            
+            function filterDefaultCheckboxHandler() {
+            	/* Handle Default Filter Checkbox */
+            	
+		        checkFilter = new filterWrapper(
+		        					$filterfieldname1.find('option:selected').text(),
+		        					$filteroperatortype1.find('option:selected').text(),
+		        					$filterfieldvalue1.val() == ''? $selectfilterfieldvalue1.find('option:selected').text() : $filterfieldvalue1.val()
+								);
+		        if($('#filter-set-2').hasClass('active')) {
+		       		$filterfieldname2 = $('#filter-set-2').children().find('.filter-field-name');
+					$filteroperatortype2 = $('#filter-set-2').children().find('.filter-operator-type');
+					$filterfieldvalue2 = $('#filter-set-2').children().find('.filter-field-value');
+					$selectfilterfieldvalue2 = $('#filter-set-2').children().find('.select-filter-field-value');
+		        	checkFilter.filterField2 = $filterfieldname2.find('option:selected').text();
+		        	checkFilter.filterOpp2 = $filteroperatortype2.find('option:selected').text();
+		        	checkFilter.filterVal2 = $filterfieldvalue2.val() == ''? $selectfilterfieldvalue2.find('option:selected').text() : $filterfieldvalue2.val();
+		        	checkFilter.conjunction = $('input[type=radio]:checked', '#and-or').val();
+		        }
+
+		        tlcalendar.CalendarController.isDefaultSetting( '', '', '', checkFilter, function(result, event) {
+		            if(result) {
+		            	$defaultFilterCheckbox.attr('checked','true');
+		            }else{
+		            	$defaultFilterCheckbox.removeAttr('checked');
+		            }
+	            }, {escape: false});
+            }
+            
+            function findWhereClause() {
+            	var SEPARATOR = ' ';
+            	var expressions = new Array();
+                $('[id$=filter-form]').find('.active').each(function(){
+                    $this = $(this);
+                    var exp = '';
+                
+                    filterFieldName = $this.find('.filter-field-name').val(); 
+                    filterOperator = $this.find('.filter-operator-type').val(); 
+                    filterFieldType = $this.find('.filter-field-value').data('type');
+                    if(filterFieldType == _DATE || filterFieldType == _DATETIME){
+                        filterFieldValue = $this.find('.real-date-value').val();
+                    }else if (filterFieldType == _BOOLEAN || filterFieldType == _PICKLIST){
+                        filterFieldValue = $this.find('.select-filter-field-value').val();
+                    }else{
+                        filterFieldValue = $this.find('.filter-field-value').val();
+                    }
+                    var formattedFieldValue = '';
+                    
+                    if(filterFieldType==_STRING || 
+                        filterFieldType == _PICKLIST){
+                            
+                        formattedFieldValue = '\'' + filterFieldValue + '\'';
+                        
+                    }else if (filterFieldType == _DATE ||  
+                        filterFieldType == _BOOLEAN ||
+                        filterFieldType == _INTEGER ||
+                        filterFieldType == _CURRENCY){
+
+                        formattedFieldValue = filterFieldValue;
+                    }else if (filterFieldType == _DATETIME){
+                        formattedFieldValue = filterFieldValue.replace(' ','T');
+                        formattedFieldValue += 'Z';
+                    }                    
+                    
+                    exp += filterFieldName + SEPARATOR + filterOperator + SEPARATOR + formattedFieldValue;
+                    
+                    expressions.push(exp);
+                                        
+                });
+                
+                compoundExprOperator = $('input[type=radio]:checked', '#and-or').val();
+                var resultingClause = ' WHERE ' + expressions.join(SEPARATOR + compoundExprOperator + SEPARATOR);
+				return resultingClause;
+            }
+            
+            
+            /* Apply the filter - push values to back end */
+            function filterCalendar(){
+            	
+                _conditions = findWhereClause();
+				var nullsPresent = _conditions.match(/null/);
+				nullsPresent = nullsPresent == null? '' : nullsPresent;
+
+				if(nullsPresent.length) {
+					_conditions = '';
+					return true;
+				}
+
+                $('#calendar').fullCalendar( 'refetchEvents' );
+                
+                //notify('Filter applied', 'Only records matching your filter criteria will now be shown.');
+                
+                $('#btn-clear-filter').show();
+                
+                return true;
+            } /* Apply the filter - push values to back end */
+            
+            function setDashboard(type, html){
+            	$dashboard = $('[id$=dashboard]');
+            	if(type == 'warn') {
+            		$dashboard.addClass('alert');
+            		html = '<p class="warningText">'+html+'</p>';
+            	} else {
+            		$dashboard.removeClass('alert');
+            	}
+            	$dashboard.addClass('dashboard');
+				$dashboard.html(html);
+            }
+            
+            function rollBackFilter() {
+				tempWhere = ' '+whereCls;
+				if ( tempWhere == _conditions ) {
+					buildFilter();
+				}
+			}
+			
+            function buildFilter() {
+				buildByDefault = true;
+				if ( defaultFilterSet ) {
+					var parentId1 = '#filter-set-1';
+					$(parentId1).find('.filter-field-name').find('option').each(function(option){
+				        if ($(this).text() == ffName1) {
+				        	$(this).attr("selected",'selected');
+				        }
+			    	});
+			    	setFilterExpressionFields(parentId1);
+				}
+				$defaultFilterCheckbox.attr('checked','true');
+				if ( secondFilterSet ) {
+					if($('#filter-set-2').hasClass('active')) {
+						var parentId2 = '#filter-set-2';
+						$(parentId2).find('.filter-field-name').find('option').each(function(option){
+					        if ($(this).text() == ffName2) {
+					        	$(this).attr("selected",'selected');
+					        }
+				    	});
+				    	setFilterExpressionFields(parentId2);
+					} else {
+						secondFilterClone();
+					}
+				} else {
+ 					$('#remove-criteria').hide();
+					$('#and-or').hide();
+					$('#add-criteria').show();
+					$('#filter-set-2')
+						.find('*')
+						.remove()
+					.end()
+						.removeClass('active')
+						.addClass('inactive')
+						.hide();       
+				}
+				
+            }
+            
+            function secondFilterClone() {
+            	$('#filter-set-1 div')
+					.clone(true)
+					.appendTo('#filter-set-2');
+				$adcrt = $('#add-criteria');
+				$adcrt.hide();
+				$('#and-or').show();
+				$('#filter-set-2')
+					.removeClass('inactive')
+					.addClass('active')
+					.show();
+				$('#remove-criteria').show();
+				$parent2 = '#filter-set-2';
+				$($parent2).find('.filter-field-name').find('option').each(function(option){
+			        if ($(this).text() == ffName2) {
+			        	$(this).attr("selected",'selected');
+			        }
+		    	});
+				setFilterExpressionFields($parent2);
+            }
+            
+            function messageUser(mType, msg){
+                var html, img, tOut, mlay;
+                //build noty plugin according to its type
+                if(mType == 'alert') {
+                	img = '<img src="{!URLFOR($Resource.icon_set,'info-square-blue.png')}" />';
+                	msg = '<div class="notyMsg">'+msg+'</div>';
+                	img = '<div class="notyImg">'+img+'</div>';
+                	html = img + msg +'<div class="clear"></div>';
+                	tOut = '30000';
+                	mlay = 'topRight';
+                }
+                if(mType == 'error') {
+               		img = '<img src="{!URLFOR($Resource.icon_set,'ko-red.png')}" />';
+               		msg = '<div class="notyMsg">'+msg+'</div>';
+                	img = '<div class="notyImg">'+img+'</div>';
+                	html = img + msg +'<div class="clear"></div>';
+                	tOut = '30000';
+                	mlay = 'topRight';
+                }
+                if(mType == 'success') {
+                	mType = 'alert';
+               		//img = '<img src="{!URLFOR($Resource.icon_set,'ok-green.png')}" />';
+               		html = msg;
+               		tOut = '1000';
+               		mlay = 'top';
+                }
+                
+                $('#notify-pop').noty({
+				  text: html,
+				  timeout: tOut,
+				  type: mType,
+				  theme : 'noty_theme_twitter',
+				  layout: mlay
+				});
+            } 
+            
+            function notify(t, msg){
+                /* notification functionality */
+                $('body').bart({
+                    duration: 1000,
+                    imgDir: "{!URLFOR($Resource.jquery_notification,'images/')}",                
+                    message: msg,                
+                    style: 'notice',                
+                    type: 'bar',
+                    title: t,
+                    opacity: 1,         
+                    vposition: 'top'
+                });
+            }
+            
+            function filterWrapper (filterField1, filterOpp1, filterVal1, alt1, filterField2, filterOpp2, filterVal2, alt2, conjunction) {
+				this.filterField1 = filterField1;
+				this.filterOpp1 = filterOpp1;
+				this.filterVal1 = filterVal1;
+				this.alt1 = alt1;
+				this.filterField2 = filterField2;
+				this.filterOpp2 = filterOpp2;
+				this.filterVal2 = filterVal2;
+				this.alt2 = alt2;
+				this.conjunction = conjunction;
+			}
+            
+            function refreshColourPickers(){
+                            
+               $('.colour_input').simpleColor({
+					border: 0,
+     				cellWidth: 7,
+     				cellHeight: 7,
+     				cellMargin: 0,
+     				columns: 20
+     			});            
+            }     
+        </script>
+</apex:component>

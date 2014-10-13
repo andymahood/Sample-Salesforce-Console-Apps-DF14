@@ -1,0 +1,6 @@
+<apex:page showHeader="false" standardController="User"
+extensions="ProfileTabUserController" >
+<apex:outputPanel >
+<apex:image url="/servlet/servlet.ImageServer?id=01520000001JC65&oid=00D20000000oc2j&lastMod=1409499087000" title="holiday"/>
+</apex:outputPanel>
+</apex:page>

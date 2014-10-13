@@ -12,6 +12,11 @@
         <name>ApexPage</name>
     </types>
     <types>
+        <members>Case.DB_Case_Duration_Hours__c</members>
+        <members>Product2.ImageURL__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
         <members>consoleWidgetResources</members>
         <name>StaticResource</name>
     </types>

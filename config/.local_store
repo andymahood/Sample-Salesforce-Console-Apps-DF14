@@ -285,6 +285,19 @@
         "mmState": "clean", 
         "type": "ApexPage"
     }, 
+    "Case.object": {
+        "createdById": "00520000003j9O2AAI", 
+        "createdByName": "Andy Mahood", 
+        "createdDate": "2014-10-13 19:41:24.000970", 
+        "fileName": "unpackaged/objects/Case.object", 
+        "fullName": null, 
+        "id": "000000000000000AAA", 
+        "lastModifiedById": "00520000003j9O2AAI", 
+        "lastModifiedByName": "Andy Mahood", 
+        "lastModifiedDate": "2014-10-13 19:41:24.000970", 
+        "mmState": "clean", 
+        "type": "CustomObject"
+    }, 
     "ChangePassword.page": {
         "createdById": "00520000003j9NsAAI", 
         "createdByName": "David Darkins", 
@@ -1272,6 +1285,19 @@
         "lastModifiedDate": "2014-08-30 14:34:39", 
         "mmState": "clean", 
         "type": "StaticResource"
+    }, 
+    "Product2.object": {
+        "createdById": "00520000003j9O2AAI", 
+        "createdByName": "Andy Mahood", 
+        "createdDate": "2014-10-13 19:41:24.000995", 
+        "fileName": "unpackaged/objects/Product2.object", 
+        "fullName": null, 
+        "id": "000000000000000AAA", 
+        "lastModifiedById": "00520000003j9O2AAI", 
+        "lastModifiedByName": "Andy Mahood", 
+        "lastModifiedDate": "2014-10-13 19:41:24.000995", 
+        "mmState": "clean", 
+        "type": "CustomObject"
     }, 
     "ProfileTabUserController.cls": {
         "createdById": "00520000003j9NsAAI", 

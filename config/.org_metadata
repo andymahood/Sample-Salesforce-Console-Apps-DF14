@@ -309,6 +309,18 @@
             }, 
             {
                 "leaf": true, 
+                "title": "ContactRelatedCasesController", 
+                "checked": false, 
+                "id": "ApexClass.ContactRelatedCasesController", 
+                "text": "ContactRelatedCasesController", 
+                "level": 2, 
+                "isFolder": false, 
+                "children": [], 
+                "select": false, 
+                "cls": ""
+            }, 
+            {
+                "leaf": true, 
                 "title": "ContactTriggerHandler", 
                 "checked": false, 
                 "id": "ApexClass.ContactTriggerHandler", 
@@ -721,6 +733,18 @@
                 "checked": false, 
                 "id": "ApexClass.UserTriggerHandler", 
                 "text": "UserTriggerHandler", 
+                "level": 2, 
+                "isFolder": false, 
+                "children": [], 
+                "select": false, 
+                "cls": ""
+            }, 
+            {
+                "leaf": true, 
+                "title": "bcsEmailTemplateSelector", 
+                "checked": false, 
+                "id": "ApexClass.bcsEmailTemplateSelector", 
+                "text": "bcsEmailTemplateSelector", 
                 "level": 2, 
                 "isFolder": false, 
                 "children": [], 
@@ -1449,10 +1473,34 @@
             }, 
             {
                 "leaf": true, 
+                "title": "ConsoleOpenTab", 
+                "checked": false, 
+                "id": "ApexPage.ConsoleOpenTab", 
+                "text": "ConsoleOpenTab", 
+                "level": 2, 
+                "isFolder": false, 
+                "children": [], 
+                "select": false, 
+                "cls": ""
+            }, 
+            {
+                "leaf": true, 
                 "title": "ConsoleSLAGraph", 
                 "checked": false, 
                 "id": "ApexPage.ConsoleSLAGraph", 
                 "text": "ConsoleSLAGraph", 
+                "level": 2, 
+                "isFolder": false, 
+                "children": [], 
+                "select": false, 
+                "cls": ""
+            }, 
+            {
+                "leaf": true, 
+                "title": "ContactRelatedCases", 
+                "checked": false, 
+                "id": "ApexPage.ContactRelatedCases", 
+                "text": "ContactRelatedCases", 
                 "level": 2, 
                 "isFolder": false, 
                 "children": [], 
@@ -3763,6 +3811,16 @@
                                 "leaf": true, 
                                 "checked": false, 
                                 "level": 4, 
+                                "text": "Case_SLA__c", 
+                                "title": "Case_SLA__c", 
+                                "isFolder": false, 
+                                "id": "CustomObject.Case.fields.Case_SLA__c", 
+                                "select": false
+                            }, 
+                            {
+                                "leaf": true, 
+                                "checked": false, 
+                                "level": 4, 
                                 "text": "CommunityId", 
                                 "title": "CommunityId", 
                                 "isFolder": false, 
@@ -3997,6 +4055,16 @@
                                 "title": "Origin", 
                                 "isFolder": false, 
                                 "id": "CustomObject.Case.fields.Origin", 
+                                "select": false
+                            }, 
+                            {
+                                "leaf": true, 
+                                "checked": false, 
+                                "level": 4, 
+                                "text": "Origin_Type__c", 
+                                "title": "Origin_Type__c", 
+                                "isFolder": false, 
+                                "id": "CustomObject.Case.fields.Origin_Type__c", 
                                 "select": false
                             }, 
                             {
@@ -8281,16 +8349,6 @@
                                 "leaf": true, 
                                 "checked": false, 
                                 "level": 4, 
-                                "text": "ImageURL__c", 
-                                "title": "ImageURL__c", 
-                                "isFolder": false, 
-                                "id": "CustomObject.OpportunityLineItem.fields.ImageURL__c", 
-                                "select": false
-                            }, 
-                            {
-                                "leaf": true, 
-                                "checked": false, 
-                                "level": 4, 
                                 "text": "OpportunityId", 
                                 "title": "OpportunityId", 
                                 "isFolder": false, 
@@ -8305,6 +8363,71 @@
                                 "title": "Product2Id", 
                                 "isFolder": false, 
                                 "id": "CustomObject.OpportunityLineItem.fields.Product2Id", 
+                                "select": false
+                            }, 
+                            {
+                                "leaf": true, 
+                                "checked": false, 
+                                "level": 4, 
+                                "text": "Product_Image__c", 
+                                "title": "Product_Image__c", 
+                                "isFolder": false, 
+                                "id": "CustomObject.OpportunityLineItem.fields.Product_Image__c", 
+                                "select": false
+                            }
+                        ], 
+                        "select": false, 
+                        "cls": "folder"
+                    }
+                ], 
+                "select": false, 
+                "cls": "folder"
+            }, 
+            {
+                "leaf": false, 
+                "title": "OpportunityTeamMember", 
+                "checked": false, 
+                "id": "CustomObject.OpportunityTeamMember", 
+                "text": "OpportunityTeamMember", 
+                "level": 2, 
+                "isFolder": true, 
+                "children": [
+                    {
+                        "checked": false, 
+                        "level": 3, 
+                        "id": "CustomObject.OpportunityTeamMember.fields", 
+                        "text": "fields", 
+                        "title": "fields", 
+                        "isFolder": true, 
+                        "children": [
+                            {
+                                "leaf": true, 
+                                "checked": false, 
+                                "level": 4, 
+                                "text": "OpportunityId", 
+                                "title": "OpportunityId", 
+                                "isFolder": false, 
+                                "id": "CustomObject.OpportunityTeamMember.fields.OpportunityId", 
+                                "select": false
+                            }, 
+                            {
+                                "leaf": true, 
+                                "checked": false, 
+                                "level": 4, 
+                                "text": "TeamMemberRole", 
+                                "title": "TeamMemberRole", 
+                                "isFolder": false, 
+                                "id": "CustomObject.OpportunityTeamMember.fields.TeamMemberRole", 
+                                "select": false
+                            }, 
+                            {
+                                "leaf": true, 
+                                "checked": false, 
+                                "level": 4, 
+                                "text": "UserId", 
+                                "title": "UserId", 
+                                "isFolder": false, 
+                                "id": "CustomObject.OpportunityTeamMember.fields.UserId", 
                                 "select": false
                             }
                         ], 

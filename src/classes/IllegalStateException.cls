@@ -1,1 +1,0 @@
-global class IllegalStateException extends Exception {}

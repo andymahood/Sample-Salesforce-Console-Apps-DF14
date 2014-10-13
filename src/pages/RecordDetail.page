@@ -1,3 +1,0 @@
-<apex:page showHeader="false">
-	<apex:detail subject="{!$CurrentPage.parameters.id}" relatedList="false" showChatter="true" inlineEdit="true" title="true"/>
-</apex:page>

@@ -2385,9 +2385,9 @@
         "fileName": "unpackaged/staticresources/consoleWidgetResources.resource", 
         "fullName": "consoleWidgetResources", 
         "id": "081200000000h9YAAQ", 
-        "lastModifiedById": "00520000003j9NsAAI", 
-        "lastModifiedByName": "David Darkins", 
-        "lastModifiedDate": "2014-07-22 21:04:41", 
+        "lastModifiedById": "00520000003j9O2AAI", 
+        "lastModifiedByName": "Andy Mahood", 
+        "lastModifiedDate": "2014-09-24 11:11:39", 
         "mmState": "clean", 
         "type": "StaticResource"
     }, 
